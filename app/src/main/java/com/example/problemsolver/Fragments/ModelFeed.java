@@ -1,4 +1,4 @@
-package com.example.problemsolver;
+package com.example.problemsolver.Fragments;
 
 public class ModelFeed {
 

@@ -6,12 +6,12 @@
     app:startDestination="@id/menuFragment">
     <fragment
         android:id="@+id/registrationFragment"
-        android:name="com.example.problemsolver.RegistrationFragment"
+        android:name="com.example.problemsolver.Fragments.RegistrationFragment"
         android:label="fragment_registration"
         tools:layout="@layout/fragment_registration" />
     <fragment
         android:id="@+id/menuFragment"
-        android:name="com.example.problemsolver.MenuFragment"
+        android:name="com.example.problemsolver.Fragments.MenuFragment"
         android:label="fragment_menu"
         tools:layout="@layout/fragment_menu" >
         <action
@@ -26,12 +26,12 @@
     </fragment>
     <fragment
         android:id="@+id/newProblemFragment"
-        android:name="com.example.problemsolver.NewProblemFragment"
+        android:name="com.example.problemsolver.Fragments.NewProblemFragment"
         android:label="fragment_new_problem"
         tools:layout="@layout/fragment_new_problem" />
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.problemsolver.LoginFragment"
+        android:name="com.example.problemsolver.Fragments.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" />
 </navigation>

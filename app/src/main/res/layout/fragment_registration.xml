@@ -6,7 +6,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:padding="10dp"
-    tools:context=".RegistrationFragment">
+    tools:context=".Fragments.RegistrationFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout

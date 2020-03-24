@@ -1,4 +1,4 @@
-package com.example.problemsolver;
+package com.example.problemsolver.Fragments;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
+import com.example.problemsolver.R;
 
 import java.util.ArrayList;
 

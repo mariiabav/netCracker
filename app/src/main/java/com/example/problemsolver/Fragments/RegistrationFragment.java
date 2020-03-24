@@ -1,9 +1,11 @@
-package com.example.problemsolver;
+package com.example.problemsolver.Fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.text.TextUtils;
 import android.util.Patterns;
@@ -13,6 +15,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.problemsolver.R;
+import com.example.problemsolver.Retrofit.NetworkService;
+import com.example.problemsolver.Retrofit.RegistedPerson;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class RegistrationFragment extends Fragment {
@@ -38,13 +48,8 @@ public class RegistrationFragment extends Fragment {
     private View.OnClickListener onRegistrationClickListener = new View.OnClickListener(){
         @Override
         public void onClick(View view){
-            showMessege(R.string.hello_blank_fragment);// это временно для проверки (которая и не проходится)
-            if (checkDataEntered()){
-                showMessege(R.string.hello_blank_fragment);
-            }
-            else {
-                showMessege(R.string.hello_blank_fragment);
-            }
+            //логикааа
+            //хотя зачем, если можно в onCreateView?
         }
     };
 
@@ -65,6 +70,34 @@ public class RegistrationFragment extends Fragment {
 
         register = view.findViewById(R.id.btn_signup);
         login = view.findViewById(R.id.btn_link_login);
+
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (checkDataEntered()){
+                    NetworkService.getInstance()
+                            .getJSONApi()
+                            .postRegistedPersonData(/*Должны отправить все данные челика внутри RegistedPerson!*/)
+                            .enqueue(new Callback<RegistedPerson>() {
+                                @Override
+                                public void onResponse(@NonNull Call<RegistedPerson> call, @NonNull Response<RegistedPerson> response) {
+                                    if (response.isSuccessful()){
+                                        //запрос выполнился успешно
+                                    }
+                                    else {
+                                        //сервер вернул ошибку
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(@NonNull Call<RegistedPerson> call, @NonNull Throwable t) {
+                                    //ошибка во время выполнения запроса
+                                }
+                            });
+                }
+
+            }
+        });
 
         return view;
     }
@@ -89,20 +122,5 @@ public class RegistrationFragment extends Fragment {
         Toast t = Toast.makeText(getActivity(), string, Toast.LENGTH_SHORT);
         t.show();
     }
-
-    /*
-    void checkDataEntered() {
-        if (isEmpty(name)){
-            Toast t = Toast.makeText(getActivity(), "Введите имя", Toast.LENGTH_SHORT);
-            t.show();
-        }
-        if (isEmpty(surname)){
-            surname.setError("Введите фамилию");
-        }
-        if (isEmail(email)){
-            surname.setError("Неверный адрес элелектронной почты ");
-        }
-    }
-    */
 
 }

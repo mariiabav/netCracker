@@ -1,10 +1,12 @@
-package com.example.problemsolver;
+package com.example.problemsolver.Fragments;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import android.os.Bundle;
+
+import com.example.problemsolver.R;
 
 public class FeedActivity extends AppCompatActivity{
 
