@@ -24,6 +24,7 @@
             android:layout_height="wrap_content"
             android:background="@color/red"
             android:textColor="@android:color/white"
+            android:layout_marginTop="20dp"
             android:text="Зарегистрироваться" />
 
         <Button
@@ -31,6 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/red"
+            android:layout_marginTop="20dp"
             android:textColor="@android:color/white"
             android:text="Войти" />
 
@@ -39,6 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/red"
+            android:layout_marginTop="20dp"
             android:textColor="@android:color/white"
             android:text="Добавить проблему" />
 
@@ -47,6 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/red"
+            android:layout_marginTop="20dp"
             android:textColor="@android:color/white"
             android:text="Посмотреть ленту" />
 

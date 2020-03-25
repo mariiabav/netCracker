@@ -1,6 +1,7 @@
 
 package com.example.problemsolver.Retrofit;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -9,7 +10,7 @@ public class RegistedPerson {
 
     @SerializedName("roles")
     @Expose
-    private List<Role> roles = null;
+    private List<Role> roles;
 
     @SerializedName("firstName")
     @Expose
@@ -34,6 +35,16 @@ public class RegistedPerson {
     @SerializedName("birthDate")
     @Expose
     private String birthDate;
+
+    public RegistedPerson(String firstName, String secondName, String email1, String phone, String password1, String bithdate1, List<Role> roles) {
+        this.firstName = firstName;
+        this.secondName = secondName;
+        this.email = email1;
+        this.password = password1;
+        this.phone = phone;
+        this.birthDate = bithdate1;
+        this.roles = roles;
+    }
 
     public List<Role> getRoles() {
         return roles;

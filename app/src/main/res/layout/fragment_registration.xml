@@ -8,7 +8,7 @@
     android:padding="10dp"
     tools:context=".Fragments.RegistrationFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

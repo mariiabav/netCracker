@@ -19,6 +19,10 @@ import android.widget.Toast;
 import com.example.problemsolver.R;
 import com.example.problemsolver.Retrofit.NetworkService;
 import com.example.problemsolver.Retrofit.RegistedPerson;
+import com.example.problemsolver.Retrofit.Role;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,6 +33,8 @@ public class RegistrationFragment extends Fragment {
 
     private EditText name, surname, email, number, bithdate, password;
     private Button register, login;
+
+    String firstName, secondName, email1, phone, pass, bithdate1;
 
     public RegistrationFragment() {
         // Required empty public constructor
@@ -41,19 +47,7 @@ public class RegistrationFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
-
-    //
-    private View.OnClickListener onRegistrationClickListener = new View.OnClickListener(){
-        @Override
-        public void onClick(View view){
-            //логикааа
-            //хотя зачем, если можно в onCreateView?
-        }
-    };
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,35 +65,53 @@ public class RegistrationFragment extends Fragment {
         register = view.findViewById(R.id.btn_signup);
         login = view.findViewById(R.id.btn_link_login);
 
+
         register.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                if (checkDataEntered()){
+            public void onClick(final View view) {
+                firstName = name.getText().toString();
+                secondName = surname.getText().toString();
+                email1 = email.getText().toString();
+                phone = number.getText().toString();
+                pass = password.getText().toString();
+                bithdate1 = "2020-03-24T12:17:23";
+
+                List<Role> roles = new ArrayList<>();
+                final Role role = new Role("123e4567-e89b-12d3-a456-426655440000", "ROLE_ADMIN");
+                roles.add(role);
+
+                final RegistedPerson registedPerson = new RegistedPerson(firstName, secondName, email1, phone, pass, bithdate1, roles);
+                //if (checkDataEntered()){
                     NetworkService.getInstance()
                             .getJSONApi()
-                            .postRegistedPersonData(/*Должны отправить все данные челика внутри RegistedPerson!*/)
+                            .postRegistedPersonData(registedPerson)
                             .enqueue(new Callback<RegistedPerson>() {
                                 @Override
                                 public void onResponse(@NonNull Call<RegistedPerson> call, @NonNull Response<RegistedPerson> response) {
                                     if (response.isSuccessful()){
                                         //запрос выполнился успешно
+                                        Navigation.findNavController(view).navigate(R.id.action_registrationFragment_to_loginFragment);
+                                        showMessege("Регистрация вполнена успешно");
                                     }
                                     else {
                                         //сервер вернул ошибку
+                                        showMessege("Регистрация не вполнена");
                                     }
                                 }
-
                                 @Override
                                 public void onFailure(@NonNull Call<RegistedPerson> call, @NonNull Throwable t) {
-                                    //ошибка во время выполнения запроса
+                                    showMessege("Ошибка во время выполнения запроса");
                                 }
                             });
-                }
+                //}
 
             }
         });
 
         return view;
+    }
+
+    private void showMessege(String firstName, String secondName, String email1, String phone, String pass) {
     }
 
     boolean isEmail(EditText text){
@@ -118,7 +130,7 @@ public class RegistrationFragment extends Fragment {
         }
         return false;
     }
-    private void showMessege(@StringRes int string){
+    private void showMessege(String string){
         Toast t = Toast.makeText(getActivity(), string, Toast.LENGTH_SHORT);
         t.show();
     }
