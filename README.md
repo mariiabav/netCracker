@@ -10,4 +10,4 @@
 Логика обработки запросов (будет) реализована в репозитории [Backend](https://github.com/pashakyrkunov/NetCrackerProjectBackend.git)
 
 ## Руководство для разработки
-[GitWorkflow](https://github.com/mariiabav/ProblemSolverApp/wiki/Git-Workflow)
+[GitWorkflow](https://github.com/mariiabav/netCracker.wiki.git)
