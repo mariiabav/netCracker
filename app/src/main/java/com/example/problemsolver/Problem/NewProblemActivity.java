@@ -9,9 +9,13 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.problemsolver.R;
@@ -41,7 +45,7 @@ public class NewProblemActivity extends Activity implements SuggestSession.Sugge
     private SuggestSession suggestSession;
     private ArrayAdapter resultAdapter;
     private List<String> suggestResult;
-    private AutoCompleteTextView suggestResultView;
+    private ListView suggestResultView;
 
     private final Point CENTER = new Point(55.75, 37.62);
     private final BoundingBox BOUNDING_BOX = new BoundingBox(
@@ -61,17 +65,27 @@ public class NewProblemActivity extends Activity implements SuggestSession.Sugge
         searchManager = SearchFactory.getInstance().createSearchManager(SearchManagerType.COMBINED);
         suggestSession = searchManager.createSuggestSession();
 
-        suggestResultView = (AutoCompleteTextView) findViewById(R.id.autocomplete_addres);
-        suggestResult = new ArrayList<>();
+        final EditText queryEdit = (EditText)findViewById(R.id.suggest_query);
+        suggestResultView = (ListView)findViewById(R.id.suggest_result);
 
+        suggestResultView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View itemClicked, int position,
+                                    long id) {
+                String strSelectedFeature = (String)parent.getAdapter().getItem(position);
+                queryEdit.setText(strSelectedFeature);
+                suggestResult.clear();
+            }
+        });
+
+        suggestResult = new ArrayList<>();
         resultAdapter = new ArrayAdapter(this,
                 android.R.layout.simple_list_item_2,
                 android.R.id.text1,
                 suggestResult);
-
         suggestResultView.setAdapter(resultAdapter);
 
-        suggestResultView.addTextChangedListener(new TextWatcher() {
+        queryEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
@@ -85,11 +99,14 @@ public class NewProblemActivity extends Activity implements SuggestSession.Sugge
         });
     }
 
+
     @Override
     protected void onStop() {
         MapKitFactory.getInstance().onStop();
         super.onStop();
     }
+
+
 
     @Override
     protected void onStart() {
@@ -99,32 +116,20 @@ public class NewProblemActivity extends Activity implements SuggestSession.Sugge
 
     @Override
     public void onResponse(@NonNull List<SuggestItem> suggest) {
-
         suggestResult.clear();
-
         for (int i = 0; i < Math.min(RESULT_NUMBER_LIMIT, suggest.size()); i++) {
             suggestResult.add(suggest.get(i).getDisplayText());
         }
-        resultAdapter = new ArrayAdapter(this,
-                android.R.layout.simple_list_item_2,
-                android.R.id.text1,
-                suggestResult);
-        suggestResultView.setAdapter(resultAdapter);
+        resultAdapter.notifyDataSetChanged();
+        suggestResultView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onError(@NonNull Error error) {
-        String errorMessage = getString(R.string.unknown_error_message);
-        if (error instanceof RemoteError) {
-            errorMessage = getString(R.string.remote_error_message);
-        } else if (error instanceof NetworkError) {
-            errorMessage = getString(R.string.network_error_message);
-        }
-
-        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
     }
 
     private void requestSuggest(String query) {
+        suggestResultView.setVisibility(View.INVISIBLE);
         suggestSession.suggest(query, BOUNDING_BOX, SEARCH_OPTIONS, this);
     }
 
