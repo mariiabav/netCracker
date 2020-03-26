@@ -1,4 +1,4 @@
-package com.example.problemsolver.Fragments;
+package com.example.problemsolver.Main;
 
 public class FeedProblem {
 

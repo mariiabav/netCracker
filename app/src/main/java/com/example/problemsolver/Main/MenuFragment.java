@@ -1,6 +1,5 @@
-package com.example.problemsolver.Fragments;
+package com.example.problemsolver.Main;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +8,6 @@ import android.widget.Button;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-import com.example.problemsolver.MapActivity;
 import com.example.problemsolver.R;
 
 public class MenuFragment extends Fragment {
@@ -53,7 +51,7 @@ public class MenuFragment extends Fragment {
         problem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.action_menuFragment_to_newProblemFragment);
+                Navigation.findNavController(view).navigate(R.id.newProblemActivity);
             }
         });
 

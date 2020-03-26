@@ -1,4 +1,4 @@
-package com.example.problemsolver.Fragments;
+package com.example.problemsolver.Main;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;

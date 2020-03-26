@@ -1,10 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/registerContainer"
-    tools:context=".Main.MainActivity">
+    tools:context=".Problem.NewProblemActivity">
 
     <fragment
         android:id="@+id/nav_host_fragment"
@@ -12,6 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:defaultNavHost="true"
-        app:navGraph="@navigation/main_graph" />
+        app:navGraph="@navigation/problem_graph" />
 
 </FrameLayout>

@@ -1,7 +1,8 @@
-package com.example.problemsolver;
+package com.example.problemsolver.Map;
 
 import android.os.Bundle;
 
+import com.example.problemsolver.R;
 import com.yandex.mapkit.Animation;
 import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.geometry.Point;

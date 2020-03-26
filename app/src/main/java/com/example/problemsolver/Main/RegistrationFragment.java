@@ -1,9 +1,8 @@
-package com.example.problemsolver.Fragments;
+package com.example.problemsolver.Main;
 
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 

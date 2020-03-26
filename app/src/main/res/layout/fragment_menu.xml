@@ -3,7 +3,7 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    tools:context=".Fragments.MenuFragment">
+    tools:context=".Main.MenuFragment">
 
     <TextView
         android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-package com.example.problemsolver;
+package com.example.problemsolver.Main;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;

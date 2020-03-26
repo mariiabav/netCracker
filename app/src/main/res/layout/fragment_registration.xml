@@ -6,7 +6,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:padding="10dp"
-    tools:context=".Fragments.RegistrationFragment">
+    tools:context=".Main.RegistrationFragment">
 
 
     <LinearLayout

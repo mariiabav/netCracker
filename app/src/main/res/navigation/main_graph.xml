@@ -6,7 +6,7 @@
     app:startDestination="@id/menuFragment">
     <fragment
         android:id="@+id/registrationFragment"
-        android:name="com.example.problemsolver.Fragments.RegistrationFragment"
+        android:name="com.example.problemsolver.Main.RegistrationFragment"
         android:label="fragment_registration"
         tools:layout="@layout/fragment_registration" >
         <action
@@ -15,35 +15,35 @@
     </fragment>
     <fragment
         android:id="@+id/menuFragment"
-        android:name="com.example.problemsolver.Fragments.MenuFragment"
+        android:name="com.example.problemsolver.Main.MenuFragment"
         android:label="fragment_menu"
         tools:layout="@layout/fragment_menu" >
         <action
             android:id="@+id/action_menuFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
         <action
-            android:id="@+id/action_menuFragment_to_newProblemFragment"
-            app:destination="@id/newProblemFragment" />
-        <action
             android:id="@+id/action_menuFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
         <action
             android:id="@+id/action_menuFragment_to_mapActivity"
             app:destination="@id/mapActivity" />
+        <action
+            android:id="@+id/action_menuFragment_to_newProblemActivity"
+            app:destination="@id/newProblemActivity" />
     </fragment>
     <fragment
-        android:id="@+id/newProblemFragment"
-        android:name="com.example.problemsolver.Fragments.NewProblemFragment"
-        android:label="fragment_new_problem"
-        tools:layout="@layout/fragment_new_problem" />
-    <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.problemsolver.Fragments.LoginFragment"
+        android:name="com.example.problemsolver.Main.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" />
     <activity
         android:id="@+id/mapActivity"
-        android:name="com.example.problemsolver.MapActivity"
+        android:name="com.example.problemsolver.Map.MapActivity"
         android:label="activity_map"
         tools:layout="@layout/activity_map" />
+    <activity
+        android:id="@+id/newProblemActivity"
+        android:name="com.example.problemsolver.Problem.NewProblemActivity"
+        android:label="activity_new_problem"
+        tools:layout="@layout/activity_new_problem" />
 </navigation>

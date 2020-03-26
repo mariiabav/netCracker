@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".Fragments.NewProblemFragment">
+    tools:context=".Problem.NewProblemFragment"
     android:padding="10dp" >
     <LinearLayout
         android:layout_width="match_parent"
