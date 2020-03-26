@@ -3,5 +3,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="unknown_error_message">unknown_error_message</string>
+    <string name="remote_error_message">remote_error_message</string>
+    <string name="network_error_message">network_error_message</string>
 
 </resources>
