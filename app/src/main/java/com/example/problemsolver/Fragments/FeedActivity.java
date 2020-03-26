@@ -11,7 +11,7 @@ import com.example.problemsolver.R;
 public class FeedActivity extends AppCompatActivity{
 
     RecyclerView recyclerView;
-    ArrayList<ModelFeed> modelFeedArrayList = new ArrayList<>();
+    ArrayList<FeedProblem> feedProblemArrayList = new ArrayList<>();
     AdapterFeed adapterFeed;
 
     @Override
@@ -24,7 +24,7 @@ public class FeedActivity extends AppCompatActivity{
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapterFeed = new AdapterFeed(this, modelFeedArrayList);
+        adapterFeed = new AdapterFeed(this, feedProblemArrayList);
         recyclerView.setAdapter(adapterFeed);
 
         populateRecyclerView();
@@ -32,14 +32,14 @@ public class FeedActivity extends AppCompatActivity{
     //R.drawable.ic_propic1
     private void populateRecyclerView() {
 
-        ModelFeed modelFeed = new ModelFeed(1, R.drawable.red_circle, 0, "30.08.17",  "Харченко, 16", "592", "Некоторое описание проблемы");
-        modelFeedArrayList.add(modelFeed);
+        FeedProblem feedProblem = new FeedProblem(1, R.drawable.red_circle, 0, "30.08.17",  "Харченко, 16", "592", "Некоторое описание проблемы");
+        feedProblemArrayList.add(feedProblem);
 
-        modelFeed = new ModelFeed(2, R.drawable.green_circle, 0, "08.09.19", "Смольный буян, 18", "493", "Нет детских садов в округе");
-        modelFeedArrayList.add(modelFeed);
+        feedProblem = new FeedProblem(2, R.drawable.green_circle, 0, "08.09.19", "Смольный буян, 18", "493", "Нет детских садов в округе");
+        feedProblemArrayList.add(feedProblem);
 
-        modelFeed = new ModelFeed(3, R.drawable.yellow_circle, 0, "21.03.20", "Воскресенская, 5", "124", "С супермаркетами беда");
-        modelFeedArrayList.add(modelFeed);
+        feedProblem = new FeedProblem(3, R.drawable.yellow_circle, 0, "21.03.20", "Воскресенская, 5", "124", "С супермаркетами беда");
+        feedProblemArrayList.add(feedProblem);
 
         adapterFeed.notifyDataSetChanged();
     }

@@ -20,13 +20,13 @@ import java.util.ArrayList;
 public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> {
 
     Context context;
-    ArrayList<ModelFeed> modelFeedArrayList = new ArrayList<>();
+    ArrayList<FeedProblem> feedProblemArrayList = new ArrayList<>();
     RequestManager glide;
 
-    public AdapterFeed(Context context, ArrayList<ModelFeed> modelFeedArrayList) {
+    public AdapterFeed(Context context, ArrayList<FeedProblem> feedProblemArrayList) {
 
         this.context = context;
-        this.modelFeedArrayList = modelFeedArrayList;
+        this.feedProblemArrayList = feedProblemArrayList;
         glide = Glide.with(context);
     }
 
@@ -41,21 +41,21 @@ public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        final ModelFeed modelFeed = modelFeedArrayList.get(position);
+        final FeedProblem feedProblem = feedProblemArrayList.get(position);
 
-        holder.street_name.setText(modelFeed.getStreet());
-        holder.date.setText(modelFeed.getDate());
-        holder.rating.setText("Рейтинг: " + modelFeed.getRating());
-        holder.description.setText(String.valueOf(modelFeed.getDescription()));
+        holder.street_name.setText(feedProblem.getStreet());
+        holder.date.setText(feedProblem.getDate());
+        holder.rating.setText("Рейтинг: " + feedProblem.getRating());
+        holder.description.setText(String.valueOf(feedProblem.getDescription()));
 
-        glide.load(modelFeed.getStatusPic()).into(holder.status_pic);
+        glide.load(feedProblem.getStatusPic()).into(holder.status_pic);
 
 
-        if (modelFeed.getPostPic() == 0) {
+        if (feedProblem.getPostPic() == 0) {
             holder.problem_pic.setVisibility(View.GONE);
         } else {
             holder.problem_pic.setVisibility(View.VISIBLE);
-            glide.load(modelFeed.getPostPic()).into(holder.problem_pic);
+            glide.load(feedProblem.getPostPic()).into(holder.problem_pic);
         }
 
 
@@ -63,7 +63,7 @@ public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> 
 
     @Override
     public int getItemCount() {
-        return modelFeedArrayList.size();
+        return feedProblemArrayList.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

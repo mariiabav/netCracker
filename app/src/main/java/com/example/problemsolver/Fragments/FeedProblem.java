@@ -1,6 +1,6 @@
 package com.example.problemsolver.Fragments;
 
-public class ModelFeed {
+public class FeedProblem {
 
     private int id;
     private int statusPic;
@@ -11,7 +11,7 @@ public class ModelFeed {
     private String description;
 
 
-    public ModelFeed(int id, int statusPic, int postPic, String date, String street, String rating, String description) {
+    public FeedProblem(int id, int statusPic, int postPic, String date, String street, String rating, String description) {
         this.setId(id);
         this.statusPic = statusPic;
         this.date = date;

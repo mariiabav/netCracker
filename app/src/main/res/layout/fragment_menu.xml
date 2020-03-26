@@ -54,6 +54,14 @@
             android:textColor="@android:color/white"
             android:text="Посмотреть ленту" />
 
+        <Button
+            android:id="@+id/btn_fifth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/red"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="20dp"
+            android:text="Карта" />
     </LinearLayout>
 
 </LinearLayout>
