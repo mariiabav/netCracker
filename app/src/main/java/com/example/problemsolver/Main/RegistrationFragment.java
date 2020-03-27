@@ -16,7 +16,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.problemsolver.R;
-import com.example.problemsolver.Retrofit.NetworkService;
+import com.example.problemsolver.Retrofit.RegistrationService;
 import com.example.problemsolver.Retrofit.RegistedPerson;
 import com.example.problemsolver.Retrofit.Role;
 
@@ -81,7 +81,7 @@ public class RegistrationFragment extends Fragment {
 
                 final RegistedPerson registedPerson = new RegistedPerson(firstName, secondName, email1, phone, pass, bithdate1, roles);
                 //if (checkDataEntered()){
-                    NetworkService.getInstance()
+                    RegistrationService.getInstance()
                             .getJSONApi()
                             .postRegistedPersonData(registedPerson)
                             .enqueue(new Callback<RegistedPerson>() {

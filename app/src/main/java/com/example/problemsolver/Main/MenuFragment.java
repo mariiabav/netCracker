@@ -58,7 +58,7 @@ public class MenuFragment extends Fragment {
         feed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.registrationFragment); //надо нормально ленту собрать
+                Navigation.findNavController(view).navigate(R.id.feedActivity); //надо нормально ленту собрать
             }
         });
 

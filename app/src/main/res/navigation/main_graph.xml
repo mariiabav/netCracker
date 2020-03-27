@@ -30,6 +30,9 @@
         <action
             android:id="@+id/action_menuFragment_to_newProblemActivity"
             app:destination="@id/newProblemActivity" />
+        <action
+            android:id="@+id/action_menuFragment_to_feedActivity"
+            app:destination="@id/feedActivity" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -46,4 +49,9 @@
         android:name="com.example.problemsolver.Problem.NewProblemActivity"
         android:label="activity_new_problem"
         tools:layout="@layout/activity_new_problem" />
+    <activity
+        android:id="@+id/feedActivity"
+        android:name="com.example.problemsolver.Feed.FeedActivity"
+        android:label="activity_feed"
+        tools:layout="@layout/activity_feed" />
 </navigation>

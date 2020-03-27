@@ -1,4 +1,4 @@
-package com.example.problemsolver.Main;
+package com.example.problemsolver.Feed;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
+
 import com.example.problemsolver.R;
 
 import java.util.ArrayList;
@@ -43,20 +44,13 @@ public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> 
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         final FeedProblem feedProblem = feedProblemArrayList.get(position);
 
+
         holder.street_name.setText(feedProblem.getStreet());
         holder.date.setText(feedProblem.getDate());
         holder.rating.setText("Рейтинг: " + feedProblem.getRating());
         holder.description.setText(String.valueOf(feedProblem.getDescription()));
 
         glide.load(feedProblem.getStatusPic()).into(holder.status_pic);
-
-
-        if (feedProblem.getPostPic() == 0) {
-            holder.problem_pic.setVisibility(View.GONE);
-        } else {
-            holder.problem_pic.setVisibility(View.VISIBLE);
-            glide.load(feedProblem.getPostPic()).into(holder.problem_pic);
-        }
 
 
     }
@@ -69,14 +63,12 @@ public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView date, street_name, rating, description;
-        ImageView status_pic, problem_pic;
-
+        ImageView status_pic, pic;
 
         public MyViewHolder(View itemView) {
             super(itemView);
 
             status_pic = itemView.findViewById(R.id.status_pic);
-            problem_pic = itemView.findViewById(R.id.imgView_postPic);
 
             date = itemView.findViewById(R.id.date);
             street_name = itemView.findViewById(R.id.street_name);

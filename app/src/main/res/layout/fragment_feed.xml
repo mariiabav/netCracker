@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
     android:background="@color/white"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,7 +17,7 @@
             android:layout_height="wrap_content"
 
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
 
             android:layout_marginRight="15dp"
             android:text="30.01.20"
@@ -24,19 +25,18 @@
             android:textSize="13sp" />
     </RelativeLayout>
 
-
     <RelativeLayout
         android:id="@+id/rellay1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="25dp">
+        android:layout_marginTop="0dp">
 
         <ImageView
             android:id="@+id/status_pic"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:layout_marginTop="15dp"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
@@ -81,9 +81,8 @@
 
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/baseline_keyboard_arrow_right_black_18dp"
+            app:srcCompat="@drawable/arrow_right"
             android:layout_alignParentRight="true" />
-
 
     </RelativeLayout>
 
@@ -95,28 +94,17 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="10dp"
-        android:text="Описание проблемы, поскольку по данному адресу может быть все, что угодно. Яма, нет поликлинники и тд"
+        android:text="Описание проблемы"
         android:textColor="@color/black"
         android:textSize="16sp" />
 
     <ImageView
-        android:id="@+id/imgView_postPic"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/problem_descriprion"
-        android:layout_marginTop="5dp"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        android:src="@drawable/green_circle"
-        android:visibility="gone" />
-
-    <ImageView
         android:id="@+id/imgView_line"
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="1dp"
         android:layout_below="@+id/problem_descriprion"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:background="@color/light_grey" />
 
-</RelativeLayout>
+</LinearLayout>
 

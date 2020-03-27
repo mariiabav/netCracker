@@ -1,5 +1,7 @@
 package com.example.problemsolver.Retrofit;
 
+import com.example.problemsolver.ServerApi;
+
 import java.io.IOException;
 
 import okhttp3.Credentials;
@@ -9,9 +11,9 @@ import okhttp3.Request;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class NetworkService {
+public class RegistrationService {
 
-    private static NetworkService mInstance;
+    private static RegistrationService mInstance;
     private static final String BASE_URL = "https://netcrackeredu.herokuapp.com/";
     private Retrofit mRetrofit;
 
@@ -28,7 +30,7 @@ public class NetworkService {
         }
     }).build();
 
-    private NetworkService() {
+    private RegistrationService() {
         mRetrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -37,9 +39,9 @@ public class NetworkService {
     } //с помощью билдера теперь можем преобразовывать json данные с помощью Gson
 
 
-    public static NetworkService getInstance() { //должен быть singleton-объектом
+    public static RegistrationService getInstance() { //должен быть singleton-объектом
         if (mInstance == null) {
-            mInstance = new NetworkService();
+            mInstance = new RegistrationService();
         }
         return mInstance;
     }
