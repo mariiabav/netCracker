@@ -75,13 +75,13 @@ public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> 
         public MyViewHolder(View itemView) {
             super(itemView);
 
-            status_pic = (ImageView) itemView.findViewById(R.id.status_pic);
-            problem_pic = (ImageView) itemView.findViewById(R.id.imgView_postPic);
+            status_pic = itemView.findViewById(R.id.status_pic);
+            problem_pic = itemView.findViewById(R.id.imgView_postPic);
 
-            date = (TextView) itemView.findViewById(R.id.date);
-            street_name = (TextView) itemView.findViewById(R.id.street_name);
-            rating = (TextView) itemView.findViewById(R.id.rating);
-            description = (TextView) itemView.findViewById(R.id.problem_descriprion);
+            date = itemView.findViewById(R.id.date);
+            street_name = itemView.findViewById(R.id.street_name);
+            rating = itemView.findViewById(R.id.rating);
+            description = itemView.findViewById(R.id.problem_descriprion);
         }
     }
 }
