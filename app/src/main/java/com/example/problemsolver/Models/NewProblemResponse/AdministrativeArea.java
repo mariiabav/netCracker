@@ -1,5 +1,5 @@
 
-package com.example.problemsolver;
+package com.example.problemsolver.Models.NewProblemResponse;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -9,6 +9,9 @@ public class AdministrativeArea {
     @SerializedName("AdministrativeAreaName")
     @Expose
     private String administrativeAreaName;
+    @SerializedName("Locality")
+    @Expose
+    private Locality locality;
 
     public String getAdministrativeAreaName() {
         return administrativeAreaName;
@@ -18,5 +21,12 @@ public class AdministrativeArea {
         this.administrativeAreaName = administrativeAreaName;
     }
 
+    public Locality getLocality() {
+        return locality;
+    }
+
+    public void setLocality(Locality locality) {
+        this.locality = locality;
+    }
 
 }

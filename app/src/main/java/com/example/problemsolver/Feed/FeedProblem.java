@@ -11,7 +11,7 @@ public class FeedProblem {
 
     public FeedProblem(int id, int statusPic, String date, String street, String rating, String description) {
         this.setId(id);
-        this.statusPic = statusPic;
+        //this.statusPic = statusPic;
         this.date = date;
         this.street = street;
         this.rating = rating;
@@ -27,13 +27,15 @@ public class FeedProblem {
         this.id = id;
     }
 
-    public int getStatusPic() {
+    /*public int getStatusPic() {
         return statusPic;
     }
 
     public void setStatusPic(int statusPic) {
         this.statusPic = statusPic;
     }
+    */
+
 
     public String getDate() {
         return date;

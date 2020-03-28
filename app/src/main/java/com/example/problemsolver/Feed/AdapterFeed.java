@@ -28,7 +28,7 @@ public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> 
 
         this.context = context;
         this.feedProblemArrayList = feedProblemArrayList;
-        glide = Glide.with(context);
+        //glide = Glide.with(context);
     }
 
 
@@ -50,7 +50,7 @@ public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> 
         holder.rating.setText("Рейтинг: " + feedProblem.getRating());
         holder.description.setText(String.valueOf(feedProblem.getDescription()));
 
-        glide.load(feedProblem.getStatusPic()).into(holder.status_pic);
+        //glide.load(feedProblem.getStatusPic()).into(holder.status_pic);
 
 
     }
