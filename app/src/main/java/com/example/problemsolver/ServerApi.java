@@ -1,6 +1,8 @@
 package com.example.problemsolver;
 
 
+import com.example.problemsolver.Models.DistrictResponse.DistrictResponse;
+import com.example.problemsolver.Models.NewProblemResponse.RegionDataResponse;
 import com.example.problemsolver.Retrofit.RegistedPerson;
 
 import retrofit2.Call;
@@ -19,9 +21,18 @@ public interface ServerApi {
     );
 
     @Headers("Content-Type: application/json")
-    @GET("/1.x/")
-    public Call<MyPoint> getRegionData(
+    @GET(".")
+    public Call<RegionDataResponse> getRegionData(
             @Query("apikey") String apiKey,
+            @Query("format") String format,
             @Query("geocode") String geoCode
+    );
+
+    @Headers("Content-Type: application/json")
+    @GET(".")
+    public Call<DistrictResponse> getDistrictName(
+            @Query("apikey") String apiKey,
+            @Query("format") String format,
+            @Query("geocode") String coordinates
     );
 }

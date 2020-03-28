@@ -40,6 +40,8 @@ dependencies {
     //noinspection GradleCompatible
     implementation 'com.android.support:recyclerview-v7:21.0.3'
 
+    implementation("com.squareup.okhttp3:logging-interceptor:4.4.0")
+
 
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'

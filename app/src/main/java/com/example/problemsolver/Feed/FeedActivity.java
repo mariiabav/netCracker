@@ -44,7 +44,3 @@ public class FeedActivity extends AppCompatActivity{
         feedProblemArrayList.add(feedProblem);
     }
 }
-
-
-
-

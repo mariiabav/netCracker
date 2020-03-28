@@ -1,7 +1,6 @@
 package com.example.problemsolver.Problem;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.Navigation;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -15,13 +14,14 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.problemsolver.Models.DistrictResponse.DistrictResponse;
+import com.example.problemsolver.Models.DistrictResponse.FeatureMember;
+import com.example.problemsolver.Models.NewProblemResponse.RegionDataResponse;
 import com.example.problemsolver.ProblemService;
 import com.example.problemsolver.R;
 import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.geometry.BoundingBox;
 import com.yandex.mapkit.geometry.Point;
-
-import com.example.problemsolver.MyPoint;
 
 import com.yandex.mapkit.search.SearchFactory;
 import com.yandex.mapkit.search.SearchManager;
@@ -51,9 +51,13 @@ public class NewProblemActivity extends Activity implements SuggestSession.Sugge
     private ListView suggestResultView;
 
     private Button problem;
+    private Integer results = 1;
+    private String format = "json";
     private EditText type, description, region;
 
     private String address;
+    private String coordinates;
+    private String adminAreaName;
 
     String problemType, problemDescription, problemRegion;
 
@@ -64,7 +68,7 @@ public class NewProblemActivity extends Activity implements SuggestSession.Sugge
     private final BoundingBox BOUNDING_BOX = new BoundingBox(
             new Point(60.092945, 29.961734),
             new Point(59.705141, 30.787196));
-    private final SuggestOptions SEARCH_OPTIONS =  new SuggestOptions().setSuggestTypes(
+    private final SuggestOptions SEARCH_OPTIONS = new SuggestOptions().setSuggestTypes(
             SuggestType.GEO.value);
 
     @Override
@@ -78,20 +82,39 @@ public class NewProblemActivity extends Activity implements SuggestSession.Sugge
         searchManager = SearchFactory.getInstance().createSearchManager(SearchManagerType.COMBINED);
         suggestSession = searchManager.createSuggestSession();
 
-        final EditText queryEdit = (EditText)findViewById(R.id.suggest_query);
-        suggestResultView = (ListView)findViewById(R.id.suggest_result);
-
+        final EditText queryEdit = (EditText) findViewById(R.id.suggest_query);
+        suggestResultView = (ListView) findViewById(R.id.suggest_result);
 
 
         suggestResultView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View itemClicked, int position,
                                     long id) {
-                String strSelectedFeature = (String)parent.getAdapter().getItem(position);
+                String strSelectedFeature = (String) parent.getAdapter().getItem(position);
                 queryEdit.setText(strSelectedFeature);
                 address = strSelectedFeature;
-                showMessege(address);
                 suggestResult.clear();
+                ProblemService.getInstance()
+                        .getJSONApi()
+                        .getRegionData(API_key, format, address)
+                        .enqueue(new Callback<RegionDataResponse>() {
+                            @Override
+                            public void onResponse(@NonNull Call<RegionDataResponse> call, Response<RegionDataResponse> response) {
+                                coordinates = response.body()
+                                        .getResponse()
+                                        .getGeoObjectCollection()
+                                        .getFeatureMember()
+                                        .get(0)
+                                        .getGeoObject()
+                                        .getPoint()
+                                        .getPos();
+                                showMessage(coordinates);
+                            }
+
+                            @Override
+                            public void onFailure(@NonNull Call<RegionDataResponse> call, @NonNull Throwable t) {
+                            }
+                        });
             }
         });
 
@@ -99,25 +122,41 @@ public class NewProblemActivity extends Activity implements SuggestSession.Sugge
         problem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
+
                 ProblemService.getInstance()
                         .getJSONApi()
-                        .getRegionData(API_key, address)
-                        .enqueue(new Callback<MyPoint>() {
+                        .getDistrictName(API_key, format, coordinates)
+                        .enqueue(new Callback<DistrictResponse>() {
                             @Override
-                            public void onResponse(@NonNull Call<MyPoint> call, @NonNull Response<MyPoint> response) {
-                                if (response.isSuccessful()){
-                                    //запрос выполнился успешно
-                                    showMessege("Ля");
-                                }
-                                else {
-                                    //сервер вернул ошибку
-                                    showMessege("Лю");
-                                }
+                            public void onResponse(Call<DistrictResponse> call, Response<DistrictResponse> response) {
+                               List<FeatureMember> featureMembers = response.body().getResponse().getGeoObjectCollection()
+                                        .getFeatureMember();
+                               for(FeatureMember featureMember : featureMembers) {
+                                   if(featureMember.getGeoObject()
+                                   .getMetaDataProperty()
+                                   .getGeocoderMetaData()
+                                   .getKind().contains("district")) {
+                                       adminAreaName = featureMember.getGeoObject()
+                                               .getMetaDataProperty()
+                                               .getGeocoderMetaData()
+                                               .getAddressDetails()
+                                               .getCountry()
+                                               .getAdministrativeArea()
+                                               .getLocality()
+                                               .getDependentLocality()
+                                               .getDependentLocalityName();
+                                       break;
+                                   }
+
+                               }
+
+                               showMessage(adminAreaName);
+
                             }
+
                             @Override
-                            public void onFailure(@NonNull Call<MyPoint> call, @NonNull Throwable t) {
-                                //ошибка во время выполнения запроса
-                                showMessege("Лy");
+                            public void onFailure(Call<DistrictResponse> call, Throwable t) {
+
                             }
                         });
             }
@@ -132,10 +171,12 @@ public class NewProblemActivity extends Activity implements SuggestSession.Sugge
 
         queryEdit.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {
@@ -150,7 +191,6 @@ public class NewProblemActivity extends Activity implements SuggestSession.Sugge
         MapKitFactory.getInstance().onStop();
         super.onStop();
     }
-
 
 
     @Override
@@ -178,7 +218,7 @@ public class NewProblemActivity extends Activity implements SuggestSession.Sugge
         suggestSession.suggest(query, BOUNDING_BOX, SEARCH_OPTIONS, this);
     }
 
-    private void showMessege(String string){
+    private void showMessage(String string) {
         Toast t = Toast.makeText(this, string, Toast.LENGTH_SHORT);
         t.show();
     }
