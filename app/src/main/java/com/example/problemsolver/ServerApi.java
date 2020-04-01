@@ -1,10 +1,13 @@
 package com.example.problemsolver;
 
 
+import com.example.problemsolver.Feed.Feed2Problem;
 import com.example.problemsolver.Problem.Models.DistrictResponse.DistrictResponse;
 import com.example.problemsolver.Problem.Models.NewProblemResponse.RegionDataResponse;
 import com.example.problemsolver.Problem.NewProblem;
 import com.example.problemsolver.Registration.RegisteredPerson;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -43,8 +46,7 @@ public interface ServerApi {
             @Body NewProblem newProblem
     );
 
-    //для ГЕТ запроса
-    ///api/problem/all
-
-
+    @Headers("Content-Type: application/json")
+    @GET("api/problem/all")
+    public Call<List<Feed2Problem>> getAllProblems();
 }
