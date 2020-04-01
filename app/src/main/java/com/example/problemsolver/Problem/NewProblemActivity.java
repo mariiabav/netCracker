@@ -123,14 +123,13 @@ public class NewProblemActivity extends Activity implements SuggestSession.Sugge
         });
 
 
-
-
         problem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                problemType = problem.getText().toString();
+                problemType = type.getText().toString();
                 problemDescription = description.getText().toString();
                 ProblemService problemService = ProblemService.getInstance();
+                ApplicationService applicationService = ApplicationService.getInstance();
                 problemService
                         .getJSONApi()
                         .getDistrictName(API_key, format, coordinates)
@@ -173,7 +172,7 @@ public class NewProblemActivity extends Activity implements SuggestSession.Sugge
                 final Address fullAddress = new Address(street, building, area);
                 final NewProblem newProblem = new NewProblem(fullAddress, problemType, problemDescription, "created", 0);
 
-                problemService
+                applicationService
                         .getJSONApi()
                         .postNewProblemData(newProblem)
                         .enqueue(new Callback<NewProblem>() {
