@@ -54,14 +54,17 @@ public class FeedActivity extends AppCompatActivity{
                     public void onResponse(@NonNull Call<List<Feed2Problem>> call, @NonNull Response<List<Feed2Problem>> response) {
                         if (response.isSuccessful()){
                             ArrayList<Feed2Problem> allProblems = (ArrayList<Feed2Problem>) response.body();
-                            int status = R.drawable.green_circle;
+                            //int status = R.drawable.green_circle;
 
                             for (Feed2Problem problem : allProblems){
+                                /*
                                 if (problem.getStatus().equals("created")) {
                                     status = R.drawable.red_circle;
                                 }
+                                */
+
                                 String date = problem.getCreationDate().split("T")[0];
-                                FeedProblem feedProblem = new FeedProblem(status, date, problem.getAddress().getStreet() + ", " + problem.getAddress().getBuilding(),
+                                FeedProblem feedProblem = new FeedProblem(date, problem.getAddress().getStreet() + ", " + problem.getAddress().getBuilding(),
                                         problem.getRate().toString(), problem.getDescription());
 
                                 feedProblemArrayList.add(feedProblem);
@@ -79,6 +82,9 @@ public class FeedActivity extends AppCompatActivity{
                 });
     }
 
+    private String getDate(String fullDate){
+        return fullDate;
+    }
     private void showMessage(String string){
         Toast t = Toast.makeText(this, string, Toast.LENGTH_SHORT);
         t.show();
