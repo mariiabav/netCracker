@@ -21,14 +21,14 @@ import java.util.ArrayList;
 public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> {
 
     Context context;
-    ArrayList<FeedProblem> feedProblemArrayList = new ArrayList<>();
+    ArrayList<FeedProblem> feedProblemArrayList;
     RequestManager glide;
 
     public AdapterFeed(Context context, ArrayList<FeedProblem> feedProblemArrayList) {
 
         this.context = context;
         this.feedProblemArrayList = feedProblemArrayList;
-        //glide = Glide.with(context);
+        glide = Glide.with(context);
     }
 
 
@@ -44,13 +44,12 @@ public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> 
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         final FeedProblem feedProblem = feedProblemArrayList.get(position);
 
-
         holder.street_name.setText(feedProblem.getStreet());
         holder.date.setText(feedProblem.getDate());
         holder.rating.setText("Рейтинг: " + feedProblem.getRating());
         holder.description.setText(String.valueOf(feedProblem.getDescription()));
 
-        //glide.load(feedProblem.getStatusPic()).into(holder.status_pic);
+        glide.load(feedProblem.getStatusPic()).into(holder.status_pic);
 
     }
 
@@ -62,12 +61,12 @@ public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView date, street_name, rating, description;
-        //ImageView status_pic, pic;
+        ImageView status_pic;
 
         public MyViewHolder(View itemView) {
             super(itemView);
 
-            //status_pic = itemView.findViewById(R.id.status_pic);
+            status_pic = itemView.findViewById(R.id.status_pic);
             date = itemView.findViewById(R.id.date);
             street_name = itemView.findViewById(R.id.street_name);
             rating = itemView.findViewById(R.id.rating);

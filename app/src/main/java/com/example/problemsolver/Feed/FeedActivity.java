@@ -54,13 +54,19 @@ public class FeedActivity extends AppCompatActivity{
                     public void onResponse(@NonNull Call<List<Feed2Problem>> call, @NonNull Response<List<Feed2Problem>> response) {
                         if (response.isSuccessful()){
                             ArrayList<Feed2Problem> allProblems = (ArrayList<Feed2Problem>) response.body();
+                            int status = R.drawable.green_circle;
 
                             for (Feed2Problem problem : allProblems){
-                                FeedProblem feedProblem = new FeedProblem(problem.getCreationDate(),
-                                        problem.getAddress().getStreet(), problem.getRate().toString(), problem.getDescription());
+                                if (problem.getStatus().equals("created")) {
+                                    status = R.drawable.red_circle;
+                                }
+                                String date = problem.getCreationDate().split("T")[0];
+                                FeedProblem feedProblem = new FeedProblem(status, date, problem.getAddress().getStreet() + ", " + problem.getAddress().getBuilding(),
+                                        problem.getRate().toString(), problem.getDescription());
 
                                 feedProblemArrayList.add(feedProblem);
                             }
+                            adapterFeed.notifyDataSetChanged();
                         }
                         else {
                             showMessage("Проблемы не получены");
@@ -71,15 +77,6 @@ public class FeedActivity extends AppCompatActivity{
                         showMessage("Ошибка во время выполнения запроса");
                     }
                 });
-        FeedProblem feedProblem = new FeedProblem("30.08.17",  "Харченко, 16", "592", "Некоторое описание проблемы");
-        feedProblemArrayList.add(feedProblem);
-
-        feedProblem = new FeedProblem("08.09.19", "Смольный буян, 18", "493", "Нет детских садов в округе");
-        feedProblemArrayList.add(feedProblem);
-
-        feedProblem = new FeedProblem("21.03.20", "Воскресенская, 5", "124", "С супермаркетами беда");
-        feedProblemArrayList.add(feedProblem);
-
     }
 
     private void showMessage(String string){
