@@ -130,8 +130,8 @@ public class NewProblemActivity extends Activity implements SuggestSession.Sugge
             public void onClick(final View view) {
                 problemType = problem.getText().toString();
                 problemDescription = description.getText().toString();
-
-                ProblemService.getInstance()
+                ProblemService problemService = ProblemService.getInstance();
+                problemService
                         .getJSONApi()
                         .getDistrictName(API_key, format, coordinates)
                         .enqueue(new Callback<DistrictResponse>() {
@@ -171,9 +171,9 @@ public class NewProblemActivity extends Activity implements SuggestSession.Sugge
 
                 final Area area = new Area(adminAreaName);
                 final Address fullAddress = new Address(street, building, area);
-                final NewProblem newProblem = new NewProblem(fullAddress, problemType, problemDescription, "created", 0, coordinates);
+                final NewProblem newProblem = new NewProblem(fullAddress, problemType, problemDescription, "created", 0);
 
-                ApplicationService.getInstance()
+                problemService
                         .getJSONApi()
                         .postNewProblemData(newProblem)
                         .enqueue(new Callback<NewProblem>() {
