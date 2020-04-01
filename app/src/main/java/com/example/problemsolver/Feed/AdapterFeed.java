@@ -69,7 +69,6 @@ public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> 
             super(itemView);
 
             status_pic = itemView.findViewById(R.id.status_pic);
-
             date = itemView.findViewById(R.id.date);
             street_name = itemView.findViewById(R.id.street_name);
             rating = itemView.findViewById(R.id.rating);

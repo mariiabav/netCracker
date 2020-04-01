@@ -34,7 +34,7 @@ public class FeedActivity extends AppCompatActivity{
 
     private void populateRecyclerView() {
 
-        FeedProblem feedProblem = new FeedProblem(1, R.drawable.red_circle,  "30.08.17",  "Харченко, 16", "592", "Некоторое описание проблемы");
+        FeedProblem feedProblem = new FeedProblem(1, R.drawable.green_circle,  "30.08.17",  "Харченко, 16", "592", "Некоторое описание проблемы");
         feedProblemArrayList.add(feedProblem);
 
         feedProblem = new FeedProblem(2, R.drawable.green_circle,  "08.09.19", "Смольный буян, 18", "493", "Нет детских садов в округе");

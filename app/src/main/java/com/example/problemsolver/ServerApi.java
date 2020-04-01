@@ -1,9 +1,10 @@
 package com.example.problemsolver;
 
 
-import com.example.problemsolver.Models.DistrictResponse.DistrictResponse;
-import com.example.problemsolver.Models.NewProblemResponse.RegionDataResponse;
-import com.example.problemsolver.Retrofit.RegistedPerson;
+import com.example.problemsolver.Problem.Models.DistrictResponse.DistrictResponse;
+import com.example.problemsolver.Problem.Models.NewProblemResponse.RegionDataResponse;
+import com.example.problemsolver.Problem.NewProblem;
+import com.example.problemsolver.Registration.RegisteredPerson;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -16,8 +17,8 @@ import retrofit2.http.Query;
 public interface ServerApi {
     @Headers("Content-Type: application/json")
     @POST("/api/person/register")
-    public Call<RegistedPerson> postRegistedPersonData(
-            @Body RegistedPerson registedPerson
+    public Call<RegisteredPerson> postRegistedPersonData(
+            @Body RegisteredPerson registeredPerson
     );
 
     @Headers("Content-Type: application/json")
@@ -35,4 +36,15 @@ public interface ServerApi {
             @Query("format") String format,
             @Query("geocode") String coordinates
     );
+
+    @Headers("Content-Type: application/json")
+    @POST("/api/problem/create")
+    public Call<NewProblem> postNewProblemData(
+            @Body NewProblem newProblem
+    );
+
+    //для ГЕТ запроса
+    ///api/problem/all
+
+
 }

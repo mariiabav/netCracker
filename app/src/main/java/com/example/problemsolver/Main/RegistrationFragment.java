@@ -16,9 +16,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.problemsolver.R;
-import com.example.problemsolver.Retrofit.RegistrationService;
-import com.example.problemsolver.Retrofit.RegistedPerson;
-import com.example.problemsolver.Retrofit.Role;
+import com.example.problemsolver.ApplicationService;
+import com.example.problemsolver.Registration.RegisteredPerson;
+import com.example.problemsolver.Registration.Role;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,27 +79,28 @@ public class RegistrationFragment extends Fragment {
                 final Role role = new Role("123e4567-e89b-12d3-a456-426655440000", "ROLE_ADMIN");
                 roles.add(role);
 
-                final RegistedPerson registedPerson = new RegistedPerson(firstName, secondName, email1, phone, pass, bithdate1, roles);
+
+                final RegisteredPerson registeredPerson = new RegisteredPerson(firstName, secondName, email1, phone, pass, bithdate1, roles);
                 //if (checkDataEntered()){
-                    RegistrationService.getInstance()
+                    ApplicationService.getInstance()
                             .getJSONApi()
-                            .postRegistedPersonData(registedPerson)
-                            .enqueue(new Callback<RegistedPerson>() {
+                            .postRegistedPersonData(registeredPerson)
+                            .enqueue(new Callback<RegisteredPerson>() {
                                 @Override
-                                public void onResponse(@NonNull Call<RegistedPerson> call, @NonNull Response<RegistedPerson> response) {
+                                public void onResponse(@NonNull Call<RegisteredPerson> call, @NonNull Response<RegisteredPerson> response) {
                                     if (response.isSuccessful()){
                                         //запрос выполнился успешно
                                         Navigation.findNavController(view).navigate(R.id.action_registrationFragment_to_loginFragment);
-                                        showMessege("Регистрация вполнена успешно");
+                                        showMessage("Регистрация вполнена успешно");
                                     }
                                     else {
                                         //сервер вернул ошибку
-                                        showMessege("Регистрация не вполнена");
+                                        showMessage("Регистрация не вполнена");
                                     }
                                 }
                                 @Override
-                                public void onFailure(@NonNull Call<RegistedPerson> call, @NonNull Throwable t) {
-                                    showMessege("Ошибка во время выполнения запроса");
+                                public void onFailure(@NonNull Call<RegisteredPerson> call, @NonNull Throwable t) {
+                                    showMessage("Ошибка во время выполнения запроса");
                                 }
                             });
                 //}
@@ -110,7 +111,7 @@ public class RegistrationFragment extends Fragment {
         return view;
     }
 
-    private void showMessege(String firstName, String secondName, String email1, String phone, String pass) {
+    private void showMessage(String firstName, String secondName, String email1, String phone, String pass) {
     }
 
     boolean isEmail(EditText text){
@@ -129,7 +130,7 @@ public class RegistrationFragment extends Fragment {
         }
         return false;
     }
-    private void showMessege(String string){
+    private void showMessage(String string){
         Toast t = Toast.makeText(getActivity(), string, Toast.LENGTH_SHORT);
         t.show();
     }

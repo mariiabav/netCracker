@@ -14,10 +14,10 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.problemsolver.Models.DistrictResponse.DistrictResponse;
-import com.example.problemsolver.Models.DistrictResponse.FeatureMember;
-import com.example.problemsolver.Models.NewProblemResponse.RegionDataResponse;
-import com.example.problemsolver.ProblemService;
+import com.example.problemsolver.ApplicationService;
+import com.example.problemsolver.Problem.Models.DistrictResponse.DistrictResponse;
+import com.example.problemsolver.Problem.Models.DistrictResponse.FeatureMember;
+import com.example.problemsolver.Problem.Models.NewProblemResponse.RegionDataResponse;
 import com.example.problemsolver.R;
 import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.geometry.BoundingBox;
@@ -53,14 +53,15 @@ public class NewProblemActivity extends Activity implements SuggestSession.Sugge
     private Button problem;
     private Integer results = 1;
     private String format = "json";
-    private EditText type, description, region;
+
+    private EditText type, description;
+    String problemType, problemDescription;
 
     private String address;
     private String coordinates;
     private String adminAreaName;
 
-    String problemType, problemDescription, problemRegion;
-
+    private int fullStreetIndex = 2, streetIndex = 1, buildingIndex = 3;
 
     String API_key = "7e3eee55-cf92-4361-919e-e1666d3df1d1";
 
@@ -82,9 +83,12 @@ public class NewProblemActivity extends Activity implements SuggestSession.Sugge
         searchManager = SearchFactory.getInstance().createSearchManager(SearchManagerType.COMBINED);
         suggestSession = searchManager.createSuggestSession();
 
-        final EditText queryEdit = (EditText) findViewById(R.id.suggest_query);
-        suggestResultView = (ListView) findViewById(R.id.suggest_result);
+        final EditText queryEdit = findViewById(R.id.suggest_query);
+        suggestResultView = findViewById(R.id.suggest_result);
 
+        problem = findViewById(R.id.btn_problem);
+        type = findViewById(R.id.problem_input_name);
+        description = findViewById(R.id.problem_input_description);
 
         suggestResultView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -108,7 +112,7 @@ public class NewProblemActivity extends Activity implements SuggestSession.Sugge
                                         .getGeoObject()
                                         .getPoint()
                                         .getPos();
-                                showMessage(coordinates);
+                                showMessage(address);
                             }
 
                             @Override
@@ -118,10 +122,14 @@ public class NewProblemActivity extends Activity implements SuggestSession.Sugge
             }
         });
 
-        problem = findViewById(R.id.btn_problem);
+
+
+
         problem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
+                problemType = problem.getText().toString();
+                problemDescription = description.getText().toString();
 
                 ProblemService.getInstance()
                         .getJSONApi()
@@ -149,14 +157,38 @@ public class NewProblemActivity extends Activity implements SuggestSession.Sugge
                                    }
 
                                }
-
                                showMessage(adminAreaName);
-
                             }
-
                             @Override
                             public void onFailure(Call<DistrictResponse> call, Throwable t) {
+                                //ошибка во время выполнения запроса
+                            }
+                        });
 
+                String [] splitedAddress = address.split(", ");
+                String street = splitedAddress[fullStreetIndex].split(" ")[streetIndex];
+                String building = splitedAddress[buildingIndex];
+
+                final Area area = new Area(adminAreaName);
+                final Address fullAddress = new Address(street, building, area);
+                final NewProblem newProblem = new NewProblem(fullAddress, problemType, problemDescription, "created", 0, coordinates);
+
+                ApplicationService.getInstance()
+                        .getJSONApi()
+                        .postNewProblemData(newProblem)
+                        .enqueue(new Callback<NewProblem>() {
+                            @Override
+                            public void onResponse(@NonNull Call<NewProblem> call, @NonNull Response<NewProblem> response) {
+                                if (response.isSuccessful()){
+                                    showMessage("Проблема отправлена успешно");
+                                }
+                                else {
+                                    showMessage("Проблема не отправлена");
+                                }
+                            }
+                            @Override
+                            public void onFailure(@NonNull Call<NewProblem> call, @NonNull Throwable t) {
+                                showMessage("Ошибка во время выполнения запроса");
                             }
                         });
             }
