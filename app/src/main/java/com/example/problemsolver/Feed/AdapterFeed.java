@@ -52,7 +52,6 @@ public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> 
 
         //glide.load(feedProblem.getStatusPic()).into(holder.status_pic);
 
-
     }
 
     @Override
@@ -63,12 +62,12 @@ public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView date, street_name, rating, description;
-        ImageView status_pic, pic;
+        //ImageView status_pic, pic;
 
         public MyViewHolder(View itemView) {
             super(itemView);
 
-            status_pic = itemView.findViewById(R.id.status_pic);
+            //status_pic = itemView.findViewById(R.id.status_pic);
             date = itemView.findViewById(R.id.date);
             street_name = itemView.findViewById(R.id.street_name);
             rating = itemView.findViewById(R.id.rating);

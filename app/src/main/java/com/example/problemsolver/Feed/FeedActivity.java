@@ -45,6 +45,7 @@ public class FeedActivity extends AppCompatActivity{
 
     private void populateRecyclerView() {
 
+
         ApplicationService.getInstance()
                 .getJSONApi()
                 .getAllProblems()
@@ -52,8 +53,14 @@ public class FeedActivity extends AppCompatActivity{
                     @Override
                     public void onResponse(@NonNull Call<List<Feed2Problem>> call, @NonNull Response<List<Feed2Problem>> response) {
                         if (response.isSuccessful()){
-                            List<Feed2Problem> allProblems = response.body();
-                            showMessage("Получили все проблемы успешно");
+                            ArrayList<Feed2Problem> allProblems = (ArrayList<Feed2Problem>) response.body();
+
+                            for (Feed2Problem problem : allProblems){
+                                FeedProblem feedProblem = new FeedProblem(problem.getCreationDate(),
+                                        problem.getAddress().getStreet(), problem.getRate().toString(), problem.getDescription());
+
+                                feedProblemArrayList.add(feedProblem);
+                            }
                         }
                         else {
                             showMessage("Проблемы не получены");
@@ -64,17 +71,15 @@ public class FeedActivity extends AppCompatActivity{
                         showMessage("Ошибка во время выполнения запроса");
                     }
                 });
-
-        //надо проверить выполняется ли запрос
-        //если да, то вывести лист в ленту
-        FeedProblem feedProblem = new FeedProblem(1, R.drawable.green_circle,  "30.08.17",  "Харченко, 16", "592", "Некоторое описание проблемы");
+        FeedProblem feedProblem = new FeedProblem("30.08.17",  "Харченко, 16", "592", "Некоторое описание проблемы");
         feedProblemArrayList.add(feedProblem);
 
-        feedProblem = new FeedProblem(2, R.drawable.green_circle,  "08.09.19", "Смольный буян, 18", "493", "Нет детских садов в округе");
+        feedProblem = new FeedProblem("08.09.19", "Смольный буян, 18", "493", "Нет детских садов в округе");
         feedProblemArrayList.add(feedProblem);
 
-        feedProblem = new FeedProblem(3, R.drawable.yellow_circle, "21.03.20", "Воскресенская, 5", "124", "С супермаркетами беда");
+        feedProblem = new FeedProblem("21.03.20", "Воскресенская, 5", "124", "С супермаркетами беда");
         feedProblemArrayList.add(feedProblem);
+
     }
 
     private void showMessage(String string){

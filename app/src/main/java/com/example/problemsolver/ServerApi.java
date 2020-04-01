@@ -47,6 +47,6 @@ public interface ServerApi {
     );
 
     @Headers("Content-Type: application/json")
-    @GET("api/problem/all")
+    @GET("/api/problem/all")
     public Call<List<Feed2Problem>> getAllProblems();
 }

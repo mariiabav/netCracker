@@ -2,30 +2,18 @@ package com.example.problemsolver.Feed;
 
 public class FeedProblem {
 
-    private int id;
-    private int statusPic;
     private String date;
     private String street;
     private String rating;
     private String description;
 
-    public FeedProblem(int id, int statusPic, String date, String street, String rating, String description) {
-        this.setId(id);
-        this.statusPic = statusPic;
+    public FeedProblem(String date, String street, String rating, String description) {
         this.date = date;
         this.street = street;
         this.rating = rating;
         this.description = description;
     }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
+/*
     public int getStatusPic() {
         return statusPic;
     }
@@ -33,7 +21,7 @@ public class FeedProblem {
     public void setStatusPic(int statusPic) {
         this.statusPic = statusPic;
     }
-
+*/
 
     public String getDate() {
         return date;

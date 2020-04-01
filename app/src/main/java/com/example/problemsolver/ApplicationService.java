@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApplicationService {
 
     private static ApplicationService mInstance;
-    private static final String BASE_URL = "https://netcrackeredu.herokuapp.com/";
+    private static final String BASE_URL = "https://netcrackeredu.herokuapp.com";
     private Retrofit mRetrofit;
 
     OkHttpClient okHttpClient = new OkHttpClient().newBuilder().addInterceptor(new Interceptor() {
