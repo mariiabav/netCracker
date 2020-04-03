@@ -1,47 +1,50 @@
 package com.example.problemsolver.Map;
 
+import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.PointF;
 import android.os.Bundle;
 
 import com.example.problemsolver.R;
-import com.yandex.mapkit.Animation;
+import com.yandex.mapkit.MapKit;
 import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.geometry.Point;
+import com.yandex.mapkit.layers.ObjectEvent;
 import com.yandex.mapkit.map.CameraPosition;
+import com.yandex.mapkit.map.CompositeIcon;
+import com.yandex.mapkit.map.IconStyle;
+import com.yandex.mapkit.map.RotationType;
 import com.yandex.mapkit.mapview.MapView;
+import com.yandex.mapkit.user_location.UserLocationLayer;
+import com.yandex.mapkit.user_location.UserLocationObjectListener;
+import com.yandex.mapkit.user_location.UserLocationView;
+import com.yandex.runtime.image.ImageProvider;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.Navigation;
 
-public class MapActivity extends AppCompatActivity {
-
-    private final Point TARGET_LOCATION = new Point(59.945933, 30.320045);
+public class MapActivity extends Activity implements UserLocationObjectListener {
 
     private MapView mapView;
+    private UserLocationLayer userLocationLayer;
+    private final String MAPKIT_API_KEY = "d57819df-534a-4ba4-89d4-430e73a03ab3";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        /**
-         * Задайте API-ключ перед инициализацией MapKitFactory.
-         * Рекомендуется устанавливать ключ в методе Application.onCreate,
-         * но в данном примере он устанавливается в activity.
-         */
-        MapKitFactory.setApiKey("d57819df-534a-4ba4-89d4-430e73a03ab3");
-        /**
-         * Инициализация библиотеки для загрузки необходимых нативных библиотек.
-         * Рекомендуется инициализировать библиотеку MapKit в методе Activity.onCreate
-         * Инициализация в методе Application.onCreate может привести к лишним вызовам и увеличенному использованию батареи.
-         */
+        MapKitFactory.setApiKey(MAPKIT_API_KEY);
         MapKitFactory.initialize(this);
-        // Создание MapView.
+
         setContentView(R.layout.activity_map);
         super.onCreate(savedInstanceState);
-        mapView = (MapView)findViewById(R.id.mapview);
+        mapView = findViewById(R.id.mapview);
 
-        // Перемещение камеры в центр Санкт-Петербурга.
-        mapView.getMap().move(
-                new CameraPosition(TARGET_LOCATION, 14.0f, 0.0f, 0.0f),
-                new Animation(Animation.Type.SMOOTH, 5),
-                null);
+        mapView.getMap().setRotateGesturesEnabled(false);
+        mapView.getMap().move(new CameraPosition(new Point(0, 0), 14, 0, 0));
+
+        MapKit mapKit = MapKitFactory.getInstance();
+        userLocationLayer = mapKit.createUserLocationLayer(mapView.getMapWindow());
+        userLocationLayer.setVisible(true);
+        userLocationLayer.setHeadingEnabled(true);
+        userLocationLayer.setObjectListener(this);
     }
 
     @Override
@@ -58,5 +61,28 @@ public class MapActivity extends AppCompatActivity {
         super.onStart();
         MapKitFactory.getInstance().onStart();
         mapView.onStart();
+    }
+
+    @Override
+    public void onObjectAdded(UserLocationView userLocationView) {
+        userLocationLayer.setAnchor(
+                new PointF((float) (mapView.getWidth() * 0.5), (float) (mapView.getHeight() * 0.5)),
+                new PointF((float) (mapView.getWidth() * 0.5), (float) (mapView.getHeight() * 0.83)));
+
+        // При определении направления движения устанавливается следующая иконка
+        userLocationView.getArrow().setIcon(ImageProvider.fromResource(
+                this, R.drawable.user_arrow));
+        // При получении координат местоположения устанавливается следующая иконка
+        userLocationView.getPin().setIcon(ImageProvider.fromResource(
+                this, R.drawable.user_arrow));
+        userLocationView.getAccuracyCircle().setFillColor(Color.rgb(236, 112, 99 ));
+    }
+
+    @Override
+    public void onObjectRemoved(UserLocationView view) {
+    }
+
+    @Override
+    public void onObjectUpdated(UserLocationView view, ObjectEvent event) {
     }
 }

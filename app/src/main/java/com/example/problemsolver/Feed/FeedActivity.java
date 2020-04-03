@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,16 +17,19 @@ import com.example.problemsolver.Feed.AdapterFeed;
 import com.example.problemsolver.Feed.FeedProblem;
 import com.example.problemsolver.R;
 import com.example.problemsolver.Registration.RegisteredPerson;
+import com.example.problemsolver.ServerApi;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FeedActivity extends AppCompatActivity{
+public class FeedActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     ArrayList<FeedProblem> feedProblemArrayList = new ArrayList<>();
     AdapterFeed adapterFeed;
+    ApplicationService applicationService;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,23 +44,24 @@ public class FeedActivity extends AppCompatActivity{
         adapterFeed = new AdapterFeed(this, feedProblemArrayList);
         recyclerView.setAdapter(adapterFeed);
 
+        applicationService = ApplicationService.getInstance();
+
         populateRecyclerView();
     }
 
     private void populateRecyclerView() {
 
-
-        ApplicationService.getInstance()
+        applicationService
                 .getJSONApi()
                 .getAllProblems()
                 .enqueue(new Callback<List<Feed2Problem>>() {
                     @Override
                     public void onResponse(@NonNull Call<List<Feed2Problem>> call, @NonNull Response<List<Feed2Problem>> response) {
-                        if (response.isSuccessful()){
+                        if (response.isSuccessful()) {
                             ArrayList<Feed2Problem> allProblems = (ArrayList<Feed2Problem>) response.body();
                             //int status = R.drawable.green_circle;
 
-                            for (Feed2Problem problem : allProblems){
+                            for (Feed2Problem problem : allProblems) {
                                 /*
                                 if (problem.getStatus().equals("created")) {
                                     status = R.drawable.red_circle;
@@ -70,11 +75,11 @@ public class FeedActivity extends AppCompatActivity{
                                 feedProblemArrayList.add(feedProblem);
                             }
                             adapterFeed.notifyDataSetChanged();
-                        }
-                        else {
+                        } else {
                             showMessage("Проблемы не получены");
                         }
                     }
+
                     @Override
                     public void onFailure(@NonNull Call<List<Feed2Problem>> call, @NonNull Throwable t) {
                         showMessage("Ошибка во время выполнения запроса");
@@ -82,10 +87,11 @@ public class FeedActivity extends AppCompatActivity{
                 });
     }
 
-    private String getDate(String fullDate){
+    private String getDate(String fullDate) {
         return fullDate;
     }
-    private void showMessage(String string){
+
+    private void showMessage(String string) {
         Toast t = Toast.makeText(this, string, Toast.LENGTH_SHORT);
         t.show();
     }

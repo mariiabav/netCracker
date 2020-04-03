@@ -11,8 +11,10 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.problemsolver.R;
@@ -31,9 +33,11 @@ import retrofit2.Response;
 public class RegistrationFragment extends Fragment {
 
     private EditText name, surname, email, number, bithdate, password;
+    private Spinner areas;
     private Button register, login;
 
-    String firstName, secondName, email1, phone, pass, bithdate1;
+    private String firstName, secondName, email1, phone, pass, bithdate1;
+    private List<String> personAreas;
 
     public RegistrationFragment() {
         // Required empty public constructor
@@ -60,6 +64,7 @@ public class RegistrationFragment extends Fragment {
         number = view.findViewById(R.id.signup_input_number);
         bithdate = view.findViewById(R.id.signup_input_bithdate);
         password = view.findViewById(R.id.signup_input_password);
+        areas = view.findViewById(R.id.spinner);
 
         register = view.findViewById(R.id.btn_signup);
         login = view.findViewById(R.id.btn_link_login);
@@ -73,14 +78,22 @@ public class RegistrationFragment extends Fragment {
                 email1 = email.getText().toString();
                 phone = number.getText().toString();
                 pass = password.getText().toString();
+
                 bithdate1 = "2020-03-24T12:17:23";
 
                 List<Role> roles = new ArrayList<>();
                 final Role role = new Role("123e4567-e89b-12d3-a456-426655440000", "ROLE_ADMIN");
                 roles.add(role);
 
+                ArrayAdapter<?> adapter =
+                        ArrayAdapter.createFromResource(getActivity(), R.array.areas, android.R.layout.simple_spinner_item);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-                final RegisteredPerson registeredPerson = new RegisteredPerson(firstName, secondName, email1, phone, pass, bithdate1, roles);
+
+               areas.setAdapter(adapter);
+               //TODO: сделать hint, множественный выбор из списка районов
+
+                final RegisteredPerson registeredPerson = new RegisteredPerson(firstName, secondName, email1, phone, pass, bithdate1, roles, personAreas);
                 //if (checkDataEntered()){
                     ApplicationService.getInstance()
                             .getJSONApi()

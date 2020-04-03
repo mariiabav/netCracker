@@ -7,4 +7,25 @@
     <string name="remote_error_message">remote_error_message</string>
     <string name="network_error_message">network_error_message</string>
 
+    <string-array name="areas">
+        <item>Адмиралтейский район</item>
+        <item>Василеостровский район</item>
+        <item>Выборгский район</item>
+        <item>Калининский район</item>
+        <item>Кировский район</item>
+        <item>Колпинский район</item>
+        <item>Красногвардейский район</item>
+        <item>Красносельский район</item>
+        <item>Кронштадтский район</item>
+        <item>Курортный район</item>
+        <item>Московский район</item>
+        <item>Невский район</item>
+        <item>Петроградский район</item>
+        <item>Петродворцовый район</item>
+        <item>Приморский район</item>
+        <item>Пушкинский район</item>
+        <item>Фрунзенский район</item>
+        <item>Центральный район</item>
+    </string-array>
+
 </resources>

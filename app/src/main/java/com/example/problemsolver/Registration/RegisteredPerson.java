@@ -35,7 +35,12 @@ public class RegisteredPerson {
     @Expose
     private String birthDate;
 
-    public RegisteredPerson(String firstName, String secondName, String email1, String phone, String password1, String bithdate1, List<Role> roles) {
+    @SerializedName("personAreas")
+    @Expose
+    private List<String> personAreas;
+
+    public RegisteredPerson(String firstName, String secondName, String email1, String phone, String password1, String bithdate1, List<Role> roles,
+                            List<String> personAreas) {
         this.firstName = firstName;
         this.secondName = secondName;
         this.email = email1;
@@ -43,6 +48,7 @@ public class RegisteredPerson {
         this.phone = phone;
         this.birthDate = bithdate1;
         this.roles = roles;
+        this.personAreas = personAreas;
     }
 
     public List<Role> getRoles() {

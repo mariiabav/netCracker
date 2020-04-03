@@ -21,13 +21,17 @@ public class NewProblem {
     @SerializedName("rate")
     @Expose
     private Integer rate;
+    @SerializedName("coordinates")
+    @Expose
+    private String coordinates;
 
-    public NewProblem(Address address, String problemName, String description, String status, Integer rate) {
+    public NewProblem(Address address, String problemName, String description, String status, Integer rate, String coordinates) {
         this.address = address;
         this.problemName = problemName;
         this.description = description;
         this.status = status;
         this.rate = rate;
+        this.coordinates = coordinates;
     }
 
     public Address getAddress() {
@@ -70,5 +74,11 @@ public class NewProblem {
         this.rate = rate;
     }
 
+    public String getCoordinates() {
+        return coordinates;
+    }
 
+    public void setCoordinates(String coordinates) {
+        this.coordinates = coordinates;
+    }
 }

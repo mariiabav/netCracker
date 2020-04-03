@@ -44,6 +44,16 @@
                 android:hint="Фамилия"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:entries="@array/areas"
+            android:hint = "Выберите район"/>
+
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/signup_input_layout_email"
             android:layout_width="match_parent"
