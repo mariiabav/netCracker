@@ -7,9 +7,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.problemsolver.ApplicationService;
@@ -30,6 +34,8 @@ public class FeedActivity extends AppCompatActivity {
     AdapterFeed adapterFeed;
     ApplicationService applicationService;
 
+    private Button popularSortBtn, newSortBtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,15 +44,36 @@ public class FeedActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
 
+        popularSortBtn = findViewById(R.id.link_sort_popular);
+        newSortBtn = findViewById(R.id.link_sort_new);
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
         adapterFeed = new AdapterFeed(this, feedProblemArrayList);
         recyclerView.setAdapter(adapterFeed);
-
         applicationService = ApplicationService.getInstance();
 
         populateRecyclerView();
+
+        newSortBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showMessage("Раз");
+                Collections.sort(feedProblemArrayList);
+                adapterFeed.notifyDataSetChanged();
+            }
+        });
+
+
+        popularSortBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showMessage("Два");
+                Collections.sort(feedProblemArrayList,FeedProblem.FeedProblemRatingComparator);
+                adapterFeed.notifyDataSetChanged();
+            }
+        });
     }
 
     private void populateRecyclerView() {
@@ -85,10 +112,6 @@ public class FeedActivity extends AppCompatActivity {
                         showMessage("Ошибка во время выполнения запроса");
                     }
                 });
-    }
-
-    private String getDate(String fullDate) {
-        return fullDate;
     }
 
     private void showMessage(String string) {

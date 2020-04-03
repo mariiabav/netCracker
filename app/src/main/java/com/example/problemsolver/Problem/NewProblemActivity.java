@@ -124,7 +124,8 @@ public class NewProblemActivity extends Activity /*implements SuggestSession.Sug
                 myLongitude = location.getPosition().getLongitude();
                 myLatitude = location.getPosition().getLatitude();
                 myLocation = new Point(myLatitude, myLongitude);
-                placemarkMapObject = mapView.getMap().getMapObjects().addPlacemark(myLocation, ImageProvider.fromResource(getApplicationContext(), R.drawable.red_geo_point));
+                placemarkMapObject = mapView.getMap().getMapObjects().addPlacemark(myLocation, ImageProvider.fromResource(getApplicationContext(), R.drawable.red_circle));
+                //ТУТ КАРТИНКА ДРУГАЯ
                 placemarkMapObject.setDraggable(true);
                 mapView.getMap().move(new CameraPosition(myLocation, 25.0f, 0.0f, 0.0f));
             }

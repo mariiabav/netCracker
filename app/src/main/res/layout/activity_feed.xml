@@ -9,8 +9,61 @@
     android:background="@color/light_grey"
     tools:context=".Feed.FeedActivity">
 
+    <LinearLayout
+        android:id="@+id/sort"
+        android:layout_width="match_parent"
+        android:background="@color/red"
+        android:layout_height="45dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true">
+
+                <Button android:id="@+id/link_sort_new"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Новые"
+                    android:background="@null"
+                    android:layout_marginTop="3dp"
+                    android:textColor="@android:color/white"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true">
+
+                <Button android:id="@+id/link_sort_popular"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Популярные"
+                    android:background="@null"
+                    android:layout_marginTop="3dp"
+                    android:textColor="@android:color/white"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
+        android:layout_below="@+id/sort"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

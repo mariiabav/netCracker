@@ -1,6 +1,8 @@
 package com.example.problemsolver.Feed;
 
-public class FeedProblem {
+import java.util.Comparator;
+
+public class FeedProblem implements Comparable<FeedProblem>{
 
     //private int statusPic;
     private String date;
@@ -56,4 +58,22 @@ public class FeedProblem {
     public void setDescription(String description) {
         this.description = description;
     }
+
+
+    @Override
+    public int compareTo(FeedProblem problem) {
+        String date = problem.getDate();
+        //<0, если аргумент большая строка
+        return date.compareTo(this.date);
+    }
+
+    public static Comparator<FeedProblem> FeedProblemRatingComparator = new Comparator<FeedProblem >() {
+        public int compare(FeedProblem problem1, FeedProblem problem2) {
+
+            String problemRating1 = problem1.getRating();
+            String problemRating2 = problem2.getRating();
+
+            return problemRating2.compareTo(problemRating1);
+        }
+    };
 }
