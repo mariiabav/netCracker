@@ -29,8 +29,8 @@ public class ApplicationService {
         }
     }).build();
 
-    private ApplicationService() {
 
+    public ApplicationService() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();

@@ -14,6 +14,7 @@ import java.util.List;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.problemsolver.ApplicationService;
@@ -23,16 +24,19 @@ import com.example.problemsolver.R;
 import com.example.problemsolver.Registration.RegisteredPerson;
 import com.example.problemsolver.ServerApi;
 
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class FeedActivity extends AppCompatActivity {
 
-    RecyclerView recyclerView;
     ArrayList<FeedProblem> feedProblemArrayList = new ArrayList<>();
     AdapterFeed adapterFeed;
     ApplicationService applicationService;
+
+
+    RecyclerView recyclerView;
 
     private Button popularSortBtn, newSortBtn;
 
@@ -60,8 +64,6 @@ public class FeedActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 showMessage("Раз");
-                Collections.sort(feedProblemArrayList);
-                adapterFeed.notifyDataSetChanged();
             }
         });
 
@@ -70,10 +72,9 @@ public class FeedActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 showMessage("Два");
-                Collections.sort(feedProblemArrayList,FeedProblem.FeedProblemRatingComparator);
-                adapterFeed.notifyDataSetChanged();
             }
         });
+
     }
 
     private void populateRecyclerView() {

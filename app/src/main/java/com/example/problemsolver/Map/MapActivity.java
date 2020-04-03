@@ -71,10 +71,10 @@ public class MapActivity extends Activity implements UserLocationObjectListener 
 
         // При определении направления движения устанавливается следующая иконка
         userLocationView.getArrow().setIcon(ImageProvider.fromResource(
-                this, R.drawable.yellow_circle)); //ТУТ КАРТИНКА ДРУГАЯ
+                this, R.drawable.user_arrow));
         // При получении координат местоположения устанавливается следующая иконка
         userLocationView.getPin().setIcon(ImageProvider.fromResource(
-                this, R.drawable.green_circle)); //ТУТ КАРТИНКА ДРУГАЯ
+                this, R.drawable.user_arrow));
         userLocationView.getAccuracyCircle().setFillColor(Color.rgb(236, 112, 99 ));
     }
 

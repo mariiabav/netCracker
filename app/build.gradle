@@ -65,4 +65,6 @@ dependencies {
 
     implementation 'androidx.navigation:navigation-fragment:2.2.1'
     implementation 'androidx.navigation:navigation-ui:2.2.1'
+
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
 }

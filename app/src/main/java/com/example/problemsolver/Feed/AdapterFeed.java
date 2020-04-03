@@ -24,11 +24,12 @@ public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> 
     ArrayList<FeedProblem> feedProblemArrayList;
     RequestManager glide;
 
+
     public AdapterFeed(Context context, ArrayList<FeedProblem> feedProblemArrayList) {
 
         this.context = context;
         this.feedProblemArrayList = feedProblemArrayList;
-        glide = Glide.with(context);
+        //glide = Glide.with(context);
     }
 
 
@@ -50,7 +51,6 @@ public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> 
         holder.description.setText(String.valueOf(feedProblem.getDescription()));
 
         //glide.load(feedProblem.getStatusPic()).into(holder.status_pic);
-
     }
 
     @Override
@@ -63,6 +63,8 @@ public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> 
         TextView date, street_name, rating, description;
         //ImageView status_pic;
 
+        private int mCurrentPosition;
+
         public MyViewHolder(View itemView) {
             super(itemView);
 
@@ -72,5 +74,6 @@ public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> 
             rating = itemView.findViewById(R.id.rating);
             description = itemView.findViewById(R.id.problem_descriprion);
         }
+
     }
 }
