@@ -40,6 +40,9 @@ public class FeedActivity extends AppCompatActivity {
 
     private Button popularSortBtn, newSortBtn;
 
+    String kindOfSort = "rate";
+    Integer pageSize = 8, pageNo = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +66,10 @@ public class FeedActivity extends AppCompatActivity {
         newSortBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showMessage("Раз");
+                pageNo = 0;
+                kindOfSort = "creationDate";
+                //showMessage("creationDate");
+                populateRecyclerView();
             }
         });
 
@@ -71,7 +77,9 @@ public class FeedActivity extends AppCompatActivity {
         popularSortBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showMessage("Два");
+                pageNo = 0;
+                kindOfSort = "rate";
+                populateRecyclerView();
             }
         });
 
@@ -81,14 +89,15 @@ public class FeedActivity extends AppCompatActivity {
 
         applicationService
                 .getJSONApi()
-                .getAllProblems()
+                .getAllProblems(pageSize, pageNo, kindOfSort)
                 .enqueue(new Callback<List<Feed2Problem>>() {
                     @Override
                     public void onResponse(@NonNull Call<List<Feed2Problem>> call, @NonNull Response<List<Feed2Problem>> response) {
+                        feedProblemArrayList.clear();
+                        showMessage(kindOfSort);
                         if (response.isSuccessful()) {
                             ArrayList<Feed2Problem> allProblems = (ArrayList<Feed2Problem>) response.body();
                             //int status = R.drawable.green_circle;
-
                             for (Feed2Problem problem : allProblems) {
                                 /*
                                 if (problem.getStatus().equals("created")) {

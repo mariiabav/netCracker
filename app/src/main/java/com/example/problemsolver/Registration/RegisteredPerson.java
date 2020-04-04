@@ -37,10 +37,10 @@ public class RegisteredPerson {
 
     @SerializedName("personAreas")
     @Expose
-    private List<String> personAreas;
+    private List<Area> personAreas;
 
     public RegisteredPerson(String firstName, String secondName, String email1, String phone, String password1, String bithdate1, List<Role> roles,
-                            List<String> personAreas) {
+                            List<Area> personAreas) {
         this.firstName = firstName;
         this.secondName = secondName;
         this.email = email1;

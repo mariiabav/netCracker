@@ -48,5 +48,9 @@ public interface ServerApi {
 
     @Headers("Content-Type: application/json")
     @GET("/api/problem/all")
-    public Call<List<Feed2Problem>> getAllProblems();
+    public Call<List<Feed2Problem>> getAllProblems(
+            @Query("pageSize") Integer pageSize,
+            @Query("pageNo") Integer pageNo,
+            @Query("sort") String creationDate
+    );
 }
