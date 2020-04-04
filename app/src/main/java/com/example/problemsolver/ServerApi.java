@@ -47,6 +47,14 @@ public interface ServerApi {
     );
 
     @Headers("Content-Type: application/json")
+    @GET("/api/problem/allmap")
+    public Call<List<Feed2Problem>> getProblems();
+
+    @Headers("Content-Type: application/json")
+    @GET("/api/problem/allmap")
+    public Call<List<NewProblem>> getAllProblems();
+
+    @Headers("Content-Type: application/json")
     @GET("/api/problem/all")
     public Call<List<Feed2Problem>> getAllProblems(
             @Query("pageSize") Integer pageSize,
