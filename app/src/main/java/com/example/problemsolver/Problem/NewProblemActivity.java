@@ -57,8 +57,9 @@ public class NewProblemActivity extends Activity /*implements SuggestSession.Sug
     private final String MAPKIT_API_KEY = "d57819df-534a-4ba4-89d4-430e73a03ab3";
     private final int RESULT_NUMBER_LIMIT = 5;
 
-    /*
+
     private SearchManager searchManager;
+    /*
     private SuggestSession suggestSession;
     private ArrayAdapter resultAdapter;
     private List<String> suggestResult;
@@ -71,12 +72,15 @@ public class NewProblemActivity extends Activity /*implements SuggestSession.Sug
     private double myLatitude;
     private double myLongitude;
 
-    private Button problem;
-    private Integer results = 1;
     private String format = "json";
     private Point myLocation;
     private PlacemarkMapObject placemarkMapObject;
 
+    private String[] splitedAddress;
+    private String street;
+    private String building;
+
+    private Button problem, test;
     private EditText type, description;
     private String problemType, problemDescription;
 
@@ -87,9 +91,7 @@ public class NewProblemActivity extends Activity /*implements SuggestSession.Sug
     private ApplicationService applicationService;
     private ProblemService problemService;
 
-    private int fullStreetIndex = 2, streetIndex = 1, buildingIndex = 3;
-
-    String API_key = "7e3eee55-cf92-4361-919e-e1666d3df1d1";
+    private final String API_KEY = "7e3eee55-cf92-4361-919e-e1666d3df1d1";
 
     /*
     private final Point CENTER = new Point(55.75, 37.62);
@@ -103,21 +105,22 @@ public class NewProblemActivity extends Activity /*implements SuggestSession.Sug
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if(checkLocationPermission() == false) {
+        super.onCreate(savedInstanceState);
+        if (checkLocationPermission() == false) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
         MapKitFactory.setApiKey(MAPKIT_API_KEY);
         MapKitFactory.initialize(this);
-        SearchFactory.initialize(this);
+        //SearchFactory.initialize(this);
         setContentView(R.layout.activity_new_problem);
-        super.onCreate(savedInstanceState);
-        applicationService = ApplicationService.getInstance();
+
         problemService = ProblemService.getInstance();
 
         //searchManager = SearchFactory.getInstance().createSearchManager(SearchManagerType.COMBINED);
         //suggestSession = searchManager.createSuggestSession();
 
         locationManager = MapKitFactory.getInstance().createLocationManager();
+
         locationManager.requestSingleUpdate(new LocationListener() {
             @Override
             public void onLocationUpdated(@NonNull Location location) {
@@ -127,6 +130,7 @@ public class NewProblemActivity extends Activity /*implements SuggestSession.Sug
                 placemarkMapObject = mapView.getMap().getMapObjects().addPlacemark(myLocation, ImageProvider.fromResource(getApplicationContext(), R.drawable.red_geo_point));
                 placemarkMapObject.setDraggable(true);
                 mapView.getMap().move(new CameraPosition(myLocation, 25.0f, 0.0f, 0.0f));
+                //showMessage(placemarkMapObject.getGeometry().getLatitude() + "");
             }
 
             @Override
@@ -138,16 +142,106 @@ public class NewProblemActivity extends Activity /*implements SuggestSession.Sug
         final EditText queryEdit = findViewById(R.id.suggest_query);
         suggestResultView = findViewById(R.id.suggest_result);
          */
-
         problem = findViewById(R.id.btn_problem);
         type = findViewById(R.id.problem_input_name);
         description = findViewById(R.id.problem_input_description);
 
+        problem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showMessage("нажалась");
+                problemType = type.getText().toString();
+                problemDescription = description.getText().toString();
+                coordinates = placemarkMapObject.getGeometry().getLongitude() + ", " + placemarkMapObject.getGeometry().getLatitude();
+                showMessage(coordinates);
+                problemService
+                        .getJSONApi()
+                        .getDistrictName(API_KEY, format, coordinates)
+                        .enqueue(new Callback<DistrictResponse>() {
+                            @Override
+                            public void onResponse(Call<DistrictResponse> call, Response<DistrictResponse> response) {
+                                List<FeatureMember> featureMembers = response.body().getResponse().getGeoObjectCollection()
+                                        .getFeatureMember();
+                                address = response.body().getResponse()
+                                        .getGeoObjectCollection()
+                                        .getFeatureMember()
+                                        .get(0)
+                                        .getGeoObject()
+                                        .getMetaDataProperty()
+                                        .getGeocoderMetaData()
+                                        .getText();
+
+                                for (FeatureMember featureMember : featureMembers) {
+                                    if (featureMember.getGeoObject()
+                                            .getMetaDataProperty()
+                                            .getGeocoderMetaData()
+                                            .getKind().contains("district")) {
+                                        adminAreaName = featureMember.getGeoObject()
+                                                .getMetaDataProperty()
+                                                .getGeocoderMetaData()
+                                                .getAddressDetails()
+                                                .getCountry()
+                                                .getAdministrativeArea()
+                                                .getLocality()
+                                                .getDependentLocality()
+                                                .getDependentLocalityName();
+                                        if(adminAreaName.split(" ")[1] == "район") {
+                                            break;
+                                        }
+                                    }
+
+                                }
+                                showMessage(adminAreaName);
+                                showMessage(address);
+
+                                splitedAddress = address.split(", ");
+                                street = splitedAddress[2];
+                                if(splitedAddress.length <= 3) {
+                                    building = "Общественное место";
+                                }
+                                else {
+                                    building = splitedAddress[3];
+                                }
+
+                                Area area = new Area(adminAreaName);
+                                Address fullAddress = new Address(street, building, area);
+                                NewProblem newProblem = new NewProblem(fullAddress, problemType, problemDescription, "created", 0, coordinates);
+
+                                ApplicationService.getInstance()
+                                        .getJSONApi()
+                                        .postNewProblemData(newProblem)
+                                        .enqueue(new Callback<NewProblem>() {
+                                            @Override
+                                            public void onResponse(@NonNull Call<NewProblem> call, @NonNull Response<NewProblem> response) {
+                                                if (response.isSuccessful()) {
+                                                    showMessage("Проблема отправлена успешно");
+                                                } else {
+                                                    showMessage("Проблема не отправлена");
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onFailure(@NonNull Call<NewProblem> call, @NonNull Throwable t) {
+                                                showMessage("Ошибка во время выполнения запроса");
+                                            }
+                                        });
+                            }
+
+                            @Override
+                            public void onFailure(Call<DistrictResponse> call, Throwable t) {
+                                //ошибка во время выполнения запроса
+                            }
+
+
+                        });
+            }
+        });
+
 
         // Создание MapView.
-        setContentView(R.layout.activity_new_problem);
-        super.onCreate(savedInstanceState);
         mapView = findViewById(R.id.map);
+
+
 
         /*
         suggestResultView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -182,132 +276,6 @@ public class NewProblemActivity extends Activity /*implements SuggestSession.Sug
         });
          */
 
-
-        problem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                problemType = type.getText().toString();
-                problemDescription = description.getText().toString();
-                coordinates = placemarkMapObject.getGeometry().getLatitude() + ", " + placemarkMapObject.getGeometry().getLongitude();
-                showMessage(coordinates);
-                /*
-                problemService
-                        .getJSONApi()
-                        .getDistrictName(API_key, format, coordinates)
-                        .enqueue(new Callback<DistrictResponse>() {
-                            @Override
-                            public void onResponse(Call<DistrictResponse> call, Response<DistrictResponse> response) {
-                                List<FeatureMember> featureMembers = response.body().getResponse().getGeoObjectCollection()
-                                        .getFeatureMember();
-                               for(FeatureMember featureMember : featureMembers) {
-                                   if(featureMember.getGeoObject()
-                                   .getMetaDataProperty()
-                                   .getGeocoderMetaData()
-                                   .getKind().contains("district")) {
-                                       adminAreaName = featureMember.getGeoObject()
-                                               .getMetaDataProperty()
-                                               .getGeocoderMetaData()
-                                               .getAddressDetails()
-                                               .getCountry()
-                                               .getAdministrativeArea()
-                                               .getLocality()
-                                               .getDependentLocality()
-                                               .getDependentLocalityName();
-                                       break;
-                                   }
-
-                               }
-                            }
-
-
-
-
-
-                            @Override
-                            public void onFailure(Call<DistrictResponse> call, Throwable t) {
-                                //ошибка во время выполнения запроса
-                            }
-
-
-                        }); */
-                problemService
-                        .getJSONApi()
-                        .getDistrictName(API_key, format, coordinates)
-                        .enqueue(new Callback<DistrictResponse>() {
-                                     @Override
-                                     public void onResponse(Call<DistrictResponse> call, Response<DistrictResponse> response) {
-                                         if (response.isSuccessful()) {
-                                             List<FeatureMember> featureMembers = response.body().getResponse().getGeoObjectCollection()
-                                                     .getFeatureMember();
-                                             for (FeatureMember featureMember : featureMembers) {
-                                                 if (featureMember.getGeoObject()
-                                                         .getMetaDataProperty()
-                                                         .getGeocoderMetaData()
-                                                         .getKind().contains("district")) {
-                                                     adminAreaName = featureMember.getGeoObject()
-                                                             .getMetaDataProperty()
-                                                             .getGeocoderMetaData()
-                                                             .getAddressDetails()
-                                                             .getCountry()
-                                                             .getAdministrativeArea()
-                                                             .getLocality()
-                                                             .getDependentLocality()
-                                                             .getDependentLocalityName();
-                                                     break;
-                                                 }
-                                             }
-
-                                             address = response.body().getResponse()
-                                                     .getGeoObjectCollection()
-                                                     .getFeatureMember()
-                                                     .get(0)
-                                                     .getGeoObject()
-                                                     .getMetaDataProperty()
-                                                     .getGeocoderMetaData()
-                                                     .getText();
-                                             showMessage("Инфа получена");
-                                         }
-                                        else {
-                                            showMessage("что-то не так");
-                                         }
-                                     }
-
-                                     @Override
-                                     public void onFailure(Call<DistrictResponse> call, Throwable t) {
-                                         showMessage("Инфа не получена");
-                                     }
-                                 });
-
-
-                String[] splitedAddress = address.split(", ");
-                String street = splitedAddress[fullStreetIndex].split(" ")[streetIndex];
-                String building = splitedAddress[buildingIndex];
-
-                final Area area = new Area(adminAreaName);
-                final Address fullAddress = new Address(street, building, area);
-                final NewProblem newProblem = new NewProblem(fullAddress, problemType, problemDescription, "created", 0, coordinates);
-
-                applicationService
-                        .getJSONApi()
-                        .postNewProblemData(newProblem)
-                        .enqueue(new Callback<NewProblem>() {
-                            @Override
-                            public void onResponse(@NonNull Call<NewProblem> call, @NonNull Response<NewProblem> response) {
-                                if (response.isSuccessful()){
-                                    showMessage("Проблема отправлена успешно");
-                                }
-                                else {
-                                    showMessage("Проблема не отправлена");
-                                }
-                            }
-                            @Override
-                            public void onFailure(@NonNull Call<NewProblem> call, @NonNull Throwable t) {
-                                showMessage("Ошибка во время выполнения запроса");
-                            }
-                        });
-            }
-        });
-
         /*
         suggestResult = new ArrayList<>();
         resultAdapter = new ArrayAdapter(this,
@@ -341,7 +309,6 @@ public class NewProblemActivity extends Activity /*implements SuggestSession.Sug
         MapKitFactory.getInstance().onStop();
         super.onStop();
     }
-
 
     @Override
     protected void onStart() {
@@ -380,8 +347,7 @@ public class NewProblemActivity extends Activity /*implements SuggestSession.Sug
         t.show();
     }
 
-    public boolean checkLocationPermission()
-    {
+    public boolean checkLocationPermission() {
         String permission = "android.permission.ACCESS_FINE_LOCATION";
         int res = this.checkCallingOrSelfPermission(permission);
         return (res == PackageManager.PERMISSION_GRANTED);
