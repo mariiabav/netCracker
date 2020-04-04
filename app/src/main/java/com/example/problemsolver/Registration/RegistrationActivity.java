@@ -39,7 +39,7 @@ public class RegistrationActivity extends AppCompatActivity {
     TextView areas;
 
     private String firstName, secondName, email1, phone, pass, bithday;
-    private List<Area> personAreas;
+    private List<Area> personAreas =  new ArrayList<>();
 
     TextView currentDateTime;
     Calendar dateAndTime = Calendar.getInstance();
@@ -103,13 +103,11 @@ public class RegistrationActivity extends AppCompatActivity {
                 final Role role = new Role("123e4567-e89b-12d3-a456-426655440000", "ROLE_ADMIN");
                 roles.add(role);
 
-                //Area a = new Area("Выборгский район");
-                //personAreas.add(a);
-/*
                 for (String area: checkedAreas){
                     personAreas.add(new Area(area));
                 }
-*/
+
+
 
                 final RegisteredPerson registeredPerson = new RegisteredPerson(firstName, secondName, email1, phone, pass, serverDate, roles, personAreas);
                 //if (checkDataEntered()){
@@ -133,9 +131,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                 showMessage("Ошибка во время выполнения запроса");
                             }
                         });
-//}
-
-
+                //}
             }
         });
 
