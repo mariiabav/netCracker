@@ -28,4 +28,12 @@
         <item>Центральный район</item>
     </string-array>
 
+    <string name="error_msg">Ошибка! Не удаётся загрузить проблемы</string>
+    <string name="btn_retry">Повторите попытку</string>
+    <string name="error_msg_no_internet">Отсутствует интернет соединение</string>
+    <string name="error_msg_timeout">Слишком долгий ответ от сервера</string>
+    <string name="error_msg_unknown">Прозошла неизвестная ошибка</string>
+    <string name="tap_to_reload">Нажмите для обновления</string>
+    <string name="menu_refresh">Обновить</string>
+
 </resources>

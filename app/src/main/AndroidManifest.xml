@@ -18,7 +18,7 @@
         <activity android:name=".Problem.NewProblemActivity" />
         <activity android:name=".Feed.FeedActivity" />
         <activity android:name=".Map.MapActivity" />
-        <activity android:name=".Main.MainActivity">
+        <activity android:name=".Main.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

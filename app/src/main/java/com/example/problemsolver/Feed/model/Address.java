@@ -1,5 +1,4 @@
-
-package com.example.problemsolver.Feed;
+package com.example.problemsolver.Feed.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -62,4 +61,8 @@ public class Address {
         this.building = building;
     }
 
+    @Override
+    public String toString() {
+        return street + ", " + building;
+    }
 }

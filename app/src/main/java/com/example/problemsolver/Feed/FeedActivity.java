@@ -1,47 +1,61 @@
 package com.example.problemsolver.Feed;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
+
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.example.problemsolver.ApplicationService;
-import com.example.problemsolver.Feed.AdapterFeed;
-import com.example.problemsolver.Feed.FeedProblem;
+import com.example.problemsolver.Feed.model.Feed2Problem;
+import com.example.problemsolver.Feed.model.FeedResponse;
+import com.example.problemsolver.Feed.utils.PaginationAdapterCallback;
+import com.example.problemsolver.Feed.utils.PaginationScrollListener;
 import com.example.problemsolver.R;
-import com.example.problemsolver.Registration.RegisteredPerson;
 import com.example.problemsolver.ServerApi;
 
+import java.util.List;
+import java.util.concurrent.TimeoutException;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FeedActivity extends AppCompatActivity {
+public class FeedActivity extends AppCompatActivity implements PaginationAdapterCallback {
 
-    ArrayList<FeedProblem> feedProblemArrayList = new ArrayList<>();
-    AdapterFeed adapterFeed;
-    ApplicationService applicationService;
+    private static final String TAG = "FeedActivity";
 
+    private PaginationAdapter adapter;
+    private LinearLayoutManager linearLayoutManager;
+    private RecyclerView rv;
+    private ProgressBar progressBar;
+    private LinearLayout errorLayout;
+    private Button btnRetry;
+    private TextView txtError;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
-    RecyclerView recyclerView;
+    private static final int PAGE_START = 0;
 
-    private Button popularSortBtn, newSortBtn;
+    private boolean isLoading = false;
+    private boolean isLastPage = false;
 
-    String kindOfSort = "rate";
-    Integer pageSize = 8, pageNo = 0;
+    private int total_pages;
+    private int currentPage = PAGE_START;
+
+    private ServerApi serverApi;
 
 
     @Override
@@ -49,83 +63,192 @@ public class FeedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
 
-        recyclerView = findViewById(R.id.recyclerView);
+        rv = findViewById(R.id.main_recycler);
+        progressBar = findViewById(R.id.main_progress);
+        errorLayout = findViewById(R.id.error_layout);
+        btnRetry = findViewById(R.id.error_btn_retry);
+        txtError = findViewById(R.id.error_txt_cause);
+        swipeRefreshLayout = findViewById(R.id.main_swiperefresh);
 
-        popularSortBtn = findViewById(R.id.link_sort_popular);
-        newSortBtn = findViewById(R.id.link_sort_new);
+        adapter = new PaginationAdapter(this);
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+        linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        rv.setLayoutManager(linearLayoutManager);
+        rv.setItemAnimator(new DefaultItemAnimator());
 
-        adapterFeed = new AdapterFeed(this, feedProblemArrayList);
-        recyclerView.setAdapter(adapterFeed);
-        applicationService = ApplicationService.getInstance();
+        rv.setAdapter(adapter);
 
-        populateRecyclerView();
-
-        newSortBtn.setOnClickListener(new View.OnClickListener() {
+        rv.addOnScrollListener(new PaginationScrollListener(linearLayoutManager) {
             @Override
-            public void onClick(View view) {
-                pageNo = 0;
-                kindOfSort = "creationDate";
-                //showMessage("creationDate");
-                populateRecyclerView();
+            protected void loadMoreItems() {
+                isLoading = true;
+                currentPage += 1;
+
+                loadNextPage();
+            }
+
+            @Override
+            public boolean isLastPage() {
+                return isLastPage;
+            }
+
+            @Override
+            public boolean isLoading() {
+                return isLoading;
             }
         });
 
+        serverApi = ApplicationService.getInstance().getJSONApi();
 
-        popularSortBtn.setOnClickListener(new View.OnClickListener() {
+        loadFirstPage();
+
+        btnRetry.setOnClickListener(view -> loadFirstPage());
+
+        swipeRefreshLayout.setOnRefreshListener(this::doRefresh);
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_refresh:
+                swipeRefreshLayout.setRefreshing(true);
+                doRefresh();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void doRefresh() {
+        progressBar.setVisibility(View.VISIBLE);
+        if (callTopRatedMoviesApi().isExecuted())
+            callTopRatedMoviesApi().cancel();
+
+        adapter.getProblems().clear();
+        adapter.notifyDataSetChanged();
+        currentPage = 0;
+        isLastPage = false;
+        loadFirstPage();
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    private void loadFirstPage() {
+        Log.d(TAG, "loadFirstPage: ");
+
+        hideErrorView();
+        currentPage = PAGE_START;
+
+        callTopRatedMoviesApi().enqueue(new Callback<FeedResponse>() {
             @Override
-            public void onClick(View view) {
-                pageNo = 0;
-                kindOfSort = "rate";
-                populateRecyclerView();
+            public void onResponse(Call<FeedResponse> call, Response<FeedResponse> response) {
+                hideErrorView();
+
+                List<Feed2Problem> results = fetchResults(response);
+                total_pages = response.body().getPagesLimit();
+                progressBar.setVisibility(View.GONE);
+                adapter.addAll(results);
+                if(currentPage <= total_pages) {
+                    adapter.addLoadingFooter();
+                }
+                else {
+                    isLastPage = true;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FeedResponse> call, Throwable t) {
+                t.printStackTrace();
+                showErrorView(t);
             }
         });
-
     }
 
-    private void populateRecyclerView() {
 
-        applicationService
-                .getJSONApi()
-                .getAllProblems(pageSize, pageNo, kindOfSort)
-                .enqueue(new Callback<List<Feed2Problem>>() {
-                    @Override
-                    public void onResponse(@NonNull Call<List<Feed2Problem>> call, @NonNull Response<List<Feed2Problem>> response) {
-                        feedProblemArrayList.clear();
-                        showMessage(kindOfSort);
-                        if (response.isSuccessful()) {
-                            ArrayList<Feed2Problem> allProblems = (ArrayList<Feed2Problem>) response.body();
-                            //int status = R.drawable.green_circle;
-                            for (Feed2Problem problem : allProblems) {
-                                /*
-                                if (problem.getStatus().equals("created")) {
-                                    status = R.drawable.red_circle;
-                                }
-                                */
-
-                                String date = problem.getCreationDate().split("T")[0];
-                                FeedProblem feedProblem = new FeedProblem(date, problem.getAddress().getStreet() + ", " + problem.getAddress().getBuilding(),
-                                        problem.getRate().toString(), problem.getDescription());
-
-                                feedProblemArrayList.add(feedProblem);
-                            }
-                            adapterFeed.notifyDataSetChanged();
-                        } else {
-                            showMessage("Проблемы не получены");
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(@NonNull Call<List<Feed2Problem>> call, @NonNull Throwable t) {
-                        showMessage("Ошибка во время выполнения запроса");
-                    }
-                });
+    private List<Feed2Problem> fetchResults(Response<FeedResponse> response) {
+        List<Feed2Problem> feed2ProblemList = response.body().getFeed2ProblemList();
+        return feed2ProblemList;
     }
 
-    private void showMessage(String string) {
-        Toast t = Toast.makeText(this, string, Toast.LENGTH_SHORT);
-        t.show();
+    private void loadNextPage() {
+        Log.d(TAG, "loadNextPage: " + currentPage);
+
+        callTopRatedMoviesApi().enqueue(new Callback<FeedResponse>() {
+            @Override
+            public void onResponse(Call<FeedResponse> call, Response<FeedResponse> response) {
+
+                adapter.removeLoadingFooter();
+                isLoading = false;
+
+                List<Feed2Problem> results = fetchResults(response);
+                adapter.addAll(results);
+                if(currentPage != total_pages) {
+                    adapter.addLoadingFooter();
+                }
+                else {
+                    isLastPage = true;
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<FeedResponse> call, Throwable t) {
+                t.printStackTrace();
+                adapter.showRetry(true, fetchErrorMessage(t));
+            }
+        });
+    }
+
+    private Call<FeedResponse> callTopRatedMoviesApi() {
+        return serverApi.getAllProblems(
+                8,
+                currentPage,
+                "rate"
+        );
+    }
+
+
+    @Override
+    public void retryPageLoad() {
+        loadNextPage();
+    }
+
+    private void showErrorView(Throwable throwable) {
+
+        if (errorLayout.getVisibility() == View.GONE) {
+            errorLayout.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
+
+            txtError.setText(fetchErrorMessage(throwable));
+        }
+    }
+
+    private String fetchErrorMessage(Throwable throwable) {
+        String errorMsg = getResources().getString(R.string.error_msg_unknown);
+
+        if (!isNetworkConnected()) {
+            errorMsg = getResources().getString(R.string.error_msg_no_internet);
+        } else if (throwable instanceof TimeoutException) {
+            errorMsg = getResources().getString(R.string.error_msg_timeout);
+        }
+
+        return errorMsg;
+    }
+
+    private void hideErrorView() {
+        if (errorLayout.getVisibility() == View.VISIBLE) {
+            errorLayout.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null;
     }
 }

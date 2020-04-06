@@ -1,5 +1,7 @@
 package com.example.problemsolver;
 
+import com.google.android.gms.common.api.Api;
+
 import java.io.IOException;
 
 import okhttp3.Credentials;
@@ -44,7 +46,7 @@ public class ApplicationService {
     } //с помощью билдера теперь можем преобразовывать json данные с помощью Gson
 
 
-    public static ApplicationService getInstance() { //должен быть singleton-объектом
+    public static synchronized ApplicationService getInstance() { //должен быть singleton-объектом
         if (mInstance == null) {
             mInstance = new ApplicationService();
         }

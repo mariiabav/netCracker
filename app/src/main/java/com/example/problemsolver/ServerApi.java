@@ -1,7 +1,8 @@
 package com.example.problemsolver;
 
 
-import com.example.problemsolver.Feed.Feed2Problem;
+import com.example.problemsolver.Feed.model.Feed2Problem;
+import com.example.problemsolver.Feed.model.FeedResponse;
 import com.example.problemsolver.Problem.Models.DistrictResponse.DistrictResponse;
 import com.example.problemsolver.Problem.Models.NewProblemResponse.RegionDataResponse;
 import com.example.problemsolver.Problem.NewProblem;
@@ -46,9 +47,6 @@ public interface ServerApi {
             @Body NewProblem newProblem
     );
 
-    @Headers("Content-Type: application/json")
-    @GET("/api/problem/allmap")
-    public Call<List<Feed2Problem>> getProblems();
 
     @Headers("Content-Type: application/json")
     @GET("/api/problem/allmap")
@@ -56,7 +54,7 @@ public interface ServerApi {
 
     @Headers("Content-Type: application/json")
     @GET("/api/problem/all")
-    public Call<List<Feed2Problem>> getAllProblems(
+    public Call<FeedResponse>getAllProblems(
             @Query("pageSize") Integer pageSize,
             @Query("pageNo") Integer pageNo,
             @Query("sort") String creationDate

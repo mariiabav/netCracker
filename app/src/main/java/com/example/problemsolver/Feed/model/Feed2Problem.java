@@ -1,8 +1,9 @@
-
-package com.example.problemsolver.Feed;
+package com.example.problemsolver.Feed.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.Objects;
 
 public class Feed2Problem {
 
@@ -27,6 +28,9 @@ public class Feed2Problem {
     @SerializedName("creationDate")
     @Expose
     private String creationDate;
+    @SerializedName("coordinates")
+    @Expose
+    private String coordinates;
 
     public String getId() {
         return id;
@@ -84,4 +88,25 @@ public class Feed2Problem {
         this.creationDate = creationDate;
     }
 
+    public String getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(String coordinates) {
+        this.coordinates = coordinates;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Feed2Problem that = (Feed2Problem) o;
+        return id.equals(that.id) &&
+                coordinates.equals(that.coordinates);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, coordinates);
+    }
 }
