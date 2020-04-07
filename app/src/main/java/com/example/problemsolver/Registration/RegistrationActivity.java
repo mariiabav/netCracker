@@ -50,35 +50,46 @@ public class RegistrationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registration);
 
         currentDateTime = findViewById(R.id.currentDateTime);
-
         name = findViewById(R.id.signup_input_name);
         surname = findViewById(R.id.signup_input_surname);
         email = findViewById(R.id.signup_input_email);
         number = findViewById(R.id.signup_input_number);
         areas = findViewById(R.id.checked_areas);
-
-
         password = findViewById(R.id.signup_input_password);
-
         register = findViewById(R.id.btn_signup);
         login = findViewById(R.id.btn_link_login);
-
         areaList = findViewById(R.id.btn_link_area_list);
 
         areaList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
                 Intent intent = new Intent(RegistrationActivity.this, AreasActivity.class);
+
+                intent.putExtra("name",  name.getText().toString());
+                intent.putExtra("lastName",   surname.getText().toString());
+                intent.putExtra("email",  email.getText().toString());
+                intent.putExtra("number", number.getText().toString());
+                intent.putExtra("date",  DateUtils.formatDateTime(RegistrationActivity.this, dateAndTime.getTimeInMillis(),
+                        DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_YEAR));
+
                 startActivity(intent);
             }
         });
 
         final ArrayList<String> checkedAreas = getIntent().getStringArrayListExtra("checkedAreas");
+        name.setText(getIntent().getStringExtra("name"));
+        surname.setText(getIntent().getStringExtra("lastName"));
+        email.setText(getIntent().getStringExtra("email"));
+        number.setText(getIntent().getStringExtra("number"));
+        //currentDateTime.setText(getIntent().getStringExtra("date"));
+
+
+
 
         String stringAreas = "";
         if (checkedAreas != null){
             for (String area: checkedAreas) {
-                stringAreas += area.split(" ")[0] + " ";
+                stringAreas += area.split(" ")[0] + "\n";
             }
             areas.setText(stringAreas);
         }
@@ -134,7 +145,6 @@ public class RegistrationActivity extends AppCompatActivity {
                 //}
             }
         });
-
     }
 
 

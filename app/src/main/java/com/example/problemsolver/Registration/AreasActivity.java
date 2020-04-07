@@ -22,8 +22,8 @@ public class AreasActivity extends AppCompatActivity {
 
     ListView lvMain;
     String[] allAreas;
-    ArrayList<String> checkedAreas = new ArrayList<String>();
-
+    ArrayList<String> checkedAreas = new ArrayList<>();
+    String name, lastName, email, number, date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +42,11 @@ public class AreasActivity extends AppCompatActivity {
 
         Button btnChecked = findViewById(R.id.btnChecked);
 
+        name = getIntent().getStringExtra("name");
+        lastName = getIntent().getStringExtra("lastName");
+        email = getIntent().getStringExtra("email");
+        number = getIntent().getStringExtra("number");
+        date = getIntent().getStringExtra("date");
 
         // получаем массив из файла ресурсов
         allAreas = getResources().getStringArray(R.array.areas);
@@ -57,7 +62,15 @@ public class AreasActivity extends AppCompatActivity {
                 }
 
                 Intent intent = new Intent(AreasActivity.this, RegistrationActivity.class);
-                intent.putExtra("checkedAreas", checkedAreas);
+                if (checkedAreas.size() != 0){
+                    intent.putExtra("checkedAreas", checkedAreas);
+                }
+
+                intent.putExtra("name", name);
+                intent.putExtra("lastName", lastName);
+                intent.putExtra("email", email);
+                intent.putExtra("number", number);
+                //intent.putExtra("date", date);
                 startActivity(intent);
             }
         });
