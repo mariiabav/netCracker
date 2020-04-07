@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_menuFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_newOrganizationActivity"
+            app:destination="@id/newOrganizationActivity" />
     </fragment>
     <activity
         android:id="@+id/mapActivity"
@@ -50,4 +53,9 @@
         android:name="com.example.problemsolver.Main.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" />
+    <activity
+        android:id="@+id/newOrganizationActivity"
+        android:name="com.example.problemsolver.NewOrganizationActivity"
+        android:label="activity_new_organization"
+        tools:layout="@layout/activity_new_organization" />
 </navigation>

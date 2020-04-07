@@ -12,7 +12,7 @@ import com.example.problemsolver.R;
 
 public class MenuFragment extends Fragment {
 
-    private Button register, login, problem, feed, map;
+    private Button register, login, problem, feed, map, organization;
 
     public MenuFragment() {
         // Required empty public constructor
@@ -33,6 +33,7 @@ public class MenuFragment extends Fragment {
         problem = view.findViewById(R.id.btn_third);
         feed = view.findViewById(R.id.btn_forth);
         map = view.findViewById(R.id.btn_fifth);
+        organization = view.findViewById(R.id.btn_sixth);
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +67,13 @@ public class MenuFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Navigation.findNavController(view).navigate(R.id.mapActivity);
+            }
+        });
+
+        organization.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.newOrganizationActivity);
             }
         });
         return view;
