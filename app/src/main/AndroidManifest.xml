@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".NewOrganizationActivity"></activity>
+        <activity android:name=".Organization.NewOrganizationActivity"></activity>
         <activity android:name=".Registration.AreasActivity" />
         <activity android:name=".Registration.RegistrationActivity" />
         <activity android:name=".Problem.NewProblemActivity" />

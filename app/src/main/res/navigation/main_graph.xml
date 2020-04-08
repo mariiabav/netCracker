@@ -55,7 +55,7 @@
         tools:layout="@layout/fragment_login" />
     <activity
         android:id="@+id/newOrganizationActivity"
-        android:name="com.example.problemsolver.NewOrganizationActivity"
+        android:name="com.example.problemsolver.Organization.NewOrganizationActivity"
         android:label="activity_new_organization"
         tools:layout="@layout/activity_new_organization" />
 </navigation>

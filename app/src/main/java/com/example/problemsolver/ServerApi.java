@@ -1,10 +1,10 @@
 package com.example.problemsolver;
 
 
-import com.example.problemsolver.Feed.model.Feed2Problem;
 import com.example.problemsolver.Feed.model.FeedResponse;
-import com.example.problemsolver.Problem.Models.DistrictResponse.DistrictResponse;
-import com.example.problemsolver.Problem.Models.NewProblemResponse.RegionDataResponse;
+import com.example.problemsolver.Organization.RegisteredOrganization;
+import com.example.problemsolver.Map.Models.DistrictResponse.DistrictResponse;
+import com.example.problemsolver.Map.Models.NewProblemResponse.RegionDataResponse;
 import com.example.problemsolver.Problem.NewProblem;
 import com.example.problemsolver.Registration.RegisteredPerson;
 
@@ -23,6 +23,12 @@ public interface ServerApi {
     @POST("/api/person/register")
     public Call<RegisteredPerson> postRegistedPersonData(
             @Body RegisteredPerson registeredPerson
+    );
+
+    @Headers("Content-Type: application/json")
+    @POST("/api/org/create") //вставить нормальное название серверного метода
+    public Call<RegisteredOrganization> postRegistedOrgData(
+            @Body RegisteredOrganization registeredOrg
     );
 
     @Headers("Content-Type: application/json")

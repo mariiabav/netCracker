@@ -2,23 +2,18 @@ package com.example.problemsolver.Registration;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.Navigation;
 
 import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Patterns;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.problemsolver.ApplicationService;
@@ -38,7 +33,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private Button register, login, date, areaList;
     TextView areas;
 
-    private String firstName, secondName, email1, phone, pass, bithday;
+    private String firstName, secondName, email1, phone, pass, birthday;
     private List<Area> personAreas =  new ArrayList<>();
 
     TextView currentDateTime;
@@ -102,9 +97,9 @@ public class RegistrationActivity extends AppCompatActivity {
                 email1 = email.getText().toString();
                 phone = number.getText().toString();
                 pass = password.getText().toString();
-                bithday = DateUtils.formatDateTime(RegistrationActivity.this, dateAndTime.getTimeInMillis(), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_YEAR);
+                birthday = DateUtils.formatDateTime(RegistrationActivity.this, dateAndTime.getTimeInMillis(), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_YEAR);
 
-                String [] date = bithday.split("\\.");
+                String [] date = birthday.split("\\.");
                 String day = date[0];
                 String month = date[1];
                 String year = date[2];

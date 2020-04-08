@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
-    tools:context=".NewOrganizationActivity">
+    tools:context=".Organization.NewOrganizationActivity">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/org_input_layout_name"
@@ -32,19 +32,6 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Описание организации"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/org_input_layout_address"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
-        <EditText
-            android:id="@+id/org_input_address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Введите адрес ручками. ТУТ БУДЕТ КАРТА"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -75,12 +62,30 @@
     </com.google.android.material.textfield.TextInputLayout>
 
 
+    <TextView
+        android:id="@+id/suggest_query"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="Укажите место на карте"/>
+
+    <!--  <ListView
+         android:id="@+id/suggest_result"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:visibility="invisible" /> -->
+    <com.yandex.mapkit.mapview.MapView
+        android:layout_marginTop="10dp"
+        android:id="@+id/map"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <Button android:id="@+id/btn_signup"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Зарегистировать организацию"
         android:background="@color/red"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="10dp"
         android:textColor="@android:color/white"/>
 
 </LinearLayout>

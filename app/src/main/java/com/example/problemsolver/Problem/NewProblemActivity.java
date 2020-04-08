@@ -5,26 +5,18 @@ import androidx.annotation.NonNull;
 import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.graphics.PointF;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.problemsolver.ApplicationService;
-import com.example.problemsolver.Problem.Models.DistrictResponse.DistrictResponse;
-import com.example.problemsolver.Problem.Models.DistrictResponse.FeatureMember;
-import com.example.problemsolver.Problem.Models.NewProblemResponse.RegionDataResponse;
+import com.example.problemsolver.Map.Models.DistrictResponse.DistrictResponse;
+import com.example.problemsolver.Map.Models.DistrictResponse.FeatureMember;
+import com.example.problemsolver.MapService;
 import com.example.problemsolver.R;
 import com.yandex.mapkit.MapKitFactory;
-import com.yandex.mapkit.geometry.BoundingBox;
 import com.yandex.mapkit.geometry.Point;
 
 import com.yandex.mapkit.location.Location;
@@ -34,20 +26,15 @@ import com.yandex.mapkit.location.LocationStatus;
 import com.yandex.mapkit.map.CameraPosition;
 import com.yandex.mapkit.map.PlacemarkMapObject;
 import com.yandex.mapkit.mapview.MapView;
-import com.yandex.mapkit.search.SearchFactory;
 import com.yandex.mapkit.search.SearchManager;
-import com.yandex.mapkit.search.SearchManagerType;
-import com.yandex.mapkit.search.SuggestItem;
-import com.yandex.mapkit.search.SuggestOptions;
-import com.yandex.mapkit.search.SuggestSession;
-import com.yandex.mapkit.search.SuggestType;
-import com.yandex.runtime.Error;
 import com.yandex.runtime.image.ImageProvider;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.core.app.ActivityCompat;
+
+import org.jetbrains.annotations.NotNull;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -89,7 +76,7 @@ public class NewProblemActivity extends Activity /*implements SuggestSession.Sug
     private String adminAreaName;
 
     private ApplicationService applicationService;
-    private ProblemService problemService;
+    private MapService mapService;
 
     private final String API_KEY = "7e3eee55-cf92-4361-919e-e1666d3df1d1";
 
@@ -106,7 +93,7 @@ public class NewProblemActivity extends Activity /*implements SuggestSession.Sug
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (checkLocationPermission() == false) {
+        if (!checkLocationPermission()) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
         MapKitFactory.setApiKey(MAPKIT_API_KEY);
@@ -114,7 +101,7 @@ public class NewProblemActivity extends Activity /*implements SuggestSession.Sug
         //SearchFactory.initialize(this);
         setContentView(R.layout.activity_new_problem);
 
-        problemService = ProblemService.getInstance();
+        mapService = MapService.getInstance();
 
         //searchManager = SearchFactory.getInstance().createSearchManager(SearchManagerType.COMBINED);
         //suggestSession = searchManager.createSuggestSession();
@@ -145,6 +132,7 @@ public class NewProblemActivity extends Activity /*implements SuggestSession.Sug
         problem = findViewById(R.id.btn_problem);
         type = findViewById(R.id.problem_input_name);
         description = findViewById(R.id.problem_input_description);
+        mapView = findViewById(R.id.map);
 
         problem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,7 +142,7 @@ public class NewProblemActivity extends Activity /*implements SuggestSession.Sug
                 problemDescription = description.getText().toString();
                 coordinates = placemarkMapObject.getGeometry().getLongitude() + ", " + placemarkMapObject.getGeometry().getLatitude();
                 showMessage(coordinates);
-                problemService
+                mapService
                         .getJSONApi()
                         .getDistrictName(API_KEY, format, coordinates)
                         .enqueue(new Callback<DistrictResponse>() {
@@ -185,7 +173,7 @@ public class NewProblemActivity extends Activity /*implements SuggestSession.Sug
                                                 .getLocality()
                                                 .getDependentLocality()
                                                 .getDependentLocalityName();
-                                        if(adminAreaName.split(" ")[1] == "район") {
+                                        if(adminAreaName.split(" ")[1].equals("район")) {
                                             break;
                                         }
                                     }
@@ -228,7 +216,7 @@ public class NewProblemActivity extends Activity /*implements SuggestSession.Sug
                             }
 
                             @Override
-                            public void onFailure(Call<DistrictResponse> call, Throwable t) {
+                            public void onFailure(@NotNull Call<DistrictResponse> call, @NotNull Throwable t) {
                                 //ошибка во время выполнения запроса
                             }
 
@@ -238,8 +226,6 @@ public class NewProblemActivity extends Activity /*implements SuggestSession.Sug
         });
 
 
-        // Создание MapView.
-        mapView = findViewById(R.id.map);
 
 
 
