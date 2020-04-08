@@ -1,6 +1,7 @@
 package com.example.problemsolver.Feed;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +10,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.problemsolver.Feed.model.Feed2Problem;
 import com.example.problemsolver.Feed.utils.PaginationAdapterCallback;
+import com.example.problemsolver.ProblemPageActivity;
 import com.example.problemsolver.R;
 
 import java.util.ArrayList;
@@ -74,7 +77,6 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         switch (getItemViewType(position)) {
 
-
             case ITEM:
                 final ProblemVH problemVH = (ProblemVH) holder;
 
@@ -82,6 +84,17 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 problemVH.mDate.setText(result.getCreationDate().substring(0, 10));
                 problemVH.mProblemDesc.setText(result.getProblemName());
                 problemVH.mRate.setText("Рейтинг: " + result.getRate().toString());
+
+                problemVH.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(view.getContext(), ProblemPageActivity.class);
+                        intent.putExtra(ProblemPageActivity.EXTRA_POS, position);
+                        view.getContext().startActivity(intent);
+                    }
+                });
+
+
                 break;
 
             case LOADING:
@@ -102,6 +115,11 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 }
                 break;
         }
+    }
+
+    private void showMessage(String string){
+        Toast t = Toast.makeText(context.getApplicationContext(), string, Toast.LENGTH_SHORT);
+        t.show();
     }
 
     @Override
@@ -178,6 +196,8 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         private TextView mDate;
         private TextView mRate;
         private ImageView mProblemImg;
+        private ImageButton mPageProblem;
+
         private ProgressBar mProgress;
 
         public ProblemVH(View itemView) {
@@ -188,6 +208,7 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             mDate = itemView.findViewById(R.id.date);
             mRate = itemView.findViewById(R.id.rating);
             mProblemImg = itemView.findViewById(R.id.status_pic);
+            mPageProblem = itemView.findViewById(R.id.problem_page_btn);
         }
     }
 

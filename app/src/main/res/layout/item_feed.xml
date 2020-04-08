@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
     android:background="@color/white"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -70,8 +69,8 @@
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/imgView_next"
+        <ImageButton
+            android:id="@+id/problem_page_btn"
             android:layout_width="30dp"
             android:layout_height="30dp"
 
@@ -81,8 +80,12 @@
 
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/arrow_right"
-            android:layout_alignParentRight="true" />
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="0dp"
+            android:background="@color/white"
+            android:src="@drawable/arrow_right"
+            />
+
 
     </RelativeLayout>
 

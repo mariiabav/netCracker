@@ -75,7 +75,6 @@ public class FeedActivity extends AppCompatActivity implements PaginationAdapter
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rv.setLayoutManager(linearLayoutManager);
         rv.setItemAnimator(new DefaultItemAnimator());
-
         rv.setAdapter(adapter);
 
         rv.addOnScrollListener(new PaginationScrollListener(linearLayoutManager) {
@@ -193,7 +192,6 @@ public class FeedActivity extends AppCompatActivity implements PaginationAdapter
                 else {
                     isLastPage = true;
                 }
-
             }
 
             @Override

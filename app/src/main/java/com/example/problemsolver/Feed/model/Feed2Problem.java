@@ -1,5 +1,9 @@
 package com.example.problemsolver.Feed.model;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -105,6 +109,7 @@ public class Feed2Problem {
                 coordinates.equals(that.coordinates);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public int hashCode() {
         return Objects.hash(id, coordinates);
