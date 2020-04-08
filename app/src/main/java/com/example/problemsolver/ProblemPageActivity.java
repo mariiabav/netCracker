@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 public class ProblemPageActivity extends AppCompatActivity {
 
-    public static final String EXTRA_POS = "my_item_position";
 
     private TextView address, date, type, description, rating, status;
     private Button support;
@@ -25,7 +24,13 @@ public class ProblemPageActivity extends AppCompatActivity {
         rating = findViewById(R.id.rating);
         status = findViewById(R.id.status);
 
-        int my_item_position = (int) getIntent().getExtras().get(EXTRA_POS);
+        int my_item_position = (int) getIntent().getExtras().get("my_item_position");
 
+        address.setText(getIntent().getStringExtra("problem_address"));
+        date.setText(getIntent().getStringExtra("problem_date"));
+        //type.setText(getIntent().getStringExtra("problem_type"));
+        description.setText(getIntent().getStringExtra("problem_description"));
+        rating.setText(getIntent().getStringExtra("problem_rating"));
+        //status.setText(getIntent().getStringExtra("problem_status"));
     }
 }

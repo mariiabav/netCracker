@@ -89,7 +89,19 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(view.getContext(), ProblemPageActivity.class);
-                        intent.putExtra(ProblemPageActivity.EXTRA_POS, position);
+                        intent.putExtra("my_item_position", position);
+
+                        intent.putExtra("problem_address",  problemVH.mProblemTitle.getText().toString());
+
+                        //intent.putExtra("problem_type",  problemVH.mProblemTitle.getText().toString());
+
+                        intent.putExtra("problem_date",  problemVH.mDate.getText().toString());
+                        intent.putExtra("problem_description",  problemVH.mProblemDesc.getText().toString());
+                        intent.putExtra("problem_rating",  problemVH.mRate.getText().toString());
+
+                        //intent.putExtra("problem_status",  problemVH.mProblemTitle.getText().toString());
+
+
                         view.getContext().startActivity(intent);
                     }
                 });
