@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.problemsolver.ApplicationService;
@@ -51,7 +52,6 @@ public class NewProblemActivity extends Activity /*implements SuggestSession.Sug
     private ArrayAdapter resultAdapter;
     private List<String> suggestResult;
     private ListView suggestResultView;
-
      */
 
     private MapView mapView;
@@ -67,13 +67,15 @@ public class NewProblemActivity extends Activity /*implements SuggestSession.Sug
     private String street;
     private String building;
 
-    private Button problem, test;
+    private Button problem;
     private EditText type, description;
     private String problemType, problemDescription;
 
     private String address;
     private String coordinates;
     private String adminAreaName;
+
+    TextView layoutAddress;
 
     private ApplicationService applicationService;
     private MapService mapService;
@@ -133,6 +135,8 @@ public class NewProblemActivity extends Activity /*implements SuggestSession.Sug
         type = findViewById(R.id.problem_input_name);
         description = findViewById(R.id.problem_input_description);
         mapView = findViewById(R.id.map);
+        layoutAddress = findViewById(R.id.query_address);
+
 
         problem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,7 +181,6 @@ public class NewProblemActivity extends Activity /*implements SuggestSession.Sug
                                             break;
                                         }
                                     }
-
                                 }
                                 showMessage(adminAreaName);
                                 showMessage(address);
@@ -219,7 +222,6 @@ public class NewProblemActivity extends Activity /*implements SuggestSession.Sug
                             public void onFailure(@NotNull Call<DistrictResponse> call, @NotNull Throwable t) {
                                 //ошибка во время выполнения запроса
                             }
-
 
                         });
             }
@@ -284,7 +286,6 @@ public class NewProblemActivity extends Activity /*implements SuggestSession.Sug
                 requestSuggest(editable.toString());
             }
         });
-
          */
     }
 
