@@ -82,24 +82,20 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
                 problemVH.mProblemTitle.setText(result.getAddress().toString());
                 problemVH.mDate.setText(result.getCreationDate().substring(0, 10));
-                problemVH.mProblemDesc.setText(result.getProblemName());
+                problemVH.mProblemType.setText(result.getProblemName());
                 problemVH.mRate.setText("Рейтинг: " + result.getRate().toString());
 
                 problemVH.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(view.getContext(), ProblemPageActivity.class);
-                        intent.putExtra("my_item_position", position);
 
-                        intent.putExtra("problem_address",  problemVH.mProblemTitle.getText().toString());
-
-                        //intent.putExtra("problem_type",  problemVH.mProblemTitle.getText().toString());
-
-                        intent.putExtra("problem_date",  problemVH.mDate.getText().toString());
-                        intent.putExtra("problem_description",  problemVH.mProblemDesc.getText().toString());
-                        intent.putExtra("problem_rating",  problemVH.mRate.getText().toString());
-
-                        //intent.putExtra("problem_status",  problemVH.mProblemTitle.getText().toString());
+                        intent.putExtra("problem_address",  result.getAddress().toString());
+                        intent.putExtra("problem_type",  result.getProblemName());
+                        intent.putExtra("problem_description", result.getDescription());
+                        intent.putExtra("problem_date",  result.getCreationDate().substring(0, 10));
+                        intent.putExtra("problem_rating",  result.getRate().toString());
+                        intent.putExtra("problem_status", result.getStatus());
 
 
                         view.getContext().startActivity(intent);
@@ -204,7 +200,7 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     protected class ProblemVH extends RecyclerView.ViewHolder {
         private TextView mProblemTitle;
-        private TextView mProblemDesc;
+        private TextView mProblemType;
         private TextView mDate;
         private TextView mRate;
         private ImageView mProblemImg;
@@ -216,7 +212,7 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             super(itemView);
 
             mProblemTitle = itemView.findViewById(R.id.street_name);
-            mProblemDesc = itemView.findViewById(R.id.problem_descriprion);
+            mProblemType = itemView.findViewById(R.id.problem_descriprion);
             mDate = itemView.findViewById(R.id.date);
             mRate = itemView.findViewById(R.id.rating);
             mProblemImg = itemView.findViewById(R.id.status_pic);

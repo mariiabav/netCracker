@@ -6,11 +6,17 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 public class ProblemPageActivity extends AppCompatActivity {
 
 
     private TextView address, date, type, description, rating, status;
     private Button support;
+    private static final String statusCreated = "created";
+    private static final String statusInProcess = "in process";
+    private static final String statusSolved = "solved";
+    private static final String statusRejected = "rejected";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,13 +30,30 @@ public class ProblemPageActivity extends AppCompatActivity {
         rating = findViewById(R.id.rating);
         status = findViewById(R.id.status);
 
-        int my_item_position = (int) getIntent().getExtras().get("my_item_position");
 
         address.setText(getIntent().getStringExtra("problem_address"));
-        date.setText(getIntent().getStringExtra("problem_date"));
-        //type.setText(getIntent().getStringExtra("problem_type"));
+        type.setText(getIntent().getStringExtra("problem_type"));
         description.setText(getIntent().getStringExtra("problem_description"));
-        rating.setText(getIntent().getStringExtra("problem_rating"));
-        //status.setText(getIntent().getStringExtra("problem_status"));
+        date.setText(getIntent().getStringExtra("problem_date"));
+        rating.setText("Рейтинг: " + getIntent().getStringExtra("problem_rating"));
+
+
+        String serverStatus = getIntent().getStringExtra("problem_status");
+        switch (serverStatus) {
+            case "created":
+                serverStatus = "создана";
+                break;
+            case "in process":
+                serverStatus = "в процессе";
+                break;
+            case "solved":
+                serverStatus = "решена";
+                break;
+            case "rejected":
+                serverStatus = "отклонена";
+                break;
+        }
+
+        status.setText("Статус: " + serverStatus);
     }
 }

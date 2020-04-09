@@ -71,7 +71,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/problem_description"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
         android:src="@drawable/hole" />
@@ -98,7 +100,7 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
+                    android:layout_gravity="center"
                     app:srcCompat="@drawable/star" />
 
                 <TextView
@@ -124,13 +126,6 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true">
 
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/status" />
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -145,13 +140,6 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/imgView_line"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_below="@+id/support_btn"
-        android:layout_marginTop="10dp"
-        android:background="@color/light_grey" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -173,8 +161,8 @@
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
+                    android:layout_gravity="center"
                     android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
                     app:srcCompat="@drawable/like" />
 
                 <Button android:id="@+id/btn_signup"
