@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
@@ -74,8 +76,12 @@ public class NewProblemActivity extends Activity /*implements SuggestSession.Sug
     private String address;
     private String coordinates;
     private String adminAreaName;
+    private String token;
 
-    TextView layoutAddress;
+    private SharedPreferences settings;
+
+
+    private TextView layoutAddress;
 
     private ApplicationService applicationService;
     private MapService mapService;
@@ -95,6 +101,8 @@ public class NewProblemActivity extends Activity /*implements SuggestSession.Sug
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
+        token = settings.getString("JWT","");
         if (!checkLocationPermission()) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
@@ -141,14 +149,15 @@ public class NewProblemActivity extends Activity /*implements SuggestSession.Sug
         problem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showMessage("нажалась");
+
+                showMessage(token);
                 problemType = type.getText().toString();
                 problemDescription = description.getText().toString();
                 coordinates = placemarkMapObject.getGeometry().getLongitude() + ", " + placemarkMapObject.getGeometry().getLatitude();
                 showMessage(coordinates);
                 mapService
                         .getJSONApi()
-                        .getDistrictName(API_KEY, format, coordinates)
+                        .getDistrictName(token, API_KEY, format, coordinates)
                         .enqueue(new Callback<DistrictResponse>() {
                             @Override
                             public void onResponse(Call<DistrictResponse> call, Response<DistrictResponse> response) {
@@ -200,7 +209,7 @@ public class NewProblemActivity extends Activity /*implements SuggestSession.Sug
 
                                 ApplicationService.getInstance()
                                         .getJSONApi()
-                                        .postNewProblemData(newProblem)
+                                        .postNewProblemData(token, newProblem)
                                         .enqueue(new Callback<NewProblem>() {
                                             @Override
                                             public void onResponse(@NonNull Call<NewProblem> call, @NonNull Response<NewProblem> response) {

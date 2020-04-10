@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
@@ -71,6 +73,9 @@ public class NewOrganizationActivity extends AppCompatActivity {
 
     private final String API_KEY = "7e3eee55-cf92-4361-919e-e1666d3df1d1";
 
+    private SharedPreferences settings;
+    private String token;
+
 
 
     @Override
@@ -81,6 +86,9 @@ public class NewOrganizationActivity extends AppCompatActivity {
         }
         MapKitFactory.setApiKey(MAPKIT_API_KEY);
         MapKitFactory.initialize(this);
+
+        settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
+        token = settings.getString("JWT","");
 
         setContentView(R.layout.activity_new_organization);
 
@@ -129,7 +137,7 @@ public class NewOrganizationActivity extends AppCompatActivity {
 
                 mapService
                         .getJSONApi()
-                        .getDistrictName(API_KEY, format, coordinates)
+                        .getDistrictName(token, API_KEY, format, coordinates)
                         .enqueue(new Callback<DistrictResponse>() {
                             @Override
                             public void onResponse(Call<DistrictResponse> call, Response<DistrictResponse> response) {
@@ -184,7 +192,7 @@ public class NewOrganizationActivity extends AppCompatActivity {
 
                                 ApplicationService.getInstance()
                                         .getJSONApi()
-                                        .postRegistedOrgData(registeredOrganization)
+                                        .postRegistedOrgData(token, registeredOrganization)
                                         .enqueue(new Callback<RegisteredOrganization>() {
                                             @Override
                                             public void onResponse(@NonNull Call<RegisteredOrganization> call, @NonNull Response<RegisteredOrganization> response) {

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
@@ -55,20 +56,17 @@ public class RegistrationActivity extends AppCompatActivity {
         login = findViewById(R.id.btn_link_login);
         areaList = findViewById(R.id.btn_link_area_list);
 
-        areaList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                Intent intent = new Intent(RegistrationActivity.this, AreasActivity.class);
+        areaList.setOnClickListener(view -> {
+            Intent intent = new Intent(RegistrationActivity.this, AreasActivity.class);
 
-                intent.putExtra("name",  name.getText().toString());
-                intent.putExtra("lastName",   surname.getText().toString());
-                intent.putExtra("email",  email.getText().toString());
-                intent.putExtra("number", number.getText().toString());
-                intent.putExtra("date",  DateUtils.formatDateTime(RegistrationActivity.this, dateAndTime.getTimeInMillis(),
-                        DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_YEAR));
+            intent.putExtra("name",  name.getText().toString());
+            intent.putExtra("lastName",   surname.getText().toString());
+            intent.putExtra("email",  email.getText().toString());
+            intent.putExtra("number", number.getText().toString());
+            intent.putExtra("date",  DateUtils.formatDateTime(RegistrationActivity.this, dateAndTime.getTimeInMillis(),
+                    DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_YEAR));
 
-                startActivity(intent);
-            }
+            startActivity(intent);
         });
 
         final ArrayList<String> checkedAreas = getIntent().getStringArrayListExtra("checkedAreas");
@@ -89,56 +87,53 @@ public class RegistrationActivity extends AppCompatActivity {
             areas.setText(stringAreas);
         }
 
-        register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                firstName = name.getText().toString();
-                secondName = surname.getText().toString();
-                email1 = email.getText().toString();
-                phone = number.getText().toString();
-                pass = password.getText().toString();
-                birthday = DateUtils.formatDateTime(RegistrationActivity.this, dateAndTime.getTimeInMillis(), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_YEAR);
+        register.setOnClickListener(view -> {
+            firstName = name.getText().toString();
+            secondName = surname.getText().toString();
+            email1 = email.getText().toString();
+            phone = number.getText().toString();
+            pass = password.getText().toString();
+            birthday = DateUtils.formatDateTime(RegistrationActivity.this, dateAndTime.getTimeInMillis(), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_YEAR);
 
-                String [] date = birthday.split("\\.");
-                String day = date[0];
-                String month = date[1];
-                String year = date[2];
-                String serverDate = year + "-" + month + "-" + day;
+            String [] date = birthday.split("\\.");
+            String day = date[0];
+            String month = date[1];
+            String year = date[2];
+            String serverDate = year + "-" + month + "-" + day;
 
-                List<Role> roles = new ArrayList<>();
-                final Role role = new Role("123e4567-e89b-12d3-a456-426655440000", "ROLE_ADMIN");
-                roles.add(role);
+            List<Role> roles = new ArrayList<>();
+            final Role role = new Role("123e4567-e89b-12d3-a456-426655440000", "ROLE_ADMIN");
+            roles.add(role);
 
-                for (String area: checkedAreas){
-                    personAreas.add(new Area(area));
-                }
-
-
-
-                final RegisteredPerson registeredPerson = new RegisteredPerson(firstName, secondName, email1, phone, pass, serverDate, roles, personAreas);
-                //if (checkDataEntered()){
-                ApplicationService.getInstance()
-                        .getJSONApi()
-                        .postRegistedPersonData(registeredPerson)
-                        .enqueue(new Callback<RegisteredPerson>() {
-                            @Override
-                            public void onResponse(@NonNull Call<RegisteredPerson> call, @NonNull Response<RegisteredPerson> response) {
-                                if (response.isSuccessful()){
-                                    //запрос выполнился успешно
-                                    showMessage("Регистрация вполнена успешно");
-                                }
-                                else {
-                                    //сервер вернул ошибку
-                                    showMessage("Регистрация не вполнена");
-                                }
-                            }
-                            @Override
-                            public void onFailure(@NonNull Call<RegisteredPerson> call, @NonNull Throwable t) {
-                                showMessage("Ошибка во время выполнения запроса");
-                            }
-                        });
-                //}
+            for (String area: checkedAreas){
+                personAreas.add(new Area(area));
             }
+
+
+
+            final RegisteredPerson registeredPerson = new RegisteredPerson(firstName, secondName, email1, phone, pass, serverDate, roles, personAreas);
+            //if (checkDataEntered()){
+            ApplicationService.getInstance()
+                    .getJSONApi()
+                    .postRegistedPersonData(registeredPerson)
+                    .enqueue(new Callback<RegisteredPerson>() {
+                        @Override
+                        public void onResponse(@NonNull Call<RegisteredPerson> call, @NonNull Response<RegisteredPerson> response) {
+                            if (response.isSuccessful()){
+                                //запрос выполнился успешно
+                                showMessage("Регистрация вполнена успешно");
+                            }
+                            else {
+                                //сервер вернул ошибку
+                                showMessage("Регистрация не вполнена");
+                            }
+                        }
+                        @Override
+                        public void onFailure(@NonNull Call<RegisteredPerson> call, @NonNull Throwable t) {
+                            showMessage("Ошибка во время выполнения запроса");
+                        }
+                    });
+            //}
         });
     }
 
@@ -163,13 +158,11 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     // установка обработчика выбора даты
-    DatePickerDialog.OnDateSetListener d=new DatePickerDialog.OnDateSetListener() {
-        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            dateAndTime.set(Calendar.YEAR, year);
-            dateAndTime.set(Calendar.MONTH, monthOfYear);
-            dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            setInitialDateTime();
-        }
+    DatePickerDialog.OnDateSetListener d= (view, year, monthOfYear, dayOfMonth) -> {
+        dateAndTime.set(Calendar.YEAR, year);
+        dateAndTime.set(Calendar.MONTH, monthOfYear);
+        dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        setInitialDateTime();
     };
 
     boolean isEmail(EditText text){
