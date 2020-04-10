@@ -11,4 +11,14 @@
     <color name="dark_grey">#696969</color>
     <color name="white">#FFFFFF</color>
     <color name="red">#E14C4C</color>
+
+
+    <color name="headings">#E14C4C</color>
+    <color name="solidCircle">#AAFFFFFF</color>
+    <color name="circleBorder">#50FFFFFF</color>
+    <color name="gradEnd">#9e465b</color>
+    <color name="gradStart">#E14C4C</color>
+    <color name="followersBg">#9e465b</color>
+    <color name="followingBg">#E14C4C</color>
+
 </resources>

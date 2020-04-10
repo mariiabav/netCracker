@@ -12,7 +12,7 @@ import com.example.problemsolver.R;
 
 public class MenuFragment extends Fragment {
 
-    private Button register, login, problem, feed, map, organization;
+    private Button register, login, problem, feed, map, organization, profile;
 
     public MenuFragment() {
         // Required empty public constructor
@@ -34,6 +34,7 @@ public class MenuFragment extends Fragment {
         feed = view.findViewById(R.id.btn_forth);
         map = view.findViewById(R.id.btn_fifth);
         organization = view.findViewById(R.id.btn_sixth);
+        profile = view.findViewById(R.id.btn_seventh);
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,7 +46,7 @@ public class MenuFragment extends Fragment {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.action_menuFragment_to_loginFragment);
+                Navigation.findNavController(view).navigate(R.id.loginActivity);
             }
         });
 
@@ -74,6 +75,13 @@ public class MenuFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Navigation.findNavController(view).navigate(R.id.newOrganizationActivity);
+            }
+        });
+
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.profileActivity);
             }
         });
         return view;

@@ -71,6 +71,15 @@
             android:textColor="@android:color/white"
             android:layout_marginTop="20dp"
             android:text="Создание организации" />
+
+        <Button
+            android:id="@+id/btn_seventh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/red"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="20dp"
+            android:text="Личный кабинет" />
     </LinearLayout>
 
 </LinearLayout>

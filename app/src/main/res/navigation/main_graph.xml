@@ -22,11 +22,14 @@
             android:id="@+id/action_menuFragment_to_registrationActivity"
             app:destination="@id/registrationActivity" />
         <action
-            android:id="@+id/action_menuFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
-        <action
             android:id="@+id/action_menuFragment_to_newOrganizationActivity"
             app:destination="@id/newOrganizationActivity" />
+        <action
+            android:id="@+id/action_menuFragment_to_profileActivity"
+            app:destination="@id/profileActivity" />
+        <action
+            android:id="@+id/action_menuFragment_to_loginActivity"
+            app:destination="@id/loginActivity" />
     </fragment>
     <activity
         android:id="@+id/mapActivity"
@@ -48,14 +51,19 @@
         android:name="com.example.problemsolver.Registration.RegistrationActivity"
         android:label="activity_registration"
         tools:layout="@layout/activity_registration" />
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.example.problemsolver.Main.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
     <activity
         android:id="@+id/newOrganizationActivity"
         android:name="com.example.problemsolver.Organization.NewOrganizationActivity"
         android:label="activity_new_organization"
         tools:layout="@layout/activity_new_organization" />
+    <activity
+        android:id="@+id/profileActivity"
+        android:name="com.example.problemsolver.Profile.ProfileActivity"
+        android:label="activity_profile"
+        tools:layout="@layout/activity_profile" />
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.example.problemsolver.Login.LoginActivity"
+        android:label="activity_login"
+        tools:layout="@layout/activity_login" />
 </navigation>

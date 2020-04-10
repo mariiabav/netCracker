@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.example.problemsolver.Feed.model.Feed2Problem;
 import com.example.problemsolver.Feed.utils.PaginationAdapterCallback;
-import com.example.problemsolver.ProblemPageActivity;
 import com.example.problemsolver.R;
 
 import java.util.ArrayList;
