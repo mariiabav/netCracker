@@ -55,8 +55,16 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
                             SharedPreferences.Editor prefEditor = settings.edit();
-                            prefEditor.putString("JWT", response.headers().get("Authorization"));
-                            prefEditor.apply();
+                            if(response.headers().get("Authorization") != null) {
+                                prefEditor.putString("JWT", response.headers().get("Authorization"));
+                                showMessage(response.headers().get("Authorization"));
+                                prefEditor.apply();
+                                Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
+                                startActivity(intent);
+                            }
+                            else{
+                                showMessage("Неверный логин или пароль");
+                            }
                         }
 
                         @Override
@@ -64,8 +72,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     });
 
-            Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
-            startActivity(intent);
+
         });
 
 

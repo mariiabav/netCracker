@@ -69,8 +69,11 @@ public interface ServerApi {
     public Call<FeedResponse>getAllProblems(
             @Header("Authorization") String token,
             @Query("pageSize") Integer pageSize,
-            @Query("pageNo") Integer pageNo,
-            @Query("sort") String creationDate
+            @Query("pageNumber") Integer pageNumber,
+            @Query("sortBy") String sortBy,
+            @Query("sortHow") String sortHow,
+            @Query("filters") List<String> filters
+
     );
 
 

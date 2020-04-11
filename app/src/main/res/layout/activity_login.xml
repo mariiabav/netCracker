@@ -18,7 +18,7 @@
         android:layout_height="wrap_content">
         <EditText
             android:id="@+id/login_input_email"
-            android:textColor="@color/light_grey"
+            android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content">
         <EditText
             android:id="@+id/login_input_password"
-            android:textColor="@color/light_grey"
+            android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"

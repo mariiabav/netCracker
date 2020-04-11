@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -99,6 +100,8 @@ public class NewProblemActivity extends Activity /*implements SuggestSession.Sug
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
+        token = settings.getString("JWT","");
         if (!checkLocationPermission()) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }

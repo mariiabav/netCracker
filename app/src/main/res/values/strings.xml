@@ -8,9 +8,6 @@
     <string name="network_error_message">network_error_message</string>
 
     <string name="test">
-        <b>жирный шрифт</b>
-        <i>наклонный шрифт</i>
-        <u>подчеркнутый шрифт</u>
     </string>
 
     <string-array name="areas">

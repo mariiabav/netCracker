@@ -17,12 +17,14 @@ import android.widget.TextView;
 
 import com.example.problemsolver.ApplicationService;
 import com.example.problemsolver.Feed.model.Feed2Problem;
+import com.example.problemsolver.Feed.model.FeedRequestBody;
 import com.example.problemsolver.Feed.model.FeedResponse;
 import com.example.problemsolver.Feed.utils.PaginationAdapterCallback;
 import com.example.problemsolver.Feed.utils.PaginationScrollListener;
 import com.example.problemsolver.R;
 import com.example.problemsolver.ServerApi;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
@@ -52,6 +54,7 @@ public class FeedActivity extends AppCompatActivity implements PaginationAdapter
 
     private boolean isLoading = false;
     private boolean isLastPage = false;
+    private List<String> arrayList;
 
     private int total_pages;
     private int currentPage = PAGE_START;
@@ -66,6 +69,12 @@ public class FeedActivity extends AppCompatActivity implements PaginationAdapter
         setContentView(R.layout.activity_feed);
         settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
         token = settings.getString("JWT","");
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add("areaName~Выборгский район,Калининский район");
+        arrayList.add("rate>0");
+        arrayList.add("rate<40");
+        arrayList.add("status~solved,created");
+        arrayList.add("creationDate^2020-03-10,2020-04-15");
 
         rv = findViewById(R.id.main_recycler);
         progressBar = findViewById(R.id.main_progress);
@@ -130,8 +139,8 @@ public class FeedActivity extends AppCompatActivity implements PaginationAdapter
 
     private void doRefresh() {
         progressBar.setVisibility(View.VISIBLE);
-        if (callTopRatedMoviesApi().isExecuted())
-            callTopRatedMoviesApi().cancel();
+        if (callServerApi().isExecuted())
+            callServerApi().cancel();
 
         adapter.getProblems().clear();
         adapter.notifyDataSetChanged();
@@ -147,7 +156,7 @@ public class FeedActivity extends AppCompatActivity implements PaginationAdapter
         hideErrorView();
         currentPage = PAGE_START;
 
-        callTopRatedMoviesApi().enqueue(new Callback<FeedResponse>() {
+        callServerApi().enqueue(new Callback<FeedResponse>() {
             @Override
             public void onResponse(Call<FeedResponse> call, Response<FeedResponse> response) {
                 hideErrorView();
@@ -181,7 +190,7 @@ public class FeedActivity extends AppCompatActivity implements PaginationAdapter
     private void loadNextPage() {
         Log.d(TAG, "loadNextPage: " + currentPage);
 
-        callTopRatedMoviesApi().enqueue(new Callback<FeedResponse>() {
+        callServerApi().enqueue(new Callback<FeedResponse>() {
             @Override
             public void onResponse(Call<FeedResponse> call, Response<FeedResponse> response) {
 
@@ -206,12 +215,14 @@ public class FeedActivity extends AppCompatActivity implements PaginationAdapter
         });
     }
 
-    private Call<FeedResponse> callTopRatedMoviesApi() {
+    private Call<FeedResponse> callServerApi() {
         return serverApi.getAllProblems(
                 token,
-                8,
-                currentPage,
-                "rate"
+                0,
+                3,
+                "rate",
+                "desc",
+                arrayList
         );
     }
 
