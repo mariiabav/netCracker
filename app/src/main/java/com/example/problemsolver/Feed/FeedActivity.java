@@ -1,6 +1,7 @@
 package com.example.problemsolver.Feed;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 
@@ -56,12 +57,15 @@ public class FeedActivity extends AppCompatActivity implements PaginationAdapter
     private int currentPage = PAGE_START;
 
     private ServerApi serverApi;
-
+    private SharedPreferences settings;
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
+        settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
+        token = settings.getString("JWT","");
 
         rv = findViewById(R.id.main_recycler);
         progressBar = findViewById(R.id.main_progress);
@@ -204,6 +208,7 @@ public class FeedActivity extends AppCompatActivity implements PaginationAdapter
 
     private Call<FeedResponse> callTopRatedMoviesApi() {
         return serverApi.getAllProblems(
+                token,
                 8,
                 currentPage,
                 "rate"

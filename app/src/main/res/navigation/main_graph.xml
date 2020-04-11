@@ -3,67 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
-    app:startDestination="@id/menuFragment">
-    <fragment
-        android:id="@+id/menuFragment"
-        android:name="com.example.problemsolver.Main.MenuFragment"
-        android:label="fragment_menu"
-        tools:layout="@layout/fragment_menu" >
-        <action
-            android:id="@+id/action_menuFragment_to_mapActivity"
-            app:destination="@id/mapActivity" />
-        <action
-            android:id="@+id/action_menuFragment_to_newProblemActivity"
-            app:destination="@id/newProblemActivity" />
-        <action
-            android:id="@+id/action_menuFragment_to_feedActivity"
-            app:destination="@id/feedActivity" />
-        <action
-            android:id="@+id/action_menuFragment_to_registrationActivity"
-            app:destination="@id/registrationActivity" />
-        <action
-            android:id="@+id/action_menuFragment_to_newOrganizationActivity"
-            app:destination="@id/newOrganizationActivity" />
-        <action
-            android:id="@+id/action_menuFragment_to_profileActivity"
-            app:destination="@id/profileActivity" />
-        <action
-            android:id="@+id/action_menuFragment_to_loginActivity"
-            app:destination="@id/loginActivity" />
-    </fragment>
-    <activity
-        android:id="@+id/mapActivity"
-        android:name="com.example.problemsolver.Map.MapActivity"
-        android:label="activity_map"
-        tools:layout="@layout/activity_map" />
-    <activity
-        android:id="@+id/newProblemActivity"
-        android:name="com.example.problemsolver.Problem.NewProblemActivity"
-        android:label="activity_new_problem"
-        tools:layout="@layout/activity_new_problem" />
-    <activity
-        android:id="@+id/feedActivity"
-        android:name="com.example.problemsolver.Feed.FeedActivity"
-        android:label="activity_feed"
-        tools:layout="@layout/activity_feed" />
-    <activity
-        android:id="@+id/registrationActivity"
-        android:name="com.example.problemsolver.Registration.RegistrationActivity"
-        android:label="activity_registration"
-        tools:layout="@layout/activity_registration" />
-    <activity
-        android:id="@+id/newOrganizationActivity"
-        android:name="com.example.problemsolver.Organization.NewOrganizationActivity"
-        android:label="activity_new_organization"
-        tools:layout="@layout/activity_new_organization" />
-    <activity
-        android:id="@+id/profileActivity"
-        android:name="com.example.problemsolver.Profile.ProfileActivity"
-        android:label="activity_profile"
-        tools:layout="@layout/activity_profile" />
+    app:startDestination="@id/loginActivity">
+
     <activity
         android:id="@+id/loginActivity"
         android:name="com.example.problemsolver.Login.LoginActivity"
         android:label="activity_login"
         tools:layout="@layout/activity_login" />
+
 </navigation>

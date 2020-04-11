@@ -1,6 +1,8 @@
 package com.example.problemsolver.Map;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Build;
@@ -41,11 +43,16 @@ public class MapActivity extends Activity implements UserLocationObjectListener,
     private UserLocationLayer userLocationLayer;
     private final String MAPKIT_API_KEY = "d57819df-534a-4ba4-89d4-430e73a03ab3";
     private ArrayList<NewProblem> problems;
+    private SharedPreferences settings;
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         MapKitFactory.setApiKey(MAPKIT_API_KEY);
         MapKitFactory.initialize(this);
+
+        settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
+        token = settings.getString("JWT","");
 
         setContentView(R.layout.activity_map);
         super.onCreate(savedInstanceState);
@@ -105,7 +112,7 @@ public class MapActivity extends Activity implements UserLocationObjectListener,
     public void getProblems() {
         ApplicationService.getInstance()
                 .getJSONApi()
-                .getAllProblems()
+                .getAllProblems(token)
                 .enqueue(new Callback<List<NewProblem>>() {
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override

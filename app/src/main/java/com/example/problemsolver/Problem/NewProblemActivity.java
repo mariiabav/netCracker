@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
@@ -74,6 +75,9 @@ public class NewProblemActivity extends Activity /*implements SuggestSession.Sug
     private String address;
     private String coordinates;
     private String adminAreaName;
+
+    private String token;
+    private SharedPreferences settings;
 
     TextView layoutAddress;
 
@@ -148,7 +152,7 @@ public class NewProblemActivity extends Activity /*implements SuggestSession.Sug
                 showMessage(coordinates);
                 mapService
                         .getJSONApi()
-                        .getDistrictName(API_KEY, format, coordinates)
+                        .getDistrictName(token, API_KEY, format, coordinates)
                         .enqueue(new Callback<DistrictResponse>() {
                             @Override
                             public void onResponse(Call<DistrictResponse> call, Response<DistrictResponse> response) {
@@ -200,7 +204,7 @@ public class NewProblemActivity extends Activity /*implements SuggestSession.Sug
 
                                 ApplicationService.getInstance()
                                         .getJSONApi()
-                                        .postNewProblemData(newProblem)
+                                        .postNewProblemData(token, newProblem)
                                         .enqueue(new Callback<NewProblem>() {
                                             @Override
                                             public void onResponse(@NonNull Call<NewProblem> call, @NonNull Response<NewProblem> response) {
@@ -222,7 +226,6 @@ public class NewProblemActivity extends Activity /*implements SuggestSession.Sug
                             public void onFailure(@NotNull Call<DistrictResponse> call, @NotNull Throwable t) {
                                 //ошибка во время выполнения запроса
                             }
-
                         });
             }
         });

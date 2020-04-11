@@ -269,11 +269,12 @@
                         android:text="Выборгский"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-light"
-                        android:text="Калининский"
+                        android:text="@string/test"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
 
