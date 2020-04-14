@@ -1,21 +1,18 @@
 package com.example.problemsolver.Login;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.Navigation;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.problemsolver.ApplicationService;
-import com.example.problemsolver.MenuActivity;
+import com.example.problemsolver.DashboardActivity;
 import com.example.problemsolver.R;
 import com.example.problemsolver.Registration.RegistrationActivity;
 
@@ -59,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
                                 prefEditor.putString("JWT", response.headers().get("Authorization"));
                                 showMessage(response.headers().get("Authorization"));
                                 prefEditor.apply();
-                                Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
+                                Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
                                 startActivity(intent);
                             }
                             else{

@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:background="@color/followersBg"
+                android:background="@color/red_dark"
                 android:gravity="center"
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp">
@@ -111,7 +111,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:background="@color/followingBg"
+                android:background="@color/gradStart"
                 android:gravity="center"
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp">

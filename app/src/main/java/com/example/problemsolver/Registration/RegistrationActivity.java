@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import com.example.problemsolver.ApplicationService;
 import com.example.problemsolver.Login.LoginActivity;
-import com.example.problemsolver.MenuActivity;
 import com.example.problemsolver.R;
 
 import java.util.ArrayList;
@@ -139,7 +138,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         });
                 //}
 
-                Intent intent = new Intent(RegistrationActivity.this, MenuActivity.class);
+                Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         });

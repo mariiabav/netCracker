@@ -10,7 +10,7 @@
     <color name="grey">#8b8b8b</color>
     <color name="dark_grey">#696969</color>
     <color name="white">#FFFFFF</color>
-    <color name="red">#E14C4C</color>
+
 
 
     <color name="headings">#E14C4C</color>
@@ -20,5 +20,12 @@
     <color name="gradStart">#E14C4C</color>
     <color name="followersBg">#9e465b</color>
     <color name="followingBg">#E14C4C</color>
+
+    <color name="vinous">#450101</color>
+    <color name="vinous_light">#6b0101</color>
+    <color name="red_dark">#9f0101</color>
+    <color name="red">#d60404</color>
+    <color name="pink">#fa5457</color>
+    <color name="beige">#f8cfa7</color>
 
 </resources>
