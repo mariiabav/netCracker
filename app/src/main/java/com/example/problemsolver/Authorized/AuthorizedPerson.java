@@ -1,55 +1,79 @@
 
-package com.example.problemsolver.Registration;
+package com.example.problemsolver.Authorized;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class RegisteredPerson {
+public class AuthorizedPerson {
 
+    @SerializedName("id")
+    @Expose
+    private String id;
     @SerializedName("personAreas")
     @Expose
-    private List<Area> personAreas;
-
+    private List<PersonArea> personAreas = null;
+    @SerializedName("personProblemsAsParticipant")
+    @Expose
+    private List<Object> personProblemsAsParticipant = null;
+    @SerializedName("personProblemsAsOwner")
+    @Expose
+    private List<Object> personProblemsAsOwner = null;
     @SerializedName("roles")
     @Expose
-    private List<Role> roles;
-
+    private List<Role> roles = null;
     @SerializedName("firstName")
     @Expose
     private String firstName;
-
     @SerializedName("secondName")
     @Expose
     private String secondName;
-
     @SerializedName("email")
     @Expose
     private String email;
-
     @SerializedName("phone")
     @Expose
     private String phone;
-
     @SerializedName("password")
     @Expose
     private String password;
-
+    @SerializedName("creationDate")
+    @Expose
+    private String creationDate;
     @SerializedName("birthDate")
     @Expose
     private String birthDate;
 
+    public String getId() {
+        return id;
+    }
 
-    public RegisteredPerson(String firstName, String secondName, String email1, String phone, String password1, String bithdate1, List<Role> roles,
-                            List<Area> personAreas) {
-        this.firstName = firstName;
-        this.secondName = secondName;
-        this.email = email1;
-        this.password = password1;
-        this.phone = phone;
-        this.birthDate = bithdate1;
-        this.roles = roles;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public List<PersonArea> getPersonAreas() {
+        return personAreas;
+    }
+
+    public void setPersonAreas(List<PersonArea> personAreas) {
         this.personAreas = personAreas;
+    }
+
+    public List<Object> getPersonProblemsAsParticipant() {
+        return personProblemsAsParticipant;
+    }
+
+    public void setPersonProblemsAsParticipant(List<Object> personProblemsAsParticipant) {
+        this.personProblemsAsParticipant = personProblemsAsParticipant;
+    }
+
+    public List<Object> getPersonProblemsAsOwner() {
+        return personProblemsAsOwner;
+    }
+
+    public void setPersonProblemsAsOwner(List<Object> personProblemsAsOwner) {
+        this.personProblemsAsOwner = personProblemsAsOwner;
     }
 
     public List<Role> getRoles() {
@@ -98,6 +122,14 @@ public class RegisteredPerson {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(String creationDate) {
+        this.creationDate = creationDate;
     }
 
     public String getBirthDate() {

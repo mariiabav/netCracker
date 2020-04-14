@@ -79,30 +79,14 @@
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp">
 
-                <LinearLayout
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="Моя"
-                        android:textColor="@color/white"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="информация"
-                        android:textAllCaps="true"
-                        android:textColor="@color/white"
-                        android:textSize="13sp" />
-
-                </LinearLayout>
+                    android:fontFamily="sans-serif-light"
+                    android:text="Моя\n информация"
+                    android:layout_gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
 
             </RelativeLayout>
 
@@ -116,30 +100,13 @@
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp">
 
-                <LinearLayout
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="Я"
-                        android:textColor="@color/white"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="участвую"
-                        android:textAllCaps="true"
-                        android:textColor="@color/white"
-                        android:textSize="13sp" />
-
-                </LinearLayout>
+                    android:fontFamily="sans-serif-light"
+                    android:text="Я\n участвую"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
 
             </RelativeLayout>
 
@@ -168,7 +135,36 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Email"
+                        android:text="Статус"
+                        android:textColor="@color/headings"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/profile_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:text="Будет не лист статусов, а один конкретный"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@color/grey" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Электронный адрес"
                         android:textColor="@color/headings"
                         android:textSize="13sp" />
 
@@ -198,7 +194,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Phone"
+                        android:text="Номер телефона"
                         android:textColor="@color/headings"
                         android:textSize="13sp" />
 
@@ -262,28 +258,33 @@
                         android:textColor="@color/headings"
                         android:textSize="13sp" />
 
+
                     <TextView
+                        android:id="@+id/profile_area1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-light"
-                        android:text="Выборгский"
+                        android:text=""
                         android:textColor="@color/black"
                         android:textSize="18sp" />
 
                     <TextView
+                        android:id="@+id/profile_area2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-light"
-                        android:text="@string/test"
+                        android:text=""
                         android:textColor="@color/black"
                         android:textSize="18sp" />
 
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="15dp"
-                        android:background="@color/grey" />
+                    <TextView
+                        android:id="@+id/profile_area3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
 
                 </LinearLayout>
 

@@ -1,5 +1,6 @@
 package com.example.problemsolver.Login;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -12,9 +13,16 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.problemsolver.ApplicationService;
+import com.example.problemsolver.PersonRoles.Role;
 import com.example.problemsolver.DashboardActivity;
+import com.example.problemsolver.PersonRoles.PersonRoles;
 import com.example.problemsolver.R;
 import com.example.problemsolver.Registration.RegistrationActivity;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,6 +34,8 @@ public class LoginActivity extends AppCompatActivity {
     private Button loginBtn, registerBtn;
     private String email, password;
     private SharedPreferences settings;
+    private PersonRoles personRoles;
+    private String token;
 
 
     @Override
@@ -52,9 +62,36 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
                             SharedPreferences.Editor prefEditor = settings.edit();
-                            if(response.headers().get("Authorization") != null) {
-                                prefEditor.putString("JWT", response.headers().get("Authorization"));
-                                showMessage(response.headers().get("Authorization"));
+                            token = response.headers().get("Authorization");
+                            if(token != null) {
+                                prefEditor.putString("JWT", token);
+                                ApplicationService.getInstance()
+                                        .getJSONApi()
+                                        .getPersonRoles(token)
+                                        .enqueue(new Callback<PersonRoles>() {
+                                            @Override
+                                            public void onResponse(@NonNull Call<PersonRoles> call, @NonNull Response<PersonRoles> response) {
+                                                if (response.isSuccessful()) {
+                                                    personRoles = response.body();
+                                                    Set<String> rolesSet = new HashSet<>();
+                                                    for (Role role: personRoles.getRoles()){
+                                                        rolesSet.add(role.getName());
+                                                    }
+                                                    prefEditor.putStringSet("Roles", rolesSet);
+                                                    prefEditor.putString("id", personRoles.getId());
+                                                    prefEditor.apply();
+                                                    showMessage("Получили список ролей загеристированного");
+                                                } else {
+                                                    showMessage("Список ролей в login не получен, сервер вернул ошибку");
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onFailure(@NonNull Call<PersonRoles> call, @NonNull Throwable t) {
+                                                showMessage("Ошибка во время выполнения запроса: список ролей в login");
+                                            }
+                                        });
+
                                 prefEditor.apply();
                                 Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
                                 startActivity(intent);
