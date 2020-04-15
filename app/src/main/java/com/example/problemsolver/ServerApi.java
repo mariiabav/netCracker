@@ -118,4 +118,14 @@ public interface ServerApi {
             @Query("sortHow") String sortHow
     );
 
+    @Headers("Content-Type: application/json")
+    @GET("/api/event/all")
+    public Call<Void> updateEvent(
+            @Header("Authorization") String token,
+            @Query("text") String text,
+            @Query("status") String status,
+            @Query("result") String result,
+            @Query("moderatorId") String moderatorId
+    );
+
 }

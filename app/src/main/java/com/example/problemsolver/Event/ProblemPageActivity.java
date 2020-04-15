@@ -1,6 +1,7 @@
 package com.example.problemsolver.Event;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
@@ -19,23 +20,24 @@ public class ProblemPageActivity extends AppCompatActivity {
 
 
     private TextView address, date, type, description, rating, status;
-    private Button supportBtn;
+    private Button acceptBtn, rejectBtn;
     private static final String statusCreated = "created";
     private static final String statusInProcess = "in process";
     private static final String statusSolved = "solved";
     private static final String statusRejected = "rejected";
     private SharedPreferences settings;
-    private String token, personId, problemId;
+    private String token, personId, problemId, eventStatus, result, moderatorId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_problem_page);
+        setContentView(R.layout.event_problem_page);
 
         settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
         token = settings.getString("JWT","");
         personId = settings.getString("id", "");
         problemId = getIntent().getStringExtra("problem_id");
+        eventStatus = getIntent().getStringExtra("event_status");
 
         address = findViewById(R.id.address);
         date = findViewById(R.id.date);
@@ -43,16 +45,23 @@ public class ProblemPageActivity extends AppCompatActivity {
         description = findViewById(R.id.problem_description);
         rating = findViewById(R.id.rating);
         status = findViewById(R.id.status);
-        supportBtn = findViewById(R.id.btn_support);
+        acceptBtn = findViewById(R.id.accept);
+        rejectBtn = findViewById(R.id.reject);
 
-        supportBtn.setOnClickListener(view -> {
+        rating.setText(getIntent().getStringExtra("problem_rating"));
+        address.setText(getIntent().getStringExtra("problem_address"));
+
+        rejectBtn.setOnClickListener(view -> {
+            eventStatus = "rejected";
             ApplicationService.getInstance()
             .getJSONApi()
-            .subscribe(token, problemId,personId)
+            .updateEvent(token, "",eventStatus, "rejected", personId)
             .enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
-                    showMessage("Подписался");
+                    showMessage("Отклонено");
+                    Intent intent = new Intent(ProblemPageActivity.this, EventActivity.class);
+                    startActivity(intent);
                 }
 
                 @Override
@@ -60,6 +69,32 @@ public class ProblemPageActivity extends AppCompatActivity {
 
                 }
             });
+        });
+
+        acceptBtn.setOnClickListener(view -> {
+            if(eventStatus.equals("created")) {
+                eventStatus = "in process";
+            }
+            else if(eventStatus.equals("in process")) {
+                eventStatus = "solved";
+            }
+
+            ApplicationService.getInstance()
+                    .getJSONApi()
+                    .updateEvent(token, "",eventStatus, "accepted", personId)
+                    .enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                            showMessage("Принято");
+                            Intent intent = new Intent(ProblemPageActivity.this, EventActivity.class);
+                            startActivity(intent);
+                        }
+
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+
+                        }
+                    });
         });
 
 

@@ -163,7 +163,7 @@
             android:layout_marginRight="15dp"
             android:layout_weight="1">
 
-            <Button android:id="@+id/link_password"
+            <Button android:id="@+id/accept"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Принять"
@@ -180,7 +180,7 @@
             android:layout_marginRight="15dp"
             android:layout_weight="1">
 
-            <Button android:id="@+id/link_signup"
+            <Button android:id="@+id/reject"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Отклонить"

@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.example.problemsolver.Event.Model.Event;
 import com.example.problemsolver.Event.utils.PaginationAdapterCallback;
-import com.example.problemsolver.Feed.ProblemPageActivity;
+import com.example.problemsolver.Event.ProblemPageActivity;
 import com.example.problemsolver.R;
 
 import java.util.ArrayList;
@@ -23,6 +23,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
+
 
 public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -94,6 +95,7 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     intent.putExtra("problem_rating",  result.getProblem().getRate().toString());
                     intent.putExtra("problem_status", result.getProblem().getStatus());
                     intent.putExtra("problem_id", result.getId());
+                    intent.putExtra("event_status", result.getOfferStatus());
 
 
                     view.getContext().startActivity(intent);
