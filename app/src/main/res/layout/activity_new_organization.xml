@@ -8,24 +8,6 @@
     android:paddingRight="20dp"
     tools:context=".Organization.NewOrganizationActivity">
 
-    <TextView
-        android:id="@+id/suggest_query"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textSize="18sp"
-        android:hint=" Укажите место на карте"/>
-
-    <!--  <ListView
-         android:id="@+id/suggest_result"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:visibility="invisible" /> -->
-    <com.yandex.mapkit.mapview.MapView
-        android:layout_marginTop="10dp"
-        android:id="@+id/map"
-        android:layout_width="wrap_content"
-        android:layout_height="200dp"/>
 
     <ScrollView
         android:id="@+id/scroll"
@@ -49,6 +31,31 @@
                     android:ems="10"
                     android:hint="Название организации"/>
             </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/org_input_layout_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+                <EditText
+                    android:id="@+id/query_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Адрес организации"/>
+            </com.google.android.material.textfield.TextInputLayout>
+              <ListView
+                  android:id="@+id/suggest_result"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:visibility="invisible" />
+            <Spinner
+                android:layout_marginTop="50dp"
+                android:id="@+id/spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown">
+            </Spinner>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/org_input_layout_desc"

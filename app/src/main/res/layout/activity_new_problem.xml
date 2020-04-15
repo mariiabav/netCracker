@@ -33,6 +33,13 @@
                 android:ems="10"
                 android:hint="Опишите проблему"/>
         </com.google.android.material.textfield.TextInputLayout>
+    <TextView
+        android:id="@+id/map_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="30sp"
+        />
 
     <TextView
         android:id="@+id/query_address"
@@ -40,13 +47,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:textSize="18sp"
-        android:hint=" Укажите место на карте"/>
+        android:hint="Укажите место на карте"/>
 
-    <!--  <ListView
-         android:id="@+id/suggest_result"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:visibility="invisible" /> -->
     <com.yandex.mapkit.mapview.MapView
         android:layout_marginTop="10dp"
         android:id="@+id/map"

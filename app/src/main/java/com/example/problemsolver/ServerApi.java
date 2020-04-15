@@ -68,8 +68,8 @@ public interface ServerApi {
     @GET("/api/problem/all")
     public Call<FeedResponse>getAllProblems(
             @Header("Authorization") String token,
-            @Query("pageSize") Integer pageSize,
             @Query("pageNumber") Integer pageNumber,
+            @Query("pageSize") Integer pageSize,
             @Query("sortBy") String sortBy,
             @Query("sortHow") String sortHow,
             @Query("filters") List<String> filters

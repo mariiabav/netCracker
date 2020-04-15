@@ -68,7 +68,7 @@ public class FeedActivity extends AppCompatActivity implements PaginationAdapter
         setContentView(R.layout.activity_feed);
         settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
         token = settings.getString("JWT","");
-        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList = new ArrayList<>();
         arrayList.add("areaName~Выборгский район,Калининский район");
         arrayList.add("rate>0");
         arrayList.add("rate<40");
