@@ -68,12 +68,12 @@ public class FeedActivity extends AppCompatActivity implements PaginationAdapter
         setContentView(R.layout.activity_feed);
         settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
         token = settings.getString("JWT","");
-        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList = new ArrayList<>();
         arrayList.add("areaName~Выборгский район,Калининский район");
         arrayList.add("rate>0");
         arrayList.add("rate<40");
-        arrayList.add("status~solved,created");
-        arrayList.add("creationDate^2020-03-10,2020-04-15");
+        arrayList.add("status~in process,created");
+        arrayList.add("creationDate^2020-03-10,2020-04-17");
 
         rv = findViewById(R.id.main_recycler);
         progressBar = findViewById(R.id.main_progress);
@@ -217,7 +217,7 @@ public class FeedActivity extends AppCompatActivity implements PaginationAdapter
     private Call<FeedResponse> callServerApi() {
         return serverApi.getAllProblems(
                 token,
-                0,
+                currentPage,
                 3,
                 "rate",
                 "desc",

@@ -9,9 +9,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.problemsolver.ApplicationService;
@@ -23,6 +29,7 @@ import com.example.problemsolver.Map.Models.DistrictResponse.FeatureMember;
 
 import com.example.problemsolver.R;
 import com.yandex.mapkit.MapKitFactory;
+import com.yandex.mapkit.geometry.BoundingBox;
 import com.yandex.mapkit.geometry.Point;
 import com.yandex.mapkit.location.Location;
 import com.yandex.mapkit.location.LocationListener;
@@ -31,235 +38,147 @@ import com.yandex.mapkit.location.LocationStatus;
 import com.yandex.mapkit.map.CameraPosition;
 import com.yandex.mapkit.map.PlacemarkMapObject;
 import com.yandex.mapkit.mapview.MapView;
+import com.yandex.mapkit.search.SearchFactory;
+import com.yandex.mapkit.search.SearchManager;
+import com.yandex.mapkit.search.SearchManagerType;
+import com.yandex.mapkit.search.SuggestItem;
+import com.yandex.mapkit.search.SuggestOptions;
+import com.yandex.mapkit.search.SuggestSession;
+import com.yandex.mapkit.search.SuggestType;
+import com.yandex.runtime.Error;
 import com.yandex.runtime.image.ImageProvider;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NewOrganizationActivity extends AppCompatActivity {
+public class NewOrganizationActivity extends AppCompatActivity implements SuggestSession.SuggestListener{
 
     private final String MAPKIT_API_KEY = "d57819df-534a-4ba4-89d4-430e73a03ab3";
     private final int RESULT_NUMBER_LIMIT = 5;
+    private final Point CENTER = new Point(55.75, 37.62);
+    private final BoundingBox BOUNDING_BOX = new BoundingBox(
+            new Point(60.092945, 29.961734),
+            new Point(59.705141, 30.787196));
+    private final SuggestOptions SEARCH_OPTIONS = new SuggestOptions().setSuggestTypes(
+            SuggestType.GEO.value);
 
-    private MapView mapView;
-    private LocationManager locationManager;
-    private double myLatitude;
-    private double myLongitude;
+    private SearchManager searchManager;
+    private SuggestSession suggestSession;
+    private ArrayAdapter resultAdapter;
+    private List<String> suggestResult;
+    private ListView suggestResultView;
 
-    private String format = "json";
-    private Point myLocation;
-    private PlacemarkMapObject placemarkMapObject;
-
-    private String[] splitedAddress;
-    private String street;
-    private String building;
 
     private EditText name, description, email, number;
     private Button registerOrg;
+    private Spinner spinner;
 
-    private String orgName, orgDescription, orgEmail, orgPhone;
-
-    private String address;
-    private String coordinates;
-    private String adminAreaName;
-
-    private ApplicationService applicationService;
-    private MapService mapService;
-
-    private final String API_KEY = "7e3eee55-cf92-4361-919e-e1666d3df1d1";
+    private String orgName, orgDescription, orgEmail, orgPhone, address;
+    private Area orgArea;
+    private Address orgAddress;
 
     private SharedPreferences settings;
     private String token;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (checkLocationPermission() == false) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-        }
         MapKitFactory.setApiKey(MAPKIT_API_KEY);
         MapKitFactory.initialize(this);
-
-        settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
-        token = settings.getString("JWT","");
-
+        SearchFactory.initialize(this);
         setContentView(R.layout.activity_new_organization);
 
-        mapService = MapService.getInstance();
-        locationManager = MapKitFactory.getInstance().createLocationManager();
-        locationManager.requestSingleUpdate(new LocationListener() {
-            @Override
-            public void onLocationUpdated(@NonNull Location location) {
-                myLongitude = location.getPosition().getLongitude();
-                myLatitude = location.getPosition().getLatitude();
-                myLocation = new Point(myLatitude, myLongitude);
-                placemarkMapObject = mapView.getMap().getMapObjects().addPlacemark(myLocation, ImageProvider.fromResource(getApplicationContext(), R.drawable.red_geo_point));
-                placemarkMapObject.setDraggable(true);
-                mapView.getMap().move(new CameraPosition(myLocation, 25.0f, 0.0f, 0.0f));
-                //showMessage(placemarkMapObject.getGeometry().getLatitude() + "");
-            }
+        searchManager = SearchFactory.getInstance().createSearchManager(SearchManagerType.COMBINED);
+        suggestSession = searchManager.createSuggestSession();
 
-            @Override
-            public void onLocationStatusUpdated(@NonNull LocationStatus locationStatus) {
-
-            }
-        });
+        settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
+        token = settings.getString("JWT", "");
 
         name = findViewById(R.id.org_input_name);
         description = findViewById(R.id.org_input_desc);
         email = findViewById(R.id.org_input_email);
         number = findViewById(R.id.org_input_number);
-        mapView = findViewById(R.id.map);
+        EditText queryEdit = findViewById(R.id.query_address);
+        suggestResultView = findViewById(R.id.suggest_result);
+        spinner = findViewById(R.id.spinner);
+
+        ArrayAdapter<String> adapter;
+        String[] array = getResources().getStringArray(R.array.areas);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, array);
+        spinner.setAdapter(adapter);
+
+        suggestResult = new ArrayList<>();
+        resultAdapter = new ArrayAdapter(this,
+                android.R.layout.simple_list_item_2,
+                android.R.id.text1,
+                suggestResult);
+        suggestResultView.setAdapter(resultAdapter);
+
 
         registerOrg = findViewById(R.id.btn_signup);
 
-        registerOrg.setOnClickListener(new View.OnClickListener() {
+        queryEdit.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View view) {
-                showMessage("нажалась");
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
-                orgName = name.getText().toString();
-                orgDescription = description.getText().toString();
-                orgEmail = email.getText().toString();
-                orgPhone = number.getText().toString();
-
-
-                coordinates = placemarkMapObject.getGeometry().getLongitude() + ", " + placemarkMapObject.getGeometry().getLatitude();
-                showMessage(coordinates);
-
-                mapService
-                        .getJSONApi()
-                        .getDistrictName(token, API_KEY, format, coordinates)
-                        .enqueue(new Callback<DistrictResponse>() {
-                            @Override
-                            public void onResponse(Call<DistrictResponse> call, Response<DistrictResponse> response) {
-                                List<FeatureMember> featureMembers = response.body().getResponse().getGeoObjectCollection()
-                                        .getFeatureMember();
-                                address = response.body().getResponse()
-                                        .getGeoObjectCollection()
-                                        .getFeatureMember()
-                                        .get(0)
-                                        .getGeoObject()
-                                        .getMetaDataProperty()
-                                        .getGeocoderMetaData()
-                                        .getText();
-
-                                for (FeatureMember featureMember : featureMembers) {
-                                    if (featureMember.getGeoObject()
-                                            .getMetaDataProperty()
-                                            .getGeocoderMetaData()
-                                            .getKind().contains("district")) {
-                                        adminAreaName = featureMember.getGeoObject()
-                                                .getMetaDataProperty()
-                                                .getGeocoderMetaData()
-                                                .getAddressDetails()
-                                                .getCountry()
-                                                .getAdministrativeArea()
-                                                .getLocality()
-                                                .getDependentLocality()
-                                                .getDependentLocalityName();
-                                        if(adminAreaName.split(" ")[1].equals("район")) {
-                                            break;
-                                        }
-                                    }
-
-                                }
-                                showMessage(adminAreaName);
-                                showMessage(address);
-
-                                splitedAddress = address.split(", ");
-                                street = splitedAddress[2];
-                                if(splitedAddress.length <= 3) {
-                                    building = "Общественное место";
-                                }
-                                else {
-                                    building = splitedAddress[3];
-                                }
-
-                                Area area = new Area(adminAreaName);
-                                Address fullAddress = new Address(street, building, area);
-
-                                RegisteredOrganization registeredOrganization = new RegisteredOrganization(fullAddress, orgName, orgDescription, orgEmail, orgPhone);
-
-
-                                ApplicationService.getInstance()
-                                        .getJSONApi()
-                                        .postRegistedOrgData(token, registeredOrganization)
-                                        .enqueue(new Callback<RegisteredOrganization>() {
-                                            @Override
-                                            public void onResponse(@NonNull Call<RegisteredOrganization> call, @NonNull Response<RegisteredOrganization> response) {
-                                                if (response.isSuccessful()){
-                                                    //запрос выполнился успешно
-                                                    showMessage("Регистрация организации вполнена успешно");
-                                                }
-                                                else {
-                                                    //сервер вернул ошибку
-                                                    showMessage("Регистрация организации не вполнена");
-                                                }
-                                            }
-                                            @Override
-                                            public void onFailure(@NonNull Call<RegisteredOrganization> call, @NonNull Throwable t) {
-                                                showMessage("Ошибка во время выполнения запроса (созд. организации)");
-                                            }
-                                        });
-                            }
-
-                            @Override
-                            public void onFailure(@NotNull Call<DistrictResponse> call, @NotNull Throwable t) {
-                                //ошибка во время выполнения запроса
-                            }
-
-                        });
+            @Override
+            public void afterTextChanged(Editable editable) {
+                requestSuggest(editable.toString());
             }
         });
-/*
-        registerOrg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                orgName = name.getText().toString();
-                orgDescription = description.getText().toString();
-                orgEmail = email.getText().toString();
-                orgPhone = number.getText().toString();
 
+        suggestResultView.setOnItemClickListener((parent, view, position, id) -> {
+            String strSelectedFeature = (String) parent.getAdapter().getItem(position);
+            queryEdit.setText(strSelectedFeature);
 
-                final RegisteredOrganization registeredOrganization = new RegisteredOrganization(Address address, orgName, orgDescription, orgEmail, orgPhone);
-                //if (checkDataEntered()){
-                ApplicationService.getInstance()
-                        .getJSONApi()
-                        .postRegistedOrgData(registeredOrganization)
-                        .enqueue(new Callback<RegisteredOrganization>() {
-                            @Override
-                            public void onResponse(@NonNull Call<RegisteredOrganization> call, @NonNull Response<RegisteredOrganization> response) {
-                                if (response.isSuccessful()){
-                                    //запрос выполнился успешно
-                                    showMessage("Регистрация вполнена успешно");
-                                }
-                                else {
-                                    //сервер вернул ошибку
-                                    showMessage("Регистрация не вполнена");
-                                }
-                            }
-                            @Override
-                            public void onFailure(@NonNull Call<RegisteredOrganization> call, @NonNull Throwable t) {
-                                showMessage("Ошибка во время выполнения запроса");
-                            }
-                        });
-                //}
-            }
         });
- */
+
+        registerOrg.setOnClickListener(view -> {
+            orgName = name.getText().toString();
+            orgDescription = description.getText().toString();
+            orgEmail = email.getText().toString();
+            orgPhone = number.getText().toString();
+            address = queryEdit.getText().toString();
+
+            String[] splittedAddress = address.split(", ");
+            orgArea = new Area(spinner.getSelectedItem().toString());
+            orgAddress = new Address(splittedAddress[2], splittedAddress[3], orgArea);
+
+            RegisteredOrganization registeredOrganization = new RegisteredOrganization(orgAddress, orgName, orgEmail, orgPhone, orgDescription);
+            ApplicationService.getInstance()
+                    .getJSONApi()
+                    .postRegistedOrgData(token, registeredOrganization)
+                    .enqueue(new Callback<RegisteredOrganization>() {
+                        @Override
+                        public void onResponse(@NonNull Call<RegisteredOrganization> call, @NonNull Response<RegisteredOrganization> response) {
+                            if (response.isSuccessful()) {
+                                //запрос выполнился успешно
+                                showMessage("Регистрация организации вполнена успешно");
+                            } else {
+                                //сервер вернул ошибку
+                                showMessage("Регистрация организации не вполнена");
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<RegisteredOrganization> call, @NonNull Throwable t) {
+                            showMessage("Ошибка во время выполнения запроса (созд. организации)");
+                        }
+                    });
+        });
     }
 
     @Override
     protected void onStop() {
-        mapView.onStop();
         MapKitFactory.getInstance().onStop();
         super.onStop();
     }
@@ -268,16 +187,30 @@ public class NewOrganizationActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         MapKitFactory.getInstance().onStart();
-        mapView.onStart();
     }
 
-    public boolean checkLocationPermission() {
-        String permission = "android.permission.ACCESS_FINE_LOCATION";
-        int res = this.checkCallingOrSelfPermission(permission);
-        return (res == PackageManager.PERMISSION_GRANTED);
+    @Override
+    public void onResponse(@NonNull List<SuggestItem> suggest) {
+        suggestResult.clear();
+        for (int i = 0; i < Math.min(RESULT_NUMBER_LIMIT, suggest.size()); i++) {
+            suggestResult.add(suggest.get(i).getDisplayText());
+        }
+        resultAdapter.notifyDataSetChanged();
+        suggestResultView.setVisibility(View.VISIBLE);
     }
 
-    private void showMessage(String string){
+    @Override
+    public void onError(@NonNull Error error) {
+
+    }
+
+
+    private void requestSuggest(String query) {
+        suggestResultView.setVisibility(View.INVISIBLE);
+        suggestSession.suggest(query, BOUNDING_BOX, SEARCH_OPTIONS, this);
+    }
+
+    private void showMessage(String string) {
         Toast t = Toast.makeText(this, string, Toast.LENGTH_SHORT);
         t.show();
     }
