@@ -11,9 +11,9 @@ public class PersonRoles {
     @Expose
     private String id;
 
-    @SerializedName("roles")
+    @SerializedName("role")
     @Expose
-    private List<Role> roles = null;
+    private Role role;
 
 
     public String getId() {
@@ -24,12 +24,12 @@ public class PersonRoles {
         this.id = id;
     }
 
-    public List<Role> getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
 }

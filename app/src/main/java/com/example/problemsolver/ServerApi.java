@@ -2,6 +2,7 @@ package com.example.problemsolver;
 
 
 import com.example.problemsolver.Authorized.AuthorizedPerson;
+import com.example.problemsolver.Event.Model.EventResponse;
 import com.example.problemsolver.Feed.model.FeedResponse;
 import com.example.problemsolver.Login.LoginForm;
 import com.example.problemsolver.Organization.RegisteredOrganization;
@@ -18,6 +19,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -96,6 +98,24 @@ public interface ServerApi {
     public Call<AuthorizedPerson> getAuthorizedPersonInfo(
             @Header("Authorization") String token,
             @Path("id") String id
+    );
+
+    @Headers("Content-Type: application/json")
+    @PATCH("/api/problem/subscribe")
+    public Call<Void> subscribe(
+            @Header("Authorization") String token,
+            @Query("problemID") String problemId,
+            @Query("personID") String personId
+    );
+
+    @Headers("Content-Type: application/json")
+    @GET("/api/event/all")
+    public Call<EventResponse> getEvents(
+            @Header("Authorization") String token,
+            @Query("pageNumber") Integer pageNumber,
+            @Query("pageSize") Integer pageSize,
+            @Query("sortBy") String sortBy,
+            @Query("sortHow") String sortHow
     );
 
 }

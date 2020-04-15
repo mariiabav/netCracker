@@ -144,7 +144,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-light"
-                        android:text="Будет не лист статусов, а один конкретный"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
 
@@ -285,6 +284,15 @@
                         android:text=""
                         android:textColor="@color/black"
                         android:textSize="18sp" />
+
+                    <Button android:id="@+id/btn_events"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ивенты"
+                        android:background="@color/red"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@android:color/white"
+                        />
 
                 </LinearLayout>
 

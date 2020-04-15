@@ -95,6 +95,7 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         intent.putExtra("problem_date",  result.getCreationDate().substring(0, 10));
                         intent.putExtra("problem_rating",  result.getRate().toString());
                         intent.putExtra("problem_status", result.getStatus());
+                        intent.putExtra("problem_id", result.getId());
 
 
                         view.getContext().startActivity(intent);

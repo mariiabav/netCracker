@@ -5,18 +5,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
+import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.problemsolver.ApplicationService;
 import com.example.problemsolver.Authorized.AuthorizedPerson;
 import com.example.problemsolver.Authorized.PersonArea;
+import com.example.problemsolver.Event.EventActivity;
 import com.example.problemsolver.R;
 
 import java.util.List;
@@ -27,10 +27,10 @@ import retrofit2.Response;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private TextView FScView, emailView, numberView, dateView, area1View, area2View, area3View;
-    private Button myInfo, myProblems;
+    private TextView FScView, emailView, numberView, dateView, area1View, area2View, area3View, profileStatus;
+    private Button myInfo, myProblems, eventsBtn;
     private AuthorizedPerson authorizedPerson;
-    private String FSc, email, number, date, area1, area2, area3;
+    private String FSc, email, number, date, area1, area2, area3, role;
     private TextView [] areaView = new TextView[3];
 
     List<PersonArea> personAreas;
@@ -56,6 +56,14 @@ public class ProfileActivity extends AppCompatActivity {
         area1View = findViewById(R.id.profile_area1);
         area2View = findViewById(R.id.profile_area2);
         area3View = findViewById(R.id.profile_area3);
+        profileStatus = findViewById(R.id.profile_status);
+        eventsBtn = findViewById(R.id.btn_events);
+        eventsBtn.setVisibility(View.INVISIBLE);
+
+        eventsBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(ProfileActivity.this, EventActivity.class);
+            startActivity(intent);
+        });
 
 
         ApplicationService.getInstance()
@@ -65,6 +73,16 @@ public class ProfileActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(@NonNull Call<AuthorizedPerson> call, @NonNull Response<AuthorizedPerson> response) {
                         if (response.isSuccessful()) {
+                            role = settings.getString("Roles", "");
+                            if(role.equals("ROLE_ADMIN")) {
+                                eventsBtn.setVisibility(View.VISIBLE);
+                                profileStatus.setText("Администратор");
+                            }
+                            else if(role.equals("ROLE_USER")) {
+                                eventsBtn.setVisibility(View.GONE);
+                                profileStatus.setText("Пользователь");
+                            }
+
                             authorizedPerson = response.body();
                             FSc = authorizedPerson.getFirstName() + " " + authorizedPerson.getSecondName();
                             email = authorizedPerson.getEmail();
@@ -72,10 +90,12 @@ public class ProfileActivity extends AppCompatActivity {
                             date = authorizedPerson.getBirthDate();
                             personAreas = authorizedPerson.getPersonAreas();
 
+
                             FScView.setText(FSc);
                             emailView.setText(email);
                             numberView.setText(number);
                             dateView.setText(date);
+
 
                             areaView[0] = area1View;
                             areaView[1] = area2View;
@@ -86,7 +106,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 areaView[i].setText(personArea.getAreaName());
                                 i++;
                             }
-                            showMessage("Получили инфу о person для лк");
+                            //showMessage("Получили инфу о person для лк");
                         } else {
                             showMessage("person в лк не получен, сервер вернул ошибку");
                         }

@@ -19,9 +19,9 @@ public class AuthorizedPerson {
     @SerializedName("personProblemsAsOwner")
     @Expose
     private List<Object> personProblemsAsOwner = null;
-    @SerializedName("roles")
+    @SerializedName("role")
     @Expose
-    private List<Role> roles = null;
+    private Role role;
     @SerializedName("firstName")
     @Expose
     private String firstName;
@@ -76,12 +76,12 @@ public class AuthorizedPerson {
         this.personProblemsAsOwner = personProblemsAsOwner;
     }
 
-    public List<Role> getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public String getFirstName() {

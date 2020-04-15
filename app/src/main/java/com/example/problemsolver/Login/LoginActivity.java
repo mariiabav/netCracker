@@ -73,16 +73,14 @@ public class LoginActivity extends AppCompatActivity {
                                             public void onResponse(@NonNull Call<PersonRoles> call, @NonNull Response<PersonRoles> response) {
                                                 if (response.isSuccessful()) {
                                                     personRoles = response.body();
-                                                    Set<String> rolesSet = new HashSet<>();
-                                                    for (Role role: personRoles.getRoles()){
-                                                        rolesSet.add(role.getName());
-                                                    }
-                                                    prefEditor.putStringSet("Roles", rolesSet);
+                                                    String role = personRoles.getRole().getName();
+
+                                                    prefEditor.putString("Roles", role);
                                                     prefEditor.putString("id", personRoles.getId());
                                                     prefEditor.apply();
-                                                    showMessage("Получили список ролей загеристированного");
+                                                    //showMessage("Получили список ролей загеристированного");
                                                 } else {
-                                                    showMessage("Список ролей в login не получен, сервер вернул ошибку");
+                                                    //showMessage("Список ролей в login не получен, сервер вернул ошибку");
                                                 }
                                             }
 
@@ -92,7 +90,6 @@ public class LoginActivity extends AppCompatActivity {
                                             }
                                         });
 
-                                prefEditor.apply();
                                 Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
                                 startActivity(intent);
                             }
