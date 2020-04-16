@@ -21,7 +21,7 @@ import java.util.Objects;
 public class ProblemPageActivity extends AppCompatActivity {
 
 
-    private TextView address, date, type, description, rating, status;
+    private TextView address, date, type, description, rating;//, status;
     private Button supportBtn;
     private static final String statusCreated = "created";
     private static final String statusInProcess = "in process";
@@ -45,7 +45,7 @@ public class ProblemPageActivity extends AppCompatActivity {
         type = findViewById(R.id.problem_type);
         description = findViewById(R.id.problem_description);
         rating = findViewById(R.id.rating);
-        status = findViewById(R.id.status);
+        //status = findViewById(R.id.status);
         supportBtn = findViewById(R.id.btn_support);
 
         supportBtn.setOnClickListener(view -> {
@@ -91,7 +91,7 @@ public class ProblemPageActivity extends AppCompatActivity {
                 break;
         }
 
-        status.setText("Статус: " + serverStatus);
+        //status.setText("Статус: " + serverStatus);
     }
 
     private void showMessage(String string) {
