@@ -67,7 +67,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/rellay_friends"
+                    android:id="@+id/rellay_profile"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0.55"
@@ -114,7 +114,7 @@
                 android:layout_weight="1">
 
                 <RelativeLayout
-                    android:id="@+id/rellay_chat"
+                    android:id="@+id/rellay_problems"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0.55"
@@ -153,7 +153,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/rellay_music"
+                    android:id="@+id/rellay_feed"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0.65"
@@ -200,7 +200,7 @@
                 android:layout_weight="1">
 
                 <RelativeLayout
-                    android:id="@+id/rellay_gallery"
+                    android:id="@+id/rellay_map"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0.65"
@@ -239,7 +239,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/rellay_map"
+                    android:id="@+id/rellay_org"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0.55"
@@ -264,6 +264,7 @@
                             android:tint="@color/white" />
 
                         <TextView
+                            android:id="@+id/textview_org"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/imgView6"

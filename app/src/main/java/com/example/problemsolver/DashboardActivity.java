@@ -1,10 +1,15 @@
 package com.example.problemsolver;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.problemsolver.Feed.FeedActivity;
@@ -16,19 +21,35 @@ import com.example.problemsolver.Profile.ProfileActivity;
 public class DashboardActivity extends AppCompatActivity {
 
 
-    private RelativeLayout register, login, problem, feed, map, organization, profile, settings;
+    private RelativeLayout register, login, problem, feed, map, organization, profile, set;
+    TextView orgVeiw;
+    private SharedPreferences settings;
+    private String role;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        profile = findViewById(R.id.rellay_friends);
-        problem = findViewById(R.id.rellay_chat);
-        feed = findViewById(R.id.rellay_music);
-        map = findViewById(R.id.rellay_gallery);
-        organization = findViewById(R.id.rellay_map);
-        settings = findViewById(R.id.rellay_timeline);
+
+        profile = findViewById(R.id.rellay_profile);
+        problem = findViewById(R.id.rellay_problems);
+        feed = findViewById(R.id.rellay_feed);
+        map = findViewById(R.id.rellay_map);
+        organization = findViewById(R.id.rellay_org);
+        set = findViewById(R.id.rellay_timeline);
+        orgVeiw = findViewById(R.id.textview_org);
+
+
+        settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
+        role = settings.getString("Roles", "");
+        if(role.equals("ROLE_ADMIN")) {
+            orgVeiw.setText("Создать орг");
+        }
+        else if(role.equals("ROLE_USER")) {
+            orgVeiw.setText("Список орг");
+        }
+
 
         problem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,9 +81,18 @@ public class DashboardActivity extends AppCompatActivity {
         organization.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(DashboardActivity.this, NewOrganizationActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intent);
+
+                if(role.equals("ROLE_ADMIN")) {
+                    Intent intent = new Intent(DashboardActivity.this, NewOrganizationActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(intent);
+                }
+                else if(role.equals("ROLE_USER")) {
+                    Intent intent = new Intent(DashboardActivity.this, OrgListActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(intent);
+                }
+
             }
         });
 
@@ -75,7 +105,7 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
 
-        settings.setOnClickListener(new View.OnClickListener() {
+        set.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);

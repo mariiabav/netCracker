@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DashboardActivity"></activity>
+        <activity android:name=".OrgListActivity"></activity>
+        <activity android:name=".DashboardActivity" />
         <activity android:name=".Login.LoginActivity" />
         <activity android:name=".Profile.ProfileActivity" />
         <activity android:name=".Feed.ProblemPageActivity" />
@@ -23,7 +24,7 @@
         <activity android:name=".Problem.NewProblemActivity" />
         <activity android:name=".Feed.FeedActivity" />
         <activity android:name=".Event.EventActivity" />
-        <activity android:name=".Event.ProblemPageActivity"/>
+        <activity android:name=".Event.ProblemPageActivity" />
         <activity android:name=".Map.MapActivity" />
         <activity android:name=".Main.MainActivity">
             <intent-filter>
