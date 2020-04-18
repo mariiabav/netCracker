@@ -135,7 +135,7 @@
                             android:adjustViewBounds="true"
                             android:padding="8dp"
                             android:scaleType="centerInside"
-                            android:src="@drawable/problem"
+                            android:src="@drawable/risk"
                             android:tint="@color/white" />
 
                         <TextView
