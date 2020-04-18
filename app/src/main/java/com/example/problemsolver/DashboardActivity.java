@@ -43,13 +43,14 @@ public class DashboardActivity extends AppCompatActivity {
 
         settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
         role = settings.getString("Roles", "");
+        System.out.println(role);
+
         if(role.equals("ROLE_ADMIN")) {
             orgVeiw.setText("Создать орг");
         }
         else if(role.equals("ROLE_USER")) {
             orgVeiw.setText("Список орг");
         }
-
 
         problem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +94,7 @@ public class DashboardActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
 
+
             }
         });
 
@@ -108,7 +110,9 @@ public class DashboardActivity extends AppCompatActivity {
         set.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                Intent intent = new Intent(DashboardActivity.this, ImageActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
             }
         });
 

@@ -5,13 +5,19 @@ import androidx.annotation.NonNull;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.DragEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +41,8 @@ import com.yandex.mapkit.mapview.MapView;
 import com.yandex.mapkit.search.SearchManager;
 import com.yandex.runtime.image.ImageProvider;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.List;
 
 import androidx.core.app.ActivityCompat;
@@ -46,6 +54,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class NewProblemActivity extends Activity {
+
+
+    private ImageView imageView;
+    private ImageButton PickImage;
+    private final int Pick_image = 1;
+    Bitmap selectedImage;
+
 
     private final String MAPKIT_API_KEY = "d57819df-534a-4ba4-89d4-430e73a03ab3";
 
@@ -69,7 +84,6 @@ public class NewProblemActivity extends Activity {
     private String address;
     private String coordinates;
     private String adminAreaName;
-    private TextView mapAddress;
 
     private String token;
     private SharedPreferences settings;
@@ -134,7 +148,8 @@ public class NewProblemActivity extends Activity {
                                                 .getMetaDataProperty()
                                                 .getGeocoderMetaData()
                                                 .getText();
-                                        mapAddress.setText(address);
+
+                                        layoutAddress.setText(address);
                                     }
 
                                     @Override
@@ -157,8 +172,23 @@ public class NewProblemActivity extends Activity {
         description = findViewById(R.id.problem_input_description);
         mapView = findViewById(R.id.map);
         layoutAddress = findViewById(R.id.query_address);
-        mapAddress = findViewById(R.id.map_address);
 
+        imageView = findViewById(R.id.imageView);
+        PickImage = findViewById(R.id.problem_photo_btn);
+
+        PickImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Вызываем стандартную галерею для выбора изображения с помощью Intent.ACTION_PICK:
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+
+                //Тип получаемых объектов - image:
+                photoPickerIntent.setType("image/*");
+
+                //Запускаем переход с ожиданием обратного результата в виде информации об изображении:
+                startActivityForResult(photoPickerIntent, Pick_image);
+            }
+        });
 
         problem.setOnClickListener(view -> {
             showMessage("нажалась");
@@ -245,6 +275,28 @@ public class NewProblemActivity extends Activity {
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+
+        switch(requestCode) {
+            case Pick_image:
+                if (resultCode == RESULT_OK) {
+                    try {
+                        //Получаем URI изображения, преобразуем его в Bitmap
+                        //объект и отображаем в элементе ImageView нашего интерфейса:
+                        final Uri imageUri = imageReturnedIntent.getData();
+                        final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                        selectedImage = BitmapFactory.decodeStream(imageStream);
+                        imageView.setImageBitmap(selectedImage);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+        }
+
+    }
 
     @Override
     protected void onStop() {

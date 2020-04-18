@@ -8,6 +8,6 @@
     <com.yandex.mapkit.mapview.MapView
         android:id="@+id/mapview"
         android:layout_width="wrap_content"
-        android:layout_height="200dp"/>
+        android:layout_height="wrap_content"/>
 
 </FrameLayout>

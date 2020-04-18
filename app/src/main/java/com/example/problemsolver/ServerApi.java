@@ -14,13 +14,18 @@ import com.example.problemsolver.Registration.RegisteredPerson;
 
 import java.util.List;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -84,7 +89,8 @@ public interface ServerApi {
 
     @POST("/login")
     public Call<Void> login(
-            @Body LoginForm loginForm);
+            @Body LoginForm loginForm
+    );
 
 
     @Headers("Content-Type: application/json")
@@ -127,5 +133,22 @@ public interface ServerApi {
             @Query("result") String result,
             @Query("moderatorId") String moderatorId
     );
+
+
+    @Multipart
+    @POST("/uploadFile")
+    public Call<Photo> uploadFile(
+            @Header("Authorization") String token,
+            //@Query("multipartFile") MultipartFile file
+            @Part MultipartBody.Part image
+    );
+
+    @Headers("Content-Type: application/json")
+    @PUT("/api/problem/like")
+    public Call<Void> setLike(
+            @Header("Authorization") String token,
+            @Query("problemID") String problemID
+    );
+
 
 }

@@ -33,13 +33,6 @@
                 android:ems="10"
                 android:hint="Опишите проблему"/>
         </com.google.android.material.textfield.TextInputLayout>
-    <TextView
-        android:id="@+id/map_address"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textSize="30sp"
-        />
 
     <TextView
         android:id="@+id/query_address"
@@ -53,8 +46,62 @@
         android:layout_marginTop="10dp"
         android:id="@+id/map"
         android:layout_width="wrap_content"
-        android:layout_height="200dp"/>
+        android:layout_height="150dp"/>
 
+    <LinearLayout
+        android:id="@+id/linlay1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rellay1"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp">
+
+            <ImageButton
+                android:id="@+id/problem_photo_btn"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:background="@color/white"
+                android:scaleType="fitCenter"
+                android:src="@drawable/plus" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.2"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:text="Если возможно, загрузите фото"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/hole" />
 
     <Button android:id="@+id/btn_problem"
             android:layout_width="fill_parent"
@@ -63,5 +110,5 @@
             android:background="@color/red"
             android:layout_marginTop="10dp"
             android:textColor="@android:color/white"
-            />
+        />
 </LinearLayout>
