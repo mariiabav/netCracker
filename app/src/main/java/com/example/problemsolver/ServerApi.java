@@ -50,7 +50,7 @@ public interface ServerApi {
 
     @Headers("Content-Type: application/json")
     @GET(".")
-    public Call<RegionDataResponse> getRegionData(
+    Call<RegionDataResponse> getRegionData(
             @Header("Authorization") String token,
             @Query("apikey") String apiKey,
             @Query("format") String format,
@@ -59,7 +59,7 @@ public interface ServerApi {
 
     @Headers("Content-Type: application/json")
     @GET(".")
-    public Call<DistrictResponse> getDistrictName(
+    Call<DistrictResponse> getDistrictName(
             @Header("Authorization") String token,
             @Query("apikey") String apiKey,
             @Query("format") String format,
@@ -68,7 +68,7 @@ public interface ServerApi {
 
     @Headers("Content-Type: application/json")
     @POST("/api/problem/create")
-    public Call<NewProblem> postNewProblemData(
+    Call<NewProblem> postNewProblemData(
             @Header("Authorization") String token,
             @Body NewProblem newProblem
     );
@@ -76,11 +76,11 @@ public interface ServerApi {
 
     @Headers("Content-Type: application/json")
     @GET("/api/problem/allmap")
-    public Call<List<NewProblem>> getAllProblems(@Header("Authorization") String token);
+    Call<List<NewProblem>> getAllProblems(@Header("Authorization") String token);
 
     @Headers("Content-Type: application/json")
     @GET("/api/problem/all")
-    public Call<FeedResponse>getAllProblems(
+    Call<FeedResponse>getAllProblems(
             @Header("Authorization") String token,
             @Query("pageNumber") Integer pageNumber,
             @Query("pageSize") Integer pageSize,
@@ -92,27 +92,27 @@ public interface ServerApi {
 
 
     @POST("/login")
-    public Call<Void> login(
+    Call<Void> login(
             @Body LoginForm loginForm
     );
 
 
     @Headers("Content-Type: application/json")
     @GET("/api/person/info")
-    public Call<PersonRoles> getPersonRoles(
+    Call<PersonRoles> getPersonRoles(
             @Header("Authorization") String token
     );
 
     @Headers("Content-Type: application/json")
     @GET("/api/person/{id}")
-    public Call<AuthorizedPerson> getAuthorizedPersonInfo(
+    Call<AuthorizedPerson> getAuthorizedPersonInfo(
             @Header("Authorization") String token,
             @Path("id") String id
     );
 
     @Headers("Content-Type: application/json")
     @PUT("/api/problem/subscribe")
-    public Call<Void> subscribe(
+    Call<Void> subscribe(
             @Header("Authorization") String token,
             @Query("problemID") String problemId,
             @Query("personID") String personId
@@ -120,7 +120,7 @@ public interface ServerApi {
 
     @Headers("Content-Type: application/json")
     @GET("/api/event/all")
-    public Call<EventResponse> getEvents(
+    Call<EventResponse> getEvents(
             @Header("Authorization") String token,
             @Query("pageNumber") Integer pageNumber,
             @Query("pageSize") Integer pageSize,
@@ -130,7 +130,7 @@ public interface ServerApi {
 
     @Headers("Content-Type: application/json")
     @PUT("/api/event/update")
-    public Call<Void> updateEvent(
+    Call<Void> updateEvent(
             @Header("Authorization") String token,
             @Query("eventId") String eventId,
             @Query("text") String text,
@@ -139,18 +139,17 @@ public interface ServerApi {
             @Query("moderatorId") String moderatorId
     );
 
-
     @Multipart
     @POST("/uploadFile")
-    public Call<Photo> uploadFile(
+    Call<Photo> uploadFile(
             @Header("Authorization") String token,
             //@Query("multipartFile") MultipartFile file
-            @Part MultipartBody.Part image
+            @Part MultipartBody.Part file
     );
 
     @Headers("Content-Type: application/json")
     @PUT("/api/problem/like")
-    public Call<Void> setLike(
+    Call<Void> setLike(
             @Header("Authorization") String token,
             @Query("problemId") String problemId,
             @Query("personId") String personId
@@ -158,7 +157,7 @@ public interface ServerApi {
 
     @Headers("Content-Type: application/json")
     @PUT("/api/problem/dislike")
-    public Call<Void> setDislike(
+    Call<Void> setDislike(
             @Header("Authorization") String token,
             @Query("problemId") String problemId,
             @Query("personId") String personId
@@ -166,13 +165,13 @@ public interface ServerApi {
 
     @Headers("Content-Type: application/json")
     @GET("/api/problem/assessment")
-    public Call<Assessment> getAssessment(
+    Call<Assessment> getAssessment(
             @Header("Authorization") String token,
             @Query("problemId") String problemId
     );
     @Headers("Content-Type: application/json")
     @GET("/api/org/all")
-    public Call<FeedOrgResponse> getOrgs(
+    Call<FeedOrgResponse> getOrgs(
             @Header("Authorization") String token,
             @Query("pageNumber") Integer pageNumber,
             @Query("pageSize") Integer pageSize,
@@ -182,7 +181,7 @@ public interface ServerApi {
 
     //@Headers("Content-Type: application/json")
     @GET("/api/problem/myAssessment")
-    public Call<MyAssessmentResponse> getMyAssessment(
+    Call<MyAssessmentResponse> getMyAssessment(
             @Header("Authorization") String token,
             @Query("problemId") String problemId,
             @Query("personId") String personId

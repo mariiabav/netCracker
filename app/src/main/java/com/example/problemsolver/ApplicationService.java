@@ -12,6 +12,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -26,22 +27,16 @@ public class ApplicationService {
 
 
     private ApplicationService() {
-        OkHttpClient httpClient = new OkHttpClient();
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
 
-        httpClient.newBuilder().addInterceptor(chain -> {
-            Request request = chain.request()
-                    .newBuilder()
-                    .addHeader("Content-Type", "application/json")
-                    .method(chain.request().method(), chain.request().body())
-                    .build();
-            Response response = chain.proceed(request);
-            return response;
-        });
+
 
         mRetrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(httpClient)
+                .client(client)
                 .build();
     }
 

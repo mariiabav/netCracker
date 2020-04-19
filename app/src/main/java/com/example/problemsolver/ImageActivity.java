@@ -3,10 +3,12 @@ package com.example.problemsolver;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -27,6 +29,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+import androidx.core.app.ActivityCompat;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -56,6 +59,8 @@ public class ImageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
+
+        requestMultiplePermissions();
 
         settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
         token = settings.getString("JWT", "");
@@ -106,8 +111,8 @@ public class ImageActivity extends AppCompatActivity {
         if (imagePath != null && !imagePath.isEmpty()) {
             File file = new File(imagePath);
             if (file.exists()) {
-                RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-                MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), requestFile);
+                RequestBody requestFile = RequestBody.create(file, MediaType.parse("multipart/form-data"));
+                MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
 
                 ApplicationService.getInstance()
                         .getJSONApi()
@@ -126,7 +131,7 @@ public class ImageActivity extends AppCompatActivity {
                             }
                             @Override
                             public void onFailure(@NonNull Call<Photo> call, @NonNull Throwable t) {
-                                showMessage("Ошибка во время выполнения запроса: фото");
+                                showMessage(t.toString());
                             }
                         });
             }
@@ -237,5 +242,14 @@ public class ImageActivity extends AppCompatActivity {
 
     private boolean isGooglePhotosUri(Uri uri) {
         return "com.google.android.apps.photos.content".equals(uri.getAuthority());
+    }
+
+    private void requestMultiplePermissions() {
+        ActivityCompat.requestPermissions(this,
+                new String[] {
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.CAMERA
+                },
+                1);
     }
 }
