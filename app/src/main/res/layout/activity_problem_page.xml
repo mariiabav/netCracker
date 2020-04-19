@@ -105,6 +105,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:id="@+id/like_not_btn"
             android:layout_weight="1">
 
             <LinearLayout
@@ -113,6 +114,7 @@
                 android:layout_centerInParent="true">
 
                 <ImageView
+                    android:id="@+id/heart"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:adjustViewBounds="true"
@@ -120,18 +122,60 @@
                     app:srcCompat="@drawable/heart" />
 
                 <TextView
-                    android:id="@+id/rating"
+                    android:id="@+id/likes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:fontFamily="sans-serif-medium"
-                    android:text="584"
+                    android:text="likes: "
+                    android:textColor="@color/black"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/dislike_not_btn"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true">
+
+                <ImageView
+                    android:id="@+id/broken_heart"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/broken" />
+
+                <TextView
+                    android:id="@+id/dislikes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="dislikes: "
                     android:textColor="@color/black"
                     android:textSize="13sp" />
 
             </LinearLayout>
 
+
         </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:id="@+id/btn_participate"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_below="@+id/two_btn">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -156,13 +200,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:fontFamily="sans-serif-medium"
-                    android:text="Хочу участвовать"
+                    android:text="Хочу участвовать в решении"
                     android:background="@color/white"
                     android:textColor="@color/black"
                     android:textSize="13sp" />
-
             </LinearLayout>
-
         </RelativeLayout>
     </LinearLayout>
 
@@ -170,8 +212,9 @@
         android:id="@+id/imgView_line"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:layout_below="@+id/two_btn"
+        android:layout_below="@+id/btn_participate"
         android:layout_marginTop="10dp"
         android:background="@color/light_grey" />
 
 </RelativeLayout>
+

@@ -93,10 +93,13 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         intent.putExtra("problem_type",  result.getProblemName());
                         intent.putExtra("problem_description", result.getDescription());
                         intent.putExtra("problem_date",  result.getCreationDate().substring(0, 10));
-                        intent.putExtra("problem_rating",  result.getRate().toString());
+
+                        //тут надо не рейтинг результата, а запрос лайки и дизлайки по id проблемы
+                        intent.putExtra("problem_likes",  result.getRate().toString());
+
+
                         intent.putExtra("problem_status", result.getStatus());
                         intent.putExtra("problem_id", result.getId());
-
 
                         view.getContext().startActivity(intent);
                     }
@@ -204,7 +207,6 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         private TextView mDate;
         private TextView mRate;
         private ImageView mProblemImg;
-        private ImageButton mPageProblem;
 
         private ProgressBar mProgress;
 
@@ -216,7 +218,6 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             mDate = itemView.findViewById(R.id.date);
             mRate = itemView.findViewById(R.id.rating);
             mProblemImg = itemView.findViewById(R.id.status_pic);
-            mPageProblem = itemView.findViewById(R.id.problem_page_btn);
         }
     }
 

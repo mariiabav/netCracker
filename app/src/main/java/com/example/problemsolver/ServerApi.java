@@ -147,8 +147,23 @@ public interface ServerApi {
     @PUT("/api/problem/like")
     public Call<Void> setLike(
             @Header("Authorization") String token,
-            @Query("problemID") String problemID
+            @Query("problemId") String problemId,
+            @Query("personId") String personId
     );
 
+    @Headers("Content-Type: application/json")
+    @PUT("/api/problem/dislike")
+    public Call<Void> setDislike(
+            @Header("Authorization") String token,
+            @Query("problemId") String problemId,
+            @Query("personId") String personId
+    );
+
+    @Headers("Content-Type: application/json")
+    @GET("/api/problem/assessment")
+    public Call<Assessment> getAssessment(
+            @Header("Authorization") String token,
+            @Query("problemId") String problemId
+    );
 
 }
