@@ -112,7 +112,7 @@ public class ProblemPageActivity extends AppCompatActivity {
         supportBtn.setOnClickListener(view -> {
             ApplicationService.getInstance()
             .getJSONApi()
-            .subscribe(token, problemId,personId)
+            .subscribe(token, problemId, personId)
             .enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {

@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.example.problemsolver.ApplicationService;
-import com.example.problemsolver.Problem.NewProblem;
+import com.example.problemsolver.Problem.model.NewProblem;
 import com.example.problemsolver.R;
 import com.yandex.mapkit.MapKit;
 import com.yandex.mapkit.MapKitFactory;

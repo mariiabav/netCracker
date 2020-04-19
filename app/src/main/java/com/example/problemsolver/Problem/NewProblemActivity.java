@@ -12,8 +12,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.DragEvent;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -25,6 +23,10 @@ import com.example.problemsolver.ApplicationService;
 import com.example.problemsolver.Map.Models.DistrictResponse.DistrictResponse;
 import com.example.problemsolver.Map.Models.DistrictResponse.FeatureMember;
 import com.example.problemsolver.MapService;
+import com.example.problemsolver.Problem.model.Address;
+import com.example.problemsolver.Problem.model.Area;
+import com.example.problemsolver.Problem.model.NewProblem;
+import com.example.problemsolver.Problem.model.Owner;
 import com.example.problemsolver.R;
 import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.geometry.Point;
@@ -38,7 +40,6 @@ import com.yandex.mapkit.map.MapObject;
 import com.yandex.mapkit.map.MapObjectDragListener;
 import com.yandex.mapkit.map.PlacemarkMapObject;
 import com.yandex.mapkit.mapview.MapView;
-import com.yandex.mapkit.search.SearchManager;
 import com.yandex.runtime.image.ImageProvider;
 
 import java.io.FileNotFoundException;
@@ -86,6 +87,7 @@ public class NewProblemActivity extends Activity {
     private String adminAreaName;
 
     private String token;
+    private String personId;
     private SharedPreferences settings;
 
     TextView layoutAddress;
@@ -99,6 +101,7 @@ public class NewProblemActivity extends Activity {
         super.onCreate(savedInstanceState);
         settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
         token = settings.getString("JWT", "");
+        personId = settings.getString("id","");
         if (!checkLocationPermission()) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
@@ -176,18 +179,15 @@ public class NewProblemActivity extends Activity {
         imageView = findViewById(R.id.imageView);
         PickImage = findViewById(R.id.problem_photo_btn);
 
-        PickImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Вызываем стандартную галерею для выбора изображения с помощью Intent.ACTION_PICK:
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        PickImage.setOnClickListener(v -> {
+            //Вызываем стандартную галерею для выбора изображения с помощью Intent.ACTION_PICK:
+            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
 
-                //Тип получаемых объектов - image:
-                photoPickerIntent.setType("image/*");
+            //Тип получаемых объектов - image:
+            photoPickerIntent.setType("image/*");
 
-                //Запускаем переход с ожиданием обратного результата в виде информации об изображении:
-                startActivityForResult(photoPickerIntent, Pick_image);
-            }
+            //Запускаем переход с ожиданием обратного результата в виде информации об изображении:
+            startActivityForResult(photoPickerIntent, Pick_image);
         });
 
         problem.setOnClickListener(view -> {
@@ -245,7 +245,8 @@ public class NewProblemActivity extends Activity {
 
                             Area area = new Area(adminAreaName);
                             Address fullAddress = new Address(street, building, area);
-                            NewProblem newProblem = new NewProblem(fullAddress, problemType, problemDescription, "created", 0, coordinates);
+                            Owner owner = new Owner(personId);
+                            NewProblem newProblem = new NewProblem(fullAddress, problemType, problemDescription, "created", 0, coordinates, owner);
 
                             ApplicationService.getInstance()
                                     .getJSONApi()

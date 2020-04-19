@@ -1,5 +1,5 @@
 
-package com.example.problemsolver.Problem;
+package com.example.problemsolver.Problem.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -24,14 +24,18 @@ public class NewProblem {
     @SerializedName("coordinates")
     @Expose
     private String coordinates;
+    @SerializedName("owner")
+    @Expose
+    private Owner owner;
 
-    public NewProblem(Address address, String problemName, String description, String status, Integer rate, String coordinates) {
+    public NewProblem(Address address, String problemName, String description, String status, Integer rate, String coordinates, Owner owner) {
         this.address = address;
         this.problemName = problemName;
         this.description = description;
         this.status = status;
         this.rate = rate;
         this.coordinates = coordinates;
+        this.owner = owner;
     }
 
     public Address getAddress() {
@@ -80,5 +84,13 @@ public class NewProblem {
 
     public void setCoordinates(String coordinates) {
         this.coordinates = coordinates;
+    }
+
+    public Owner getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Owner owner) {
+        this.owner = owner;
     }
 }

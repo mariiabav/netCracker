@@ -104,9 +104,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 String year = date[2];
                 String serverDate = year + "-" + month + "-" + day;
 
-                List<Role> roles = new ArrayList<>();
-                final Role role = new Role("123e4567-e89b-12d3-a456-426655440000", "ROLE_ADMIN");
-                roles.add(role);
+                Role role = new Role("64c9b3f2-de82-4048-bfa1-9217ce811c99", "ROLE_USER");
 
                 for (String area: checkedAreas){
                     personAreas.add(new Area(area));
@@ -114,7 +112,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
 
 
-                final RegisteredPerson registeredPerson = new RegisteredPerson(firstName, secondName, email1, phone, pass, serverDate, roles, personAreas);
+                final RegisteredPerson registeredPerson = new RegisteredPerson(firstName, secondName, email1, phone, pass, serverDate, role, personAreas);
                 //if (checkDataEntered()){
                 ApplicationService.getInstance()
                         .getJSONApi()

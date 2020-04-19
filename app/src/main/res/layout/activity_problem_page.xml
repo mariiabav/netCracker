@@ -200,7 +200,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:fontFamily="sans-serif-medium"
-                    android:text="Хочу участвовать в решении"
+                    android:text="Подписаться"
                     android:background="@color/white"
                     android:textColor="@color/black"
                     android:textSize="13sp" />

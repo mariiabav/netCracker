@@ -6,27 +6,23 @@ import com.example.problemsolver.Event.Model.EventResponse;
 import com.example.problemsolver.Feed.model.FeedResponse;
 import com.example.problemsolver.Feed.model.MyAssessmentResponse;
 import com.example.problemsolver.Login.LoginForm;
-import com.example.problemsolver.Organization.FeedOrgActivity;
 import com.example.problemsolver.Organization.model.FeedOrgResponse;
 import com.example.problemsolver.Organization.model.RegisteredOrganization;
 import com.example.problemsolver.Map.Models.DistrictResponse.DistrictResponse;
 import com.example.problemsolver.Map.Models.NewProblemResponse.RegionDataResponse;
 import com.example.problemsolver.PersonRoles.PersonRoles;
-import com.example.problemsolver.Problem.NewProblem;
+import com.example.problemsolver.Problem.model.NewProblem;
 import com.example.problemsolver.Registration.RegisteredPerson;
 
 import java.util.List;
-import java.util.UUID;
 
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
-import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;

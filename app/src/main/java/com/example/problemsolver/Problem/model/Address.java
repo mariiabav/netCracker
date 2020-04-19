@@ -1,5 +1,5 @@
 
-package com.example.problemsolver.Problem;
+package com.example.problemsolver.Problem.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

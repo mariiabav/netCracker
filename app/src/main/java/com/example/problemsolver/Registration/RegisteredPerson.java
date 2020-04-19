@@ -13,7 +13,7 @@ public class RegisteredPerson {
 
     @SerializedName("roles")
     @Expose
-    private List<Role> roles;
+    private Role role;
 
     @SerializedName("firstName")
     @Expose
@@ -40,7 +40,7 @@ public class RegisteredPerson {
     private String birthDate;
 
 
-    public RegisteredPerson(String firstName, String secondName, String email1, String phone, String password1, String bithdate1, List<Role> roles,
+    public RegisteredPerson(String firstName, String secondName, String email1, String phone, String password1, String bithdate1, Role role,
                             List<Area> personAreas) {
         this.firstName = firstName;
         this.secondName = secondName;
@@ -48,16 +48,24 @@ public class RegisteredPerson {
         this.password = password1;
         this.phone = phone;
         this.birthDate = bithdate1;
-        this.roles = roles;
+        this.role = role;
         this.personAreas = personAreas;
     }
 
-    public List<Role> getRoles() {
-        return roles;
+    public List<Area> getPersonAreas() {
+        return personAreas;
     }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
+    public void setPersonAreas(List<Area> personAreas) {
+        this.personAreas = personAreas;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public String getFirstName() {
