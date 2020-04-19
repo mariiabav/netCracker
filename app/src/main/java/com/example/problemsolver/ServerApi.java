@@ -4,6 +4,7 @@ package com.example.problemsolver;
 import com.example.problemsolver.Authorized.AuthorizedPerson;
 import com.example.problemsolver.Event.Model.EventResponse;
 import com.example.problemsolver.Feed.model.FeedResponse;
+import com.example.problemsolver.Feed.model.MyAssessmentResponse;
 import com.example.problemsolver.Login.LoginForm;
 import com.example.problemsolver.Organization.FeedOrgActivity;
 import com.example.problemsolver.Organization.model.FeedOrgResponse;
@@ -15,6 +16,7 @@ import com.example.problemsolver.Problem.NewProblem;
 import com.example.problemsolver.Registration.RegisteredPerson;
 
 import java.util.List;
+import java.util.UUID;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -175,6 +177,15 @@ public interface ServerApi {
             @Query("pageSize") Integer pageSize,
             @Query("sortBy") String sortBy,
             @Query("sortHow") String sortHow
+    );
+
+    //@Headers("Content-Type: application/json")
+    @GET("/api/problem/myAssessment")
+    public Call<MyAssessmentResponse> getMyAssessment(
+            @Header("Authorization") String token,
+            @Query("problemId") String problemId,
+            @Query("personId") String personId
+
     );
 
 

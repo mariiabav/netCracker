@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.problemsolver.ApplicationService;
 import com.example.problemsolver.Assessment;
+import com.example.problemsolver.Feed.model.MyAssessmentResponse;
 import com.example.problemsolver.R;
 
 import java.util.Objects;
@@ -71,44 +72,40 @@ public class ProblemPageActivity extends AppCompatActivity {
         imageLikes = findViewById(R.id.heart);
         imageDislikes = findViewById(R.id.broken_heart);
 
+        myAssessmentRequest();
 
-        likesRelley.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               if (pressedLikeBtn){
-                   imageLikes.setImageResource(R.drawable.heart);
-                   pressedLikeBtn = false;
-                   likeRequest(token, personId, problemId);
-               } else {
-                   if (pressedDislikeBtn){
-                       imageDislikes.setImageResource(R.drawable.broken);
-                       pressedDislikeBtn = false;
-                   }
-                   imageLikes.setImageResource(R.drawable.heart_red);
-                   pressedLikeBtn = true;
-                   likeRequest(token, personId, problemId);
+
+        likesRelley.setOnClickListener(view -> {
+           if (pressedLikeBtn){
+               imageLikes.setImageResource(R.drawable.heart);
+               pressedLikeBtn = false;
+               likeRequest(token, personId, problemId);
+           } else {
+               if (pressedDislikeBtn){
+                   imageDislikes.setImageResource(R.drawable.broken);
+                   pressedDislikeBtn = false;
                }
-            }
+               imageLikes.setImageResource(R.drawable.heart_red);
+               pressedLikeBtn = true;
+               likeRequest(token, personId, problemId);
+           }
         });
 
-        dislikesRelley.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (pressedDislikeBtn){
-                    imageDislikes.setImageResource(R.drawable.broken);
-                    pressedDislikeBtn = false;
-                    dislikeRequest(token, personId, problemId);
-                    //обновляем текствью
-                } else {
-                    if (pressedLikeBtn){
-                        imageLikes.setImageResource(R.drawable.heart);
-                        pressedLikeBtn = false;
-                    }
-
-                    imageDislikes.setImageResource(R.drawable.broken_black);
-                    pressedDislikeBtn =  true;
-                    dislikeRequest(token, personId, problemId);
+        dislikesRelley.setOnClickListener(view -> {
+            if (pressedDislikeBtn){
+                imageDislikes.setImageResource(R.drawable.broken);
+                pressedDislikeBtn = false;
+                dislikeRequest(token, personId, problemId);
+                //обновляем текствью
+            } else {
+                if (pressedLikeBtn){
+                    imageLikes.setImageResource(R.drawable.heart);
+                    pressedLikeBtn = false;
                 }
+
+                imageDislikes.setImageResource(R.drawable.broken_black);
+                pressedDislikeBtn =  true;
+                dislikeRequest(token, personId, problemId);
             }
         });
 
@@ -133,7 +130,7 @@ public class ProblemPageActivity extends AppCompatActivity {
         type.setText(getIntent().getStringExtra("problem_type"));
         description.setText(getIntent().getStringExtra("problem_description"));
         date.setText(getIntent().getStringExtra("problem_date"));
-        likes.setText("likes: " + getIntent().getStringExtra("problem_likes"));
+        assessmentRequest(token, problemId);
         //dislikes.setText("dislikes: " + getIntent().getStringExtra("problem_dislikes"));
 
         String serverStatus = getIntent().getStringExtra("problem_status");
@@ -221,6 +218,38 @@ public class ProblemPageActivity extends AppCompatActivity {
                     }
                     @Override
                     public void onFailure(@NonNull Call<Assessment> call, @NonNull Throwable t) {
+                        showMessage("Ошибка во время выполнения запроса: оценка");
+                    }
+                });
+    }
+
+    private void myAssessmentRequest(){
+        ApplicationService.getInstance()
+                .getJSONApi()
+                .getMyAssessment(token, problemId, personId)
+                .enqueue(new Callback<MyAssessmentResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<MyAssessmentResponse> call, @NonNull Response<MyAssessmentResponse> response) {
+                        if (response.isSuccessful()){
+                            String myAssessment = response.body().getResponse();
+                            showMessage(myAssessment);
+                            //запрос выполнился успешно
+                            if(myAssessment.equals("like")){
+                                imageLikes.setImageResource(R.drawable.heart_red);
+                                pressedLikeBtn = true;
+                            }
+                            else if(myAssessment.equals("dislike")){
+                                imageDislikes.setImageResource(R.drawable.broken_black);
+                                pressedDislikeBtn = true;
+                            }
+                        }
+                        else {
+                            //сервер вернул ошибку
+                            showMessage("Оценки не получены, сервер вернул ошибку");
+                        }
+                    }
+                    @Override
+                    public void onFailure(@NonNull Call<MyAssessmentResponse> call, @NonNull Throwable t) {
                         showMessage("Ошибка во время выполнения запроса: оценка");
                     }
                 });
