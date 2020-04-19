@@ -26,7 +26,7 @@ public class EventPageActivity extends AppCompatActivity {
     private static final String statusSolved = "solved";
     private static final String statusRejected = "rejected";
     private SharedPreferences settings;
-    private String token, personId, problemId, eventStatus, result, moderatorId;
+    private String token, personId, problemId, eventStatus, eventId, result, moderatorId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +38,7 @@ public class EventPageActivity extends AppCompatActivity {
         personId = settings.getString("id", "");
         problemId = getIntent().getStringExtra("problem_id");
         eventStatus = getIntent().getStringExtra("event_status");
+        eventId = getIntent().getStringExtra("event_id");
 
         address = findViewById(R.id.address);
         date = findViewById(R.id.date);
@@ -57,7 +58,7 @@ public class EventPageActivity extends AppCompatActivity {
             eventStatus = "rejected";
             ApplicationService.getInstance()
             .getJSONApi()
-            .updateEvent(token, "",eventStatus, "rejected", personId)
+            .updateEvent(token, eventId,"",eventStatus, "rejected", personId)
             .enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
@@ -83,7 +84,7 @@ public class EventPageActivity extends AppCompatActivity {
 
             ApplicationService.getInstance()
                     .getJSONApi()
-                    .updateEvent(token, "",eventStatus, "accepted", personId)
+                    .updateEvent(token, eventId,"",eventStatus, "accepted", personId)
                     .enqueue(new Callback<Void>() {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {

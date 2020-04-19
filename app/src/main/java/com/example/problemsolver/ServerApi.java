@@ -111,7 +111,7 @@ public interface ServerApi {
     );
 
     @Headers("Content-Type: application/json")
-    @PATCH("/api/problem/subscribe")
+    @PUT("/api/problem/subscribe")
     public Call<Void> subscribe(
             @Header("Authorization") String token,
             @Query("problemID") String problemId,
@@ -129,9 +129,10 @@ public interface ServerApi {
     );
 
     @Headers("Content-Type: application/json")
-    @GET("/api/event/all")
+    @PUT("/api/event/update")
     public Call<Void> updateEvent(
             @Header("Authorization") String token,
+            @Query("eventId") String eventId,
             @Query("text") String text,
             @Query("status") String status,
             @Query("result") String result,
