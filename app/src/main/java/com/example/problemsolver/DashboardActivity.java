@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.problemsolver.Feed.FeedActivity;
 import com.example.problemsolver.Map.MapActivity;
+import com.example.problemsolver.Organization.FeedOrgActivity;
 import com.example.problemsolver.Organization.NewOrganizationActivity;
 import com.example.problemsolver.Problem.NewProblemActivity;
 import com.example.problemsolver.Profile.ProfileActivity;
@@ -52,69 +53,56 @@ public class DashboardActivity extends AppCompatActivity {
             orgVeiw.setText("Список орг");
         }
 
-        problem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(DashboardActivity.this, NewProblemActivity.class);
+        problem.setOnClickListener(view -> {
+            Intent intent = new Intent(DashboardActivity.this, NewProblemActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+        });
+
+        feed.setOnClickListener(view -> {
+            Intent intent = new Intent(DashboardActivity.this, FeedActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+        });
+
+        map.setOnClickListener(view -> {
+            Intent intent = new Intent(DashboardActivity.this, MapActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+        });
+
+        organization.setOnClickListener(view -> {
+
+            if(role.equals("ROLE_ADMIN")) {
+                Intent intent = new Intent(DashboardActivity.this, NewOrganizationActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
             }
-        });
-
-        feed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(DashboardActivity.this, FeedActivity.class);
+            else if(role.equals("ROLE_USER")) {
+                Intent intent = new Intent(DashboardActivity.this, FeedOrgActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
             }
+
+
         });
 
-        map.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(DashboardActivity.this, MapActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intent);
-            }
+        profile.setOnClickListener(view -> {
+            Intent intent = new Intent(DashboardActivity.this, ProfileActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
         });
 
-        organization.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if(role.equals("ROLE_ADMIN")) {
-                    Intent intent = new Intent(DashboardActivity.this, NewOrganizationActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    startActivity(intent);
-                }
-                else if(role.equals("ROLE_USER")) {
-                    Intent intent = new Intent(DashboardActivity.this, OrgListActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    startActivity(intent);
-                }
-
-
-            }
+        set.setOnClickListener(view -> {
+            Intent intent = new Intent(DashboardActivity.this, ImageActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
         });
 
-        profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(DashboardActivity.this, ProfileActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intent);
-            }
-        });
+    }
 
-        set.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(DashboardActivity.this, ImageActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intent);
-            }
-        });
-
+    @Override
+    public void onBackPressed() {
+        this.finishAffinity();
     }
 }

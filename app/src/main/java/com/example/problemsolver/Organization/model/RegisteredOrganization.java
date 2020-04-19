@@ -1,11 +1,16 @@
 
-package com.example.problemsolver.Organization;
+package com.example.problemsolver.Organization.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.UUID;
+
 public class RegisteredOrganization {
 
+    @SerializedName("id")
+    @Expose
+    private UUID id;
     @SerializedName("address")
     @Expose
     private Address address;
@@ -21,6 +26,9 @@ public class RegisteredOrganization {
     @SerializedName("description")
     @Expose
     private String description;
+
+    public RegisteredOrganization() {
+    }
 
     public RegisteredOrganization(Address address, String name, String description, String email, String phone) {
         this.address = address;
@@ -70,4 +78,11 @@ public class RegisteredOrganization {
         this.description = description;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 }

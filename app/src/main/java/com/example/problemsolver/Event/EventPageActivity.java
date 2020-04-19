@@ -16,7 +16,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProblemPageActivity extends AppCompatActivity {
+public class EventPageActivity extends AppCompatActivity {
 
 
     private TextView address, date, type, description, rating;//, status;
@@ -43,14 +43,15 @@ public class ProblemPageActivity extends AppCompatActivity {
         date = findViewById(R.id.date);
         type = findViewById(R.id.problem_type);
         description = findViewById(R.id.problem_description);
-        rating = findViewById(R.id.rating);
+        //rating = findViewById(R.id.rating);
 
         //status = findViewById(R.id.status);
         acceptBtn = findViewById(R.id.accept);
         rejectBtn = findViewById(R.id.reject);
 
-        rating.setText(getIntent().getStringExtra("problem_rating"));
+        //rating.setText(getIntent().getStringExtra("problem_rating"));
         address.setText(getIntent().getStringExtra("problem_address"));
+
 
         rejectBtn.setOnClickListener(view -> {
             eventStatus = "rejected";
@@ -61,7 +62,7 @@ public class ProblemPageActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
                     showMessage("Отклонено");
-                    Intent intent = new Intent(ProblemPageActivity.this, EventActivity.class);
+                    Intent intent = new Intent(EventPageActivity.this, EventActivity.class);
                     startActivity(intent);
                 }
 
@@ -87,7 +88,7 @@ public class ProblemPageActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
                             showMessage("Принято");
-                            Intent intent = new Intent(ProblemPageActivity.this, EventActivity.class);
+                            Intent intent = new Intent(EventPageActivity.this, EventActivity.class);
                             startActivity(intent);
                         }
 
@@ -103,7 +104,7 @@ public class ProblemPageActivity extends AppCompatActivity {
         type.setText(getIntent().getStringExtra("problem_type"));
         description.setText(getIntent().getStringExtra("problem_description"));
         date.setText(getIntent().getStringExtra("problem_date"));
-        rating.setText("Рейтинг: " + getIntent().getStringExtra("problem_rating"));
+        //rating.setText("Рейтинг: " + getIntent().getStringExtra("problem_rating"));
 
 
 

@@ -14,9 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ImageActivity"></activity>
-        <activity android:name=".OrgListActivity" />
         <activity android:name=".DashboardActivity" />
         <activity android:name=".Login.LoginActivity" />
+        <activity android:name=".Organization.FeedOrgActivity" />
         <activity android:name=".Profile.ProfileActivity" />
         <activity android:name=".Feed.ProblemPageActivity" />
         <activity android:name=".Organization.NewOrganizationActivity" />
@@ -25,7 +25,7 @@
         <activity android:name=".Problem.NewProblemActivity" />
         <activity android:name=".Feed.FeedActivity" />
         <activity android:name=".Event.EventActivity" />
-        <activity android:name=".Event.ProblemPageActivity" />
+        <activity android:name=".Event.EventPageActivity" />
         <activity android:name=".Map.MapActivity" />
         <activity android:name=".Main.MainActivity">
             <intent-filter>

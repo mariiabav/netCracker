@@ -5,7 +5,9 @@ import com.example.problemsolver.Authorized.AuthorizedPerson;
 import com.example.problemsolver.Event.Model.EventResponse;
 import com.example.problemsolver.Feed.model.FeedResponse;
 import com.example.problemsolver.Login.LoginForm;
-import com.example.problemsolver.Organization.RegisteredOrganization;
+import com.example.problemsolver.Organization.FeedOrgActivity;
+import com.example.problemsolver.Organization.model.FeedOrgResponse;
+import com.example.problemsolver.Organization.model.RegisteredOrganization;
 import com.example.problemsolver.Map.Models.DistrictResponse.DistrictResponse;
 import com.example.problemsolver.Map.Models.NewProblemResponse.RegionDataResponse;
 import com.example.problemsolver.PersonRoles.PersonRoles;
@@ -15,7 +17,6 @@ import com.example.problemsolver.Registration.RegisteredPerson;
 import java.util.List;
 
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -148,6 +149,16 @@ public interface ServerApi {
     public Call<Void> setLike(
             @Header("Authorization") String token,
             @Query("problemID") String problemID
+    );
+
+    @Headers("Content-Type: application/json")
+    @GET("/api/org/all")
+    public Call<FeedOrgResponse> getOrgs(
+            @Header("Authorization") String token,
+            @Query("pageNumber") Integer pageNumber,
+            @Query("pageSize") Integer pageSize,
+            @Query("sortBy") String sortBy,
+            @Query("sortHow") String sortHow
     );
 
 

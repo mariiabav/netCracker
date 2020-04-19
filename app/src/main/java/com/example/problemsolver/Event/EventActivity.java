@@ -17,8 +17,8 @@ import android.widget.TextView;
 import com.example.problemsolver.ApplicationService;
 import com.example.problemsolver.Event.Model.Event;
 import com.example.problemsolver.Event.Model.EventResponse;
-import com.example.problemsolver.Event.utils.PaginationAdapterCallback;
-import com.example.problemsolver.Event.utils.PaginationScrollListener;
+import com.example.problemsolver.utils.PaginationAdapterCallback;
+import com.example.problemsolver.utils.PaginationScrollListener;
 import com.example.problemsolver.R;
 import com.example.problemsolver.ServerApi;
 
@@ -82,13 +82,13 @@ public class EventActivity extends AppCompatActivity implements PaginationAdapte
         rv.setAdapter(adapter);
 
         rv.addOnScrollListener(new PaginationScrollListener(linearLayoutManager) {
-            @Override
-            protected void loadMoreItems() {
-                isLoading = true;
-                currentPage += 1;
+                @Override
+                protected void loadMoreItems() {
+                    isLoading = true;
+                    currentPage += 1;
 
-                loadNextPage();
-            }
+                    loadNextPage();
+                }
 
             @Override
             public boolean isLastPage() {

@@ -1,9 +1,8 @@
 
-package com.example.problemsolver.Organization;
+package com.example.problemsolver.Organization.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.example.problemsolver.Organization.Area;
 
 public class Address {
 
@@ -47,4 +46,8 @@ public class Address {
         this.area = area;
     }
 
+    @Override
+    public String toString() {
+        return street + ", " + building;
+    }
 }

@@ -1,4 +1,4 @@
-package com.example.problemsolver.Feed.utils;
+package com.example.problemsolver.utils;
 
 
 import androidx.recyclerview.widget.LinearLayoutManager;

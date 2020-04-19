@@ -2,17 +2,13 @@ package com.example.problemsolver.Organization;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,23 +17,15 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.problemsolver.ApplicationService;
-import com.example.problemsolver.MapService;
-
-import com.example.problemsolver.Map.Models.DistrictResponse.DistrictResponse;
-import com.example.problemsolver.Map.Models.DistrictResponse.FeatureMember;
 
 
+import com.example.problemsolver.Organization.model.Address;
+import com.example.problemsolver.Organization.model.Area;
+import com.example.problemsolver.Organization.model.RegisteredOrganization;
 import com.example.problemsolver.R;
 import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.geometry.BoundingBox;
 import com.yandex.mapkit.geometry.Point;
-import com.yandex.mapkit.location.Location;
-import com.yandex.mapkit.location.LocationListener;
-import com.yandex.mapkit.location.LocationManager;
-import com.yandex.mapkit.location.LocationStatus;
-import com.yandex.mapkit.map.CameraPosition;
-import com.yandex.mapkit.map.PlacemarkMapObject;
-import com.yandex.mapkit.mapview.MapView;
 import com.yandex.mapkit.search.SearchFactory;
 import com.yandex.mapkit.search.SearchManager;
 import com.yandex.mapkit.search.SearchManagerType;
@@ -46,9 +34,6 @@ import com.yandex.mapkit.search.SuggestOptions;
 import com.yandex.mapkit.search.SuggestSession;
 import com.yandex.mapkit.search.SuggestType;
 import com.yandex.runtime.Error;
-import com.yandex.runtime.image.ImageProvider;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;

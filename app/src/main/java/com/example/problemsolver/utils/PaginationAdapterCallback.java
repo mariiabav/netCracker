@@ -1,4 +1,4 @@
-package com.example.problemsolver.Feed.utils;
+package com.example.problemsolver.utils;
 
 public interface PaginationAdapterCallback {
 

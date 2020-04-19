@@ -13,8 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.problemsolver.Feed.model.Feed2Problem;
-import com.example.problemsolver.Feed.utils.PaginationAdapterCallback;
 import com.example.problemsolver.R;
+import com.example.problemsolver.utils.PaginationAdapterCallback;
 
 import java.util.ArrayList;
 import java.util.List;

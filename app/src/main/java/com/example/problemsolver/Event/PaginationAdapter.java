@@ -6,15 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.problemsolver.Event.Model.Event;
-import com.example.problemsolver.Event.utils.PaginationAdapterCallback;
-import com.example.problemsolver.Event.ProblemPageActivity;
+import com.example.problemsolver.utils.PaginationAdapterCallback;
 import com.example.problemsolver.R;
 
 import java.util.ArrayList;
@@ -80,13 +78,18 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             case ITEM:
                 final ProblemVH problemVH = (ProblemVH) holder;
+                if(result.getProblem().getStatus().equals("created")) {
+                    problemVH.offerStatus.setText("Новая проблема");
+                }
+                else if(result.getProblem().getStatus().equals("in process")) {
+                    problemVH.offerStatus.setText("Решение проблемы");
+                }
 
-                problemVH.offerStatus.setText(result.getOfferStatus());
                 problemVH.offerDate.setText(result.getOfferDate());
 
 
                 problemVH.itemView.setOnClickListener(view -> {
-                    Intent intent = new Intent(view.getContext(), ProblemPageActivity.class);
+                    Intent intent = new Intent(view.getContext(), EventPageActivity.class);
 
                     intent.putExtra("problem_address",  result.getProblem().getAddress().toString());
                     intent.putExtra("problem_type",  result.getProblem().getProblemName());

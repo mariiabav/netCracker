@@ -51,4 +51,8 @@ public class Address {
         this.building = building;
     }
 
+    @Override
+    public String toString() {
+        return street + ", " + building;
+    }
 }

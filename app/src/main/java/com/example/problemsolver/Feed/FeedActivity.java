@@ -18,10 +18,11 @@ import android.widget.TextView;
 import com.example.problemsolver.ApplicationService;
 import com.example.problemsolver.Feed.model.Feed2Problem;
 import com.example.problemsolver.Feed.model.FeedResponse;
-import com.example.problemsolver.Feed.utils.PaginationAdapterCallback;
-import com.example.problemsolver.Feed.utils.PaginationScrollListener;
+
 import com.example.problemsolver.R;
 import com.example.problemsolver.ServerApi;
+import com.example.problemsolver.utils.PaginationAdapterCallback;
+import com.example.problemsolver.utils.PaginationScrollListener;
 
 import java.util.ArrayList;
 import java.util.List;

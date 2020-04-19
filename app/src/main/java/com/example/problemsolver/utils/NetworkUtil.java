@@ -1,4 +1,4 @@
-package com.example.problemsolver.Event.utils;
+package com.example.problemsolver.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
