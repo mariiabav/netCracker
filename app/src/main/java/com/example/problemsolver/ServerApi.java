@@ -17,6 +17,7 @@ import com.example.problemsolver.Registration.RegisteredPerson;
 import java.util.List;
 
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -148,9 +149,24 @@ public interface ServerApi {
     @PUT("/api/problem/like")
     public Call<Void> setLike(
             @Header("Authorization") String token,
-            @Query("problemID") String problemID
+            @Query("problemId") String problemId,
+            @Query("personId") String personId
     );
 
+    @Headers("Content-Type: application/json")
+    @PUT("/api/problem/dislike")
+    public Call<Void> setDislike(
+            @Header("Authorization") String token,
+            @Query("problemId") String problemId,
+            @Query("personId") String personId
+    );
+
+    @Headers("Content-Type: application/json")
+    @GET("/api/problem/assessment")
+    public Call<Assessment> getAssessment(
+            @Header("Authorization") String token,
+            @Query("problemId") String problemId
+    );
     @Headers("Content-Type: application/json")
     @GET("/api/org/all")
     public Call<FeedOrgResponse> getOrgs(
