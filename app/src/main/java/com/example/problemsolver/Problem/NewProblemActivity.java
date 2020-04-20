@@ -362,9 +362,14 @@ public class NewProblemActivity extends Activity {
                     if (imageUri != null) {
                         uploadFile(imageUri);
                     }
-                    //final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-                    //selectedImage = BitmapFactory.decodeStream(imageStream);
-                    //imageView.setImageBitmap(selectedImage);
+
+                    try {
+                        final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                        selectedImage = BitmapFactory.decodeStream(imageStream);
+                        imageView.setImageBitmap(selectedImage);
+                    } catch (FileNotFoundException e) {
+                        imageView.setImageResource(R.drawable.red_circle); //каринка "невозмонжо отобразить"
+                    }
                 }
         }
     }

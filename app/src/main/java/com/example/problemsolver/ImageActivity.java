@@ -98,9 +98,16 @@ public class ImageActivity extends AppCompatActivity {
                     if (imageUri != null) {
                         uploadFile(imageUri); // uploads the file to the web service
                     }
-                    //final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-                    //selectedImage = BitmapFactory.decodeStream(imageStream);
-                    //imageView.setImageBitmap(selectedImage);
+
+                    //final InputStream imageStream;
+                    try {
+                        final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                        selectedImage = BitmapFactory.decodeStream(imageStream);
+                        imageView.setImageBitmap(selectedImage);
+                    } catch (FileNotFoundException e) {
+
+                    }
+
                 }
         }
     }
