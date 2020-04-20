@@ -73,7 +73,7 @@ public class FeedActivity extends AppCompatActivity implements PaginationAdapter
         token = settings.getString("JWT","");
         arrayList = new ArrayList<>();
         arrayList.add(new SearchCriteria("areaName", "~", "Выборгский район"));
-        arrayList.add(new SearchCriteria("rate", ">", "20"));
+        arrayList.add(new SearchCriteria("rate", ">", "0"));
         arrayList.add(new SearchCriteria("rate", "<","40"));
 
         json = new Gson().toJson(arrayList);

@@ -27,8 +27,11 @@ public class NewProblem {
     @SerializedName("owner")
     @Expose
     private Owner owner;
+    @SerializedName("picture")
+    @Expose
+    private DBFile dbFile;
 
-    public NewProblem(Address address, String problemName, String description, String status, Integer rate, String coordinates, Owner owner) {
+    public NewProblem(Address address, String problemName, String description, String status, Integer rate, String coordinates, Owner owner, DBFile dbFile) {
         this.address = address;
         this.problemName = problemName;
         this.description = description;
@@ -36,6 +39,7 @@ public class NewProblem {
         this.rate = rate;
         this.coordinates = coordinates;
         this.owner = owner;
+        this.dbFile = dbFile;
     }
 
     public Address getAddress() {
@@ -92,5 +96,13 @@ public class NewProblem {
 
     public void setOwner(Owner owner) {
         this.owner = owner;
+    }
+
+    public DBFile getDbFile() {
+        return dbFile;
+    }
+
+    public void setDbFile(DBFile dbFile) {
+        this.dbFile = dbFile;
     }
 }
