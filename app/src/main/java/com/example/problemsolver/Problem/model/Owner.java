@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class Owner {
     @Expose
-    @SerializedName("owner")
+    @SerializedName("id")
     private String id;
 
     public Owner(String id) {

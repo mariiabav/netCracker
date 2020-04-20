@@ -265,6 +265,7 @@ public class NewProblemActivity extends Activity {
                             Address fullAddress = new Address(street, building, area);
                             Owner owner = new Owner(personId);
                             DBFile dbFile = new DBFile(pictureId);
+                            showMessage(pictureId);
                             NewProblem newProblem = new NewProblem(fullAddress, problemType, problemDescription, "created", 0, coordinates, owner, dbFile);
 
                             ApplicationService.getInstance()

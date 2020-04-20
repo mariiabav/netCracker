@@ -29,7 +29,7 @@ public class NewProblem {
     private Owner owner;
     @SerializedName("picture")
     @Expose
-    private DBFile dbFile;
+    private DBFile picture;
 
     public NewProblem(Address address, String problemName, String description, String status, Integer rate, String coordinates, Owner owner, DBFile dbFile) {
         this.address = address;
@@ -39,7 +39,7 @@ public class NewProblem {
         this.rate = rate;
         this.coordinates = coordinates;
         this.owner = owner;
-        this.dbFile = dbFile;
+        this.picture = dbFile;
     }
 
     public Address getAddress() {
@@ -98,11 +98,11 @@ public class NewProblem {
         this.owner = owner;
     }
 
-    public DBFile getDbFile() {
-        return dbFile;
+    public DBFile getPicture() {
+        return picture;
     }
 
-    public void setDbFile(DBFile dbFile) {
-        this.dbFile = dbFile;
+    public void setPicture(DBFile picture) {
+        this.picture = picture;
     }
 }
