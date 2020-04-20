@@ -19,10 +19,12 @@ import com.example.problemsolver.ApplicationService;
 import com.example.problemsolver.Feed.model.Feed2Problem;
 import com.example.problemsolver.Feed.model.FeedResponse;
 
+import com.example.problemsolver.Feed.model.SearchCriteria;
 import com.example.problemsolver.R;
 import com.example.problemsolver.ServerApi;
 import com.example.problemsolver.utils.PaginationAdapterCallback;
 import com.example.problemsolver.utils.PaginationScrollListener;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,14 +56,14 @@ public class FeedActivity extends AppCompatActivity implements PaginationAdapter
 
     private boolean isLoading = false;
     private boolean isLastPage = false;
-    private List<String> arrayList;
+    private List<SearchCriteria> arrayList;
 
     private int total_pages;
     private int currentPage = PAGE_START;
 
     private ServerApi serverApi;
     private SharedPreferences settings;
-    private String token;
+    private String token, json;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,11 +72,11 @@ public class FeedActivity extends AppCompatActivity implements PaginationAdapter
         settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
         token = settings.getString("JWT","");
         arrayList = new ArrayList<>();
-        arrayList.add("areaName~Выборгский район,Калининский район");
-        arrayList.add("rate>0");
-        arrayList.add("rate<40");
-        arrayList.add("status~in process,created");
-        arrayList.add("creationDate^2020-03-10,2020-04-17");
+        arrayList.add(new SearchCriteria("areaName", "~", "Выборгский район"));
+        arrayList.add(new SearchCriteria("rate", ">", "20"));
+        arrayList.add(new SearchCriteria("rate", "<","40"));
+
+        json = new Gson().toJson(arrayList);
 
         rv = findViewById(R.id.main_recycler);
         progressBar = findViewById(R.id.main_progress);
@@ -222,7 +224,7 @@ public class FeedActivity extends AppCompatActivity implements PaginationAdapter
                 3,
                 "rate",
                 "desc",
-                arrayList
+                json
         );
     }
 
