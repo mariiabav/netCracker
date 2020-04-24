@@ -120,10 +120,11 @@
     <orderEntry type="library" name="Gradle: org.jetbrains:annotations:13.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.google.code.gson:gson:2.8.2@jar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.constraintlayout:constraintlayout-solver:1.1.3@jar" level="project" />
+    <orderEntry type="library" name="Gradle: com.yahoo.mobile.client.android.util.rangeseekbar:rangeseekbar-library:0.1.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.navigation:navigation-ui:2.2.1@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.material:material:1.0.0@aar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-extensions:2.0.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.appcompat:appcompat:1.1.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-extensions:2.0.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.yandex.android:places:3.5.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.yandex.android:search:3.5.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.yandex.android:mapkit:3.5.0@aar" level="project" />

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:rsb="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content">
+
+    <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
+        android:id="@+id/rangeSeekbar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        rsb:absoluteMaxValue="10000"
+        rsb:absoluteMinValue="0" />
+
+</LinearLayout>
