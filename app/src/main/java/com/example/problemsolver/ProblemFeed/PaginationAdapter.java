@@ -1,4 +1,4 @@
-package com.example.problemsolver.Feed;
+package com.example.problemsolver.ProblemFeed;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.problemsolver.Feed.model.Feed2Problem;
+import com.example.problemsolver.ProblemFeed.model.Feed2Problem;
 import com.example.problemsolver.R;
 import com.example.problemsolver.utils.PaginationAdapterCallback;
 
@@ -96,6 +96,9 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
                         //тут надо не рейтинг результата, а запрос лайки и дизлайки по id проблемы
                         intent.putExtra("problem_likes",  result.getRate().toString());
+                        if(result.getPicture() != null) {
+                            intent.putExtra("picture_id", result.getPicture().getId());
+                        }
 
 
                         intent.putExtra("problem_status", result.getStatus());

@@ -1,4 +1,4 @@
-package com.example.problemsolver.Feed;
+package com.example.problemsolver.ProblemFeed;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -16,10 +16,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.problemsolver.ApplicationService;
-import com.example.problemsolver.Feed.model.Feed2Problem;
-import com.example.problemsolver.Feed.model.FeedResponse;
+import com.example.problemsolver.ProblemFeed.model.Feed2Problem;
+import com.example.problemsolver.ProblemFeed.model.FeedResponse;
 
-import com.example.problemsolver.Feed.model.SearchCriteria;
+import com.example.problemsolver.ProblemFeed.model.SearchCriteria;
 import com.example.problemsolver.R;
 import com.example.problemsolver.ServerApi;
 import com.example.problemsolver.utils.PaginationAdapterCallback;
@@ -135,7 +135,11 @@ public class FeedActivity extends AppCompatActivity implements PaginationAdapter
             case R.id.menu_refresh:
                 swipeRefreshLayout.setRefreshing(true);
                 doRefresh();
+                break;
+            case R.id.menu_settings:
+
         }
+
         return super.onOptionsItemSelected(item);
     }
 

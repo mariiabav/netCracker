@@ -266,7 +266,7 @@ public class NewProblemActivity extends Activity {
                             Owner owner = new Owner(personId);
                             DBFile dbFile = new DBFile(pictureId);
                             showMessage(pictureId);
-                            NewProblem newProblem = new NewProblem(fullAddress, problemType, problemDescription, "created", 0, coordinates, owner, dbFile);
+                            NewProblem newProblem = new NewProblem(fullAddress, problemType, problemDescription, "init", 0, coordinates, owner, dbFile);
 
                             ApplicationService.getInstance()
                                     .getJSONApi()

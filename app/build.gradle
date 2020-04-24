@@ -67,6 +67,7 @@ dependencies {
     implementation 'com.yandex.android:places:3.5.0'
     implementation 'com.yandex.android:search:3.5.0'
 
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
     implementation 'androidx.navigation:navigation-fragment:2.2.1'
     implementation 'androidx.navigation:navigation-ui:2.2.1'

@@ -19,12 +19,12 @@
         <activity android:name=".Login.LoginActivity" />
         <activity android:name=".Organization.FeedOrgActivity" />
         <activity android:name=".Profile.ProfileActivity" />
-        <activity android:name=".Feed.ProblemPageActivity" />
+        <activity android:name=".ProblemFeed.ProblemPageActivity" />
         <activity android:name=".Organization.NewOrganizationActivity" />
         <activity android:name=".Registration.AreasActivity" />
         <activity android:name=".Registration.RegistrationActivity" />
         <activity android:name=".Problem.NewProblemActivity" />
-        <activity android:name=".Feed.FeedActivity" />
+        <activity android:name=".ProblemFeed.FeedActivity" />
         <activity android:name=".Event.EventActivity" />
         <activity android:name=".Event.EventPageActivity" />
         <activity android:name=".Map.MapActivity" />

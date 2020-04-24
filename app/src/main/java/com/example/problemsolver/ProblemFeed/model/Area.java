@@ -1,5 +1,5 @@
 
-package com.example.problemsolver.Feed.model;
+package com.example.problemsolver.ProblemFeed.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

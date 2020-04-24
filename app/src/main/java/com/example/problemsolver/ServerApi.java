@@ -3,9 +3,8 @@ package com.example.problemsolver;
 
 import com.example.problemsolver.Authorized.AuthorizedPerson;
 import com.example.problemsolver.Event.Model.EventResponse;
-import com.example.problemsolver.Feed.model.FeedResponse;
-import com.example.problemsolver.Feed.model.MyAssessmentResponse;
-import com.example.problemsolver.Feed.model.SearchCriteria;
+import com.example.problemsolver.ProblemFeed.model.FeedResponse;
+import com.example.problemsolver.ProblemFeed.model.MyAssessmentResponse;
 import com.example.problemsolver.Login.LoginForm;
 import com.example.problemsolver.Organization.model.FeedOrgResponse;
 import com.example.problemsolver.Organization.model.RegisteredOrganization;
@@ -29,7 +28,6 @@ import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-import retrofit2.http.QueryMap;
 
 
 public interface ServerApi {

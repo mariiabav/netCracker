@@ -1,4 +1,4 @@
-package com.example.problemsolver.Feed;
+package com.example.problemsolver.ProblemFeed;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,19 +9,20 @@ import retrofit2.Response;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.model.LazyHeaders;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.problemsolver.ApplicationService;
 import com.example.problemsolver.Assessment;
-import com.example.problemsolver.Feed.model.MyAssessmentResponse;
+import com.example.problemsolver.ProblemFeed.model.MyAssessmentResponse;
 import com.example.problemsolver.R;
-
-import java.util.Objects;
 
 public class ProblemPageActivity extends AppCompatActivity {
 
@@ -31,14 +32,14 @@ public class ProblemPageActivity extends AppCompatActivity {
     private ImageView imageLikes, imageDislikes;
 
     private TextView address, date, type, description, likes, dislikes;
-    private ImageView status;
+    private ImageView status, picture;
     private Button supportBtn;
     private static final String statusCreated = "created";
     private static final String statusInProcess = "in process";
     private static final String statusSolved = "solved";
     private static final String statusRejected = "rejected";
     private SharedPreferences settings;
-    private String token, personId, problemId;
+    private String token, personId, problemId, pictureId;
 
     private RelativeLayout likesRelley, dislikesRelley;
 
@@ -53,7 +54,9 @@ public class ProblemPageActivity extends AppCompatActivity {
         token = settings.getString("JWT","");
         personId = settings.getString("id", "");
         problemId = getIntent().getStringExtra("problem_id");
+        pictureId = getIntent().getStringExtra("picture_id");
 
+        myAssessmentRequest();
 
         address = findViewById(R.id.address);
         date = findViewById(R.id.date);
@@ -72,7 +75,18 @@ public class ProblemPageActivity extends AppCompatActivity {
         imageLikes = findViewById(R.id.heart);
         imageDislikes = findViewById(R.id.broken_heart);
 
-        myAssessmentRequest();
+        picture = findViewById(R.id.imgView_postPic);
+
+        GlideUrl glideUrl = new GlideUrl("https://netcrackeredu.herokuapp.com/downloadFile/" + pictureId, new LazyHeaders.Builder()
+                .addHeader("Authorization", token)
+                .build());
+
+        if(pictureId != null) {
+            Glide.with(this)
+                    .load(glideUrl)
+                    .apply(new RequestOptions().override(500, 500))
+                    .into(picture);
+        }
 
 
         likesRelley.setOnClickListener(view -> {
@@ -116,7 +130,7 @@ public class ProblemPageActivity extends AppCompatActivity {
             .enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
-                    showMessage("Подписался");
+                    //showMessage("Подписался");
                 }
                 @Override
                 public void onFailure(Call<Void> call, Throwable t) {
@@ -158,12 +172,12 @@ public class ProblemPageActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                         if (response.isSuccessful()){
-                            showMessage("Лайк поставлен/снят успешно");
+                            //showMessage("Лайк поставлен/снят успешно");
                             assessmentRequest(token, problemId);
                         }
                         else {
                             //сервер вернул ошибку
-                            showMessage("Лайк не поставлен, сервер вернул ошибку");
+                            //showMessage("Лайк не поставлен, сервер вернул ошибку");
                         }
                     }
                     @Override
@@ -182,12 +196,12 @@ public class ProblemPageActivity extends AppCompatActivity {
                     public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                         if (response.isSuccessful()){
                             //запрос выполнился успешно
-                            showMessage("Дизайк поставлен/снят успешно");
+                            //showMessage("Дизайк поставлен/снят успешно");
                             assessmentRequest(token, problemId);
                         }
                         else {
                             //сервер вернул ошибку
-                            showMessage("Дизайк не поставлен, сервер вернул ошибку");
+                            //showMessage("Дизайк не поставлен, сервер вернул ошибку");
                         }
                     }
                     @Override
@@ -209,7 +223,7 @@ public class ProblemPageActivity extends AppCompatActivity {
                             //запрос выполнился успешно
                             likes.setText("likes: " + assessments.getLikesCount());
                             dislikes.setText("dislikes: " + assessments.getDislikesCount());
-                            showMessage("Оценки получены успешно");
+                            //showMessage("Оценки получены успешно");
                         }
                         else {
                             //сервер вернул ошибку

@@ -101,7 +101,7 @@
         android:layout_height="150dp"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
-        android:src="@drawable/hole" />
+        android:src="@mipmap/hole" />
 
     <Button android:id="@+id/btn_problem"
             android:layout_width="fill_parent"

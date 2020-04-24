@@ -1,4 +1,4 @@
-package com.example.problemsolver.Feed.model;
+package com.example.problemsolver.ProblemFeed.model;
 
 import android.os.Build;
 
@@ -35,6 +35,9 @@ public class Feed2Problem {
     @SerializedName("coordinates")
     @Expose
     private String coordinates;
+    @SerializedName("picture")
+    @Expose
+    private Picture picture;
 
     public String getId() {
         return id;
@@ -98,6 +101,14 @@ public class Feed2Problem {
 
     public void setCoordinates(String coordinates) {
         this.coordinates = coordinates;
+    }
+
+    public Picture getPicture() {
+        return picture;
+    }
+
+    public void setPicture(Picture picture) {
+        this.picture = picture;
     }
 
     @Override
