@@ -70,8 +70,6 @@ public class OrgPageActivity extends AppCompatActivity {
         rating.setText("Рейтинг: " + getIntent().getStringExtra("problem_rating"));
 
 
-
-
         String serverStatus = getIntent().getStringExtra("problem_status");
         switch (serverStatus) {
             case "created":

@@ -94,7 +94,6 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     intent.putExtra("problem_id", result.getId());
                     intent.putExtra("event_status", result.getOfferStatus());
 
-
                     view.getContext().startActivity(intent);
                 });
 
@@ -209,7 +208,6 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             offerStatus = itemView.findViewById(R.id.event_status);
             offerDate = itemView.findViewById(R.id.date);
-
         }
     }
 

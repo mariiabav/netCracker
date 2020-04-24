@@ -172,7 +172,9 @@ public interface ServerApi {
             @Query("pageNumber") Integer pageNumber,
             @Query("pageSize") Integer pageSize,
             @Query("sortBy") String sortBy,
-            @Query("sortHow") String sortHow
+            @Query("sortHow") String sortHow,
+            @Query("personId") String personId,
+            @Query("onlyMyAreas") Boolean onlyMyAreas
     );
 
     //@Headers("Content-Type: application/json")

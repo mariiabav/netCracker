@@ -60,6 +60,7 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
     private ServerApi serverApi;
     private SharedPreferences settings;
     private String token;
+    private String personId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,7 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
         setContentView(R.layout.activity_feed);
         settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
         token = settings.getString("JWT","");
+        personId = settings.getString("id","");
 
         rv = findViewById(R.id.main_recycler);
         progressBar = findViewById(R.id.main_progress);
@@ -213,7 +215,9 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
                 currentPage,
                 8,
                 "name",
-                "desc"
+                "desc",
+                personId,
+                true
         );
     }
 

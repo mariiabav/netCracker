@@ -25,7 +25,7 @@ import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.example.problemsolver.Registration.RegisteredPerson;
-import com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar;
+//import com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -46,6 +46,7 @@ public class ImageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_problem_feed_settings);
+        /*
         RangeSeekBar<Integer> seekBar = findViewById(R.id.rangeSeekbar);
         seekBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
             @Override
@@ -57,5 +58,7 @@ public class ImageActivity extends AppCompatActivity {
 
 // Get noticed while dragging
         seekBar.setNotifyWhileDragging(true);
+
+         */
     }
 }

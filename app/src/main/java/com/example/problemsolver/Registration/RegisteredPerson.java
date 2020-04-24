@@ -11,7 +11,7 @@ public class RegisteredPerson {
     @Expose
     private List<Area> personAreas;
 
-    @SerializedName("roles")
+    @SerializedName("role")
     @Expose
     private Role role;
 
