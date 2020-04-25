@@ -200,7 +200,6 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         private TextView offerStatus;
         private TextView offerDate;
 
-
         private ProgressBar mProgress;
 
         public ProblemVH(View itemView) {

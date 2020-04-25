@@ -2,9 +2,11 @@ package com.example.problemsolver.Organization;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,10 +16,16 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.problemsolver.ApplicationService;
+import com.example.problemsolver.Login.LoginActivity;
 import com.example.problemsolver.Organization.model.FeedOrgResponse;
 import com.example.problemsolver.Organization.model.RegisteredOrganization;
+import com.example.problemsolver.Registration.Area;
+import com.example.problemsolver.Registration.RegisteredPerson;
+import com.example.problemsolver.Registration.RegistrationActivity;
+import com.example.problemsolver.Registration.Role;
 import com.example.problemsolver.utils.PaginationAdapterCallback;
 import com.example.problemsolver.utils.PaginationScrollListener;
 import com.example.problemsolver.R;
@@ -26,6 +34,7 @@ import com.example.problemsolver.ServerApi;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -44,7 +53,7 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
     private RecyclerView rv;
     private ProgressBar progressBar;
     private LinearLayout errorLayout;
-    private Button btnRetry;
+    private Button btnRetry, allAreas, myAreas, solvedTop, inProccessTop, unsolvedTop;
     private TextView txtError;
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -62,10 +71,13 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
     private String token;
     private String personId;
 
+    private Boolean onlyMyAreas = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_feed);
+        setContentView(R.layout.test_org);
+
         settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
         token = settings.getString("JWT","");
         personId = settings.getString("id","");
@@ -77,6 +89,17 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
         txtError = findViewById(R.id.error_txt_cause);
         swipeRefreshLayout = findViewById(R.id.main_swiperefresh);
 
+        allAreas = findViewById(R.id.all_area_btn);
+        myAreas = findViewById(R.id.my_area_btn);
+
+        solvedTop = findViewById(R.id.solved_top_btn);
+        inProccessTop = findViewById(R.id.in_proccess_top_btn);
+        unsolvedTop = findViewById(R.id.unsolved_top_btn);
+
+        solvedTop.setVisibility(View.INVISIBLE);
+        inProccessTop.setVisibility(View.INVISIBLE);
+        unsolvedTop.setVisibility(View.INVISIBLE);
+
         adapter = new PaginationAdapter(this);
 
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -84,6 +107,56 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
         rv.setItemAnimator(new DefaultItemAnimator());
         rv.setAdapter(adapter);
 
+        allAreas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                onlyMyAreas = false;
+                showMessage("false");
+                swipeRefreshLayout.setRefreshing(true);
+                doRefresh();
+            }
+        });
+
+        myAreas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                onlyMyAreas = true;
+                showMessage("true");
+                swipeRefreshLayout.setRefreshing(true);
+                doRefresh();
+            }
+        });
+
+        solvedTop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+
+                showMessage("решенные");
+                swipeRefreshLayout.setRefreshing(true);
+                doRefresh();
+            }
+        });
+
+        inProccessTop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+
+                showMessage("организация решает");
+                swipeRefreshLayout.setRefreshing(true);
+                doRefresh();
+            }
+        });
+
+        unsolvedTop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                onlyMyAreas = true;
+
+                showMessage("просрочены или нерешенные");
+                swipeRefreshLayout.setRefreshing(true);
+                doRefresh();
+            }
+        });
         rv.addOnScrollListener(new PaginationScrollListener(linearLayoutManager) {
             @Override
             protected void loadMoreItems() {
@@ -117,18 +190,43 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
+        inflater.inflate(R.menu.menu_org, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_refresh:
+            case R.id.menu_org_refresh:
                 swipeRefreshLayout.setRefreshing(true);
                 doRefresh();
+                break;
+            case R.id.menu_org_stat:
+                showMessage("топ");
+                solvedTop.setVisibility(View.VISIBLE);
+                inProccessTop.setVisibility(View.VISIBLE);
+                unsolvedTop.setVisibility(View.VISIBLE);
+
+                allAreas.setVisibility(View.INVISIBLE);
+                myAreas.setVisibility(View.INVISIBLE);
+                break;
+            case R.id.menu_org_list:
+                showMessage("все огранизации");
+
+                solvedTop.setVisibility(View.INVISIBLE);
+                inProccessTop.setVisibility(View.INVISIBLE);
+                unsolvedTop.setVisibility(View.INVISIBLE);
+
+                allAreas.setVisibility(View.VISIBLE);
+                myAreas.setVisibility(View.VISIBLE);
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showMessage(String string){
+        Toast t = Toast.makeText(this, string, Toast.LENGTH_SHORT);
+        t.show();
     }
 
     private void doRefresh() {
@@ -217,7 +315,7 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
                 "name",
                 "desc",
                 personId,
-                true
+                onlyMyAreas
         );
     }
 
