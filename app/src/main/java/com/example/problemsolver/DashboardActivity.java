@@ -92,7 +92,7 @@ public class DashboardActivity extends AppCompatActivity {
         });
 
         set.setOnClickListener(view -> {
-            Intent intent = new Intent(DashboardActivity.this, ImageActivity.class);
+            Intent intent = new Intent(DashboardActivity.this, Main2Activity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
         });

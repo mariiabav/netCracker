@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permisssion.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permisssion.CAMERA" />
     <uses-permission android:name="android.permisssion.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -14,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ImageActivity"></activity>
+        <activity android:name=".Main2Activity"></activity>
+        <activity android:name=".ImageActivity" />
         <activity android:name=".DashboardActivity" />
         <activity android:name=".Login.LoginActivity" />
         <activity android:name=".Organization.FeedOrgActivity" />

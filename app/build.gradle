@@ -35,7 +35,7 @@ repositories {
 
 
 dependencies {
-    compile 'com.yahoo.mobile.client.android.util.rangeseekbar:rangeseekbar-library:0.1.0'
+    implementation 'com.yahoo.mobile.client.android.util.rangeseekbar:rangeseekbar-library:0.1.0'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
 

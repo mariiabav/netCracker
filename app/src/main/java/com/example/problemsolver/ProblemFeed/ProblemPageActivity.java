@@ -2,6 +2,8 @@ package com.example.problemsolver.ProblemFeed;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,8 +28,7 @@ import com.example.problemsolver.R;
 
 public class ProblemPageActivity extends AppCompatActivity {
 
-
-
+    private RecyclerView rv;
 
     private ImageView imageLikes, imageDislikes;
 
@@ -64,18 +65,15 @@ public class ProblemPageActivity extends AppCompatActivity {
         description = findViewById(R.id.problem_description);
         status = findViewById(R.id.status_pic);
         supportBtn = findViewById(R.id.btn_support);
-
-
         likesRelley = findViewById(R.id.like_not_btn);
         dislikesRelley = findViewById(R.id.dislike_not_btn);
-
         likes = findViewById(R.id.likes);
         dislikes = findViewById(R.id.dislikes);
-
         imageLikes = findViewById(R.id.heart);
         imageDislikes = findViewById(R.id.broken_heart);
-
         picture = findViewById(R.id.imgView_postPic);
+
+        rv = findViewById(R.id.comment_recycler);
 
         GlideUrl glideUrl = new GlideUrl("https://netcrackeredu.herokuapp.com/downloadFile/" + pictureId, new LazyHeaders.Builder()
                 .addHeader("Authorization", token)
