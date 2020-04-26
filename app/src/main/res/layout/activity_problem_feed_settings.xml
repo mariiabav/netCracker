@@ -2,13 +2,144 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:rsb="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_height="wrap_content">
-
-    <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
-        android:id="@+id/rangeSeekbar"
-        android:layout_width="fill_parent"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        rsb:absoluteMaxValue="10000"
-        rsb:absoluteMinValue="0" />
+        android:orientation="vertical">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Рейтинг">
+    </TextView>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
+        android:id="@+id/rangeSeekbar"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_height="wrap_content"
+        rsb:max_value="1000"
+        rsb:steps="5"
+        rsb:min_value="0" />
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/MinValue1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            >
+        </TextView>
+        <TextView
+            android:id="@+id/MaxValue1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
+            >
+        </TextView>
+    </RelativeLayout>
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Статус">
+    </TextView>
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <CheckBox
+            android:id="@+id/checkBox1"
+
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/red"
+            android:text="Создана" />
+        <CheckBox
+            android:id="@+id/checkBox2"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/red"
+            android:text="В процессе решения"/>
+        <CheckBox
+            android:id="@+id/checkBox3"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/red"
+            android:text="Решена"/>
+    </LinearLayout>
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Дата">
+    </TextView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/startDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dp"
+                android:focusable="false"
+                android:text="Выберите дату"
+                >
+            </EditText>
+            <EditText
+                android:id="@+id/endDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="30dp"
+                android:layout_marginEnd="30dp"
+                android:focusable="false"
+                android:text="Выберите дату"
+                >
+            </EditText>
+
+        </RelativeLayout>
+
+
+        <TextView
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Районы">
+    </TextView>
+        <ListView
+            android:id="@+id/area_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+        </ListView>
+    </LinearLayout>
 </LinearLayout>
