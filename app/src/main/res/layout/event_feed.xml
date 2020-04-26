@@ -41,7 +41,6 @@
                 android:text="Рейтинг: 574"
                 android:textColor="@color/grey"
                 android:textSize="13sp" />
-
         </LinearLayout>
 
         <ImageView

@@ -2,11 +2,9 @@ package com.example.problemsolver.Organization;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,13 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.problemsolver.ApplicationService;
-import com.example.problemsolver.Login.LoginActivity;
 import com.example.problemsolver.Organization.model.FeedOrgResponse;
 import com.example.problemsolver.Organization.model.RegisteredOrganization;
-import com.example.problemsolver.Registration.Area;
-import com.example.problemsolver.Registration.RegisteredPerson;
-import com.example.problemsolver.Registration.RegistrationActivity;
-import com.example.problemsolver.Registration.Role;
 import com.example.problemsolver.utils.PaginationAdapterCallback;
 import com.example.problemsolver.utils.PaginationScrollListener;
 import com.example.problemsolver.R;
@@ -34,7 +27,7 @@ import com.example.problemsolver.ServerApi;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -61,7 +54,6 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
 
     private boolean isLoading = false;
     private boolean isLastPage = false;
-    private List<String> arrayList;
 
     private int total_pages;
     private int currentPage = PAGE_START;
@@ -72,6 +64,7 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
     private String personId;
 
     private Boolean onlyMyAreas = false;
+    private String sortBy = "name";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +103,7 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
         allAreas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
+                sortBy = "name";
                 onlyMyAreas = false;
                 showMessage("false");
                 swipeRefreshLayout.setRefreshing(true);
@@ -120,6 +114,7 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
         myAreas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
+                sortBy = "name";
                 onlyMyAreas = true;
                 showMessage("true");
                 swipeRefreshLayout.setRefreshing(true);
@@ -130,7 +125,8 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
         solvedTop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-
+                //sortBy = "solvedProblemsCount";
+                sortBy = "rate";
                 showMessage("решенные");
                 swipeRefreshLayout.setRefreshing(true);
                 doRefresh();
@@ -140,7 +136,8 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
         inProccessTop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-
+                //sortBy = "inProcessProblemsCount";
+                sortBy = "rate";
                 showMessage("организация решает");
                 swipeRefreshLayout.setRefreshing(true);
                 doRefresh();
@@ -150,8 +147,8 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
         unsolvedTop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                onlyMyAreas = true;
-
+                //sortBy = "unsolvedProblemsCount";
+                sortBy = "rate";
                 showMessage("просрочены или нерешенные");
                 swipeRefreshLayout.setRefreshing(true);
                 doRefresh();
@@ -257,6 +254,7 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
                 total_pages = response.body().getPagesLimit();
                 progressBar.setVisibility(View.GONE);
                 adapter.addAll(results);
+                adapter.addSortBy(sortBy);
                 if(currentPage <= total_pages) {
                     adapter.addLoadingFooter();
                 }
@@ -312,7 +310,7 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
                 token,
                 currentPage,
                 8,
-                "name",
+                sortBy,
                 "desc",
                 personId,
                 onlyMyAreas

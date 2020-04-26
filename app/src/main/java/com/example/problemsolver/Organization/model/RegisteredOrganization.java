@@ -4,6 +4,7 @@ package com.example.problemsolver.Organization.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.HashMap;
 import java.util.UUID;
 
 public class RegisteredOrganization {
@@ -26,6 +27,9 @@ public class RegisteredOrganization {
     @SerializedName("description")
     @Expose
     private String description;
+    @SerializedName("statistics")
+    @Expose
+    private HashMap<String, Integer> statistics;
 
     public RegisteredOrganization() {
     }
@@ -84,5 +88,13 @@ public class RegisteredOrganization {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public HashMap<String, Integer> getStatistics() {
+        return statistics;
+    }
+
+    public void setStatistics(HashMap<String, Integer> statistics) {
+        this.statistics = statistics;
     }
 }
