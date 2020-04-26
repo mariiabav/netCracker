@@ -8,8 +8,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +22,8 @@ import com.example.problemsolver.ApplicationService;
 import com.example.problemsolver.Authorized.AuthorizedPerson;
 import com.example.problemsolver.Authorized.PersonArea;
 import com.example.problemsolver.Event.EventActivity;
+import com.example.problemsolver.Login.LoginActivity;
+import com.example.problemsolver.ProblemResultActivity;
 import com.example.problemsolver.R;
 
 import java.util.List;
@@ -28,10 +35,13 @@ import retrofit2.Response;
 public class ProfileActivity extends AppCompatActivity {
 
     private TextView FScView, emailView, numberView, dateView, area1View, area2View, area3View, profileStatus;
-    private Button myInfo, myProblems, eventsBtn;
+    private Button myInfo, myProblems, eventsBtn, complainBtn, resultBtn;
     private AuthorizedPerson authorizedPerson;
     private String FSc, email, number, date, area1, area2, area3, role;
     private TextView [] areaView = new TextView[3];
+
+    private RelativeLayout myInfoRellay;
+    private FrameLayout myProfileFeed;
 
     List<PersonArea> personAreas;
 
@@ -60,11 +70,43 @@ public class ProfileActivity extends AppCompatActivity {
         eventsBtn = findViewById(R.id.btn_events);
         eventsBtn.setVisibility(View.INVISIBLE);
 
+        myInfo = findViewById(R.id.btn_info);
+        myProblems = findViewById(R.id.btn_my_problems);
+
+        myInfoRellay = findViewById(R.id.my_info_rellay);
+        myProfileFeed = findViewById(R.id.frame_recycler_view);
+
+
+
         eventsBtn.setOnClickListener(view -> {
             Intent intent = new Intent(ProfileActivity.this, EventActivity.class);
             startActivity(intent);
         });
 
+        myProblems.setOnClickListener(view -> {
+            myInfoRellay.setVisibility(View.INVISIBLE);
+            myProfileFeed.setVisibility(View.VISIBLE);
+        });
+
+        myInfo.setOnClickListener(view -> {
+            myInfoRellay.setVisibility(View.VISIBLE);
+            myProfileFeed.setVisibility(View.INVISIBLE);
+        });
+
+        //ЭТО ДОЛЖНО БЫТЬ В АДАПТЕРЕ ДЛЯ КАЖДОГО item ЛЕНТЫ. Пока не уверена, как это будет работать. Нужна лента
+        /*
+        complainBtn = findViewById(R.id.btn_complain);
+        resultBtn = findViewById(R.id.btn_result);
+
+        complainBtn.setOnClickListener(view -> {
+            //переход по ссылке
+        });
+
+        resultBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(ProfileActivity.this, ProblemResultActivity.class);
+            startActivity(intent);
+        });
+*/
 
         ApplicationService.getInstance()
                 .getJSONApi()
@@ -117,6 +159,26 @@ public class ProfileActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_profile, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_exit:
+                Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void showMessage(String string) {
         Toast t = Toast.makeText(this, string, Toast.LENGTH_SHORT);
         t.show();

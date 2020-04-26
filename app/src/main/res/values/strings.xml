@@ -31,7 +31,7 @@
         <item>Центральный район</item>
     </string-array>
 
-    <string name="error_msg">Ошибка! Не удаётся загрузить проблемы</string>
+    <string name="error_msg">Ошибка! Загрузка не удалась</string>
     <string name="btn_retry">Повторите попытку</string>
     <string name="error_msg_no_internet">Отсутствует интернет соединение</string>
     <string name="error_msg_timeout">Слишком долгий ответ от сервера</string>

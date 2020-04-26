@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/activity_main"
+    android:fillViewport="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -11,216 +12,236 @@
         android:orientation="vertical"
         android:background="@color/white">
 
-    <RelativeLayout
-        android:id="@+id/rellay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="0dp">
+        <RelativeLayout
+            android:id="@+id/rellay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="0dp">
+
+            <ImageView
+                android:id="@+id/status_pic"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_marginTop="15dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/red_circle" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="70dp"
+                android:orientation="vertical">
+
+
+
+                <TextView
+                    android:id="@+id/address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Харченко, 16"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:text="30.01.2020"
+                    android:textColor="@color/grey"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+
+        <TextView
+            android:id="@+id/problem_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rellay"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
+            android:text="Тип проблемы"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/problem_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/problem_type"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
+            android:text="Описание проблемы"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
         <ImageView
-            android:id="@+id/status_pic"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
+            android:id="@+id/imgView_postPic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/problem_description"
+            android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            android:src="@drawable/red_circle" />
+            android:src="@mipmap/hole" />
+        <!--android:visibility="gone"-->
+
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="70dp"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:id="@+id/two_btn"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_below="@+id/imgView_postPic">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/like_not_btn"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true">
+
+                    <ImageView
+                        android:id="@+id/heart"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/heart" />
+
+                    <TextView
+                        android:id="@+id/likes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="likes: "
+                        android:textColor="@color/black"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/dislike_not_btn"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true">
+
+                    <ImageView
+                        android:id="@+id/broken_heart"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/broken" />
+
+                    <TextView
+                        android:id="@+id/dislikes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="dislikes: "
+                        android:textColor="@color/black"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
 
 
-
-            <TextView
-                android:id="@+id/address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:text="Харченко, 16"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:text="30.01.2020"
-                android:textColor="@color/grey"
-                android:textSize="13sp" />
-
+            </RelativeLayout>
         </LinearLayout>
 
-    </RelativeLayout>
-
-
-
-    <TextView
-        android:id="@+id/problem_type"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rellay"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp"
-        android:text="Тип проблемы"
-        android:textColor="@color/black"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/problem_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/problem_type"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp"
-        android:text="Описание проблемы"
-        android:textColor="@color/black"
-        android:textSize="16sp" />
-
-    <ImageView
-        android:id="@+id/imgView_postPic"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/problem_description"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="15dp"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        android:src="@mipmap/hole" />
-    <!--android:visibility="gone"-->
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:id="@+id/two_btn"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_below="@+id/imgView_postPic">
-
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/like_not_btn"
-            android:layout_weight="1">
+            android:layout_height="45dp"
+            android:id="@+id/btn_participate"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_below="@+id/two_btn">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
-                <ImageView
-                    android:id="@+id/heart"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/heart" />
-
-                <TextView
-                    android:id="@+id/likes"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="likes: "
-                    android:textColor="@color/black"
-                    android:textSize="13sp" />
+                    android:layout_centerInParent="true">
 
-            </LinearLayout>
-        </RelativeLayout>
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter"
+                        android:layout_gravity="center"
+                        android:src="@drawable/like" />
 
-        <RelativeLayout
+                    <Button android:id="@+id/btn_support"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Подписаться"
+                        android:background="@color/white"
+                        android:textColor="@color/black"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/dislike_not_btn"
-            android:layout_weight="1">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp">
 
-            <LinearLayout
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/main_swiperefresh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/comment_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+            <ProgressBar
+                android:id="@+id/main_progress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true">
+                android:layout_gravity="center"/>
 
-                <ImageView
-                    android:id="@+id/broken_heart"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/broken" />
+            <include layout="@layout/error_layout"/>
 
-                <TextView
-                    android:id="@+id/dislikes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="dislikes: "
-                    android:textColor="@color/black"
-                    android:textSize="13sp" />
-
-            </LinearLayout>
-
-
-        </RelativeLayout>
+        </FrameLayout>
+        
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:id="@+id/btn_participate"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_below="@+id/two_btn">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true">
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:layout_gravity="center"
-                    android:src="@drawable/like" />
-
-                <Button android:id="@+id/btn_support"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Подписаться"
-                    android:background="@color/white"
-                    android:textColor="@color/black"
-                    android:textSize="13sp" />
-            </LinearLayout>
-        </RelativeLayout>
-    </LinearLayout>
-
-    <ImageView
-        android:id="@+id/imgView_line"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_below="@+id/btn_participate"
-        android:layout_marginTop="10dp"
-        android:background="@color/light_grey" />
-
-    </LinearLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>
 

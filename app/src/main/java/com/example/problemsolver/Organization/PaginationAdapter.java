@@ -26,6 +26,7 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private static final int ITEM = 0;
     private static final int LOADING = 1;
+    private String sortBy;
 
     private List<RegisteredOrganization> eventResults;
     private Context context;
@@ -79,7 +80,20 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 final ProblemVH problemVH = (ProblemVH) holder;
 
                 problemVH.offerStatus.setText(result.getName());
-                problemVH.offerDate.setText(result.getEmail());
+
+                Integer rate = result.getStatistics().get("solvedProblemsCount");
+                if (rate == null) rate = 0;
+                switch (sortBy) {
+                    case "name":
+                        problemVH.offerDate.setText(result.getEmail());
+                        break;
+                    case "solvedProblemsCount":
+                    case "inProcessProblemsCount":
+                    case "unsolvedProblemsCount":
+                        problemVH.offerDate.setText(rate);
+                        break;
+                }
+
 
                 /*
                 problemVH.itemView.setOnClickListener(view -> {
@@ -149,6 +163,10 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
+    public void addSortBy(String sortBy){
+        this.sortBy = sortBy;
+    }
+
     private void remove(RegisteredOrganization r) {
         int position = eventResults.indexOf(r);
         if (position > -1) {
@@ -199,7 +217,6 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     protected class ProblemVH extends RecyclerView.ViewHolder {
         private TextView offerStatus;
         private TextView offerDate;
-
 
         private ProgressBar mProgress;
 

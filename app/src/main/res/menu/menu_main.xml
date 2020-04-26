@@ -7,6 +7,6 @@
         app:showAsAction="never"/>
     <item
         android:id="@+id/menu_settings"
-        android:title="Настройки"
+        android:title="Настройки старые"
         app:showAsAction="never"/>
 </menu>
