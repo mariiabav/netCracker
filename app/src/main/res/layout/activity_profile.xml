@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".Profile.ProfileActivity">
-
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -49,74 +50,72 @@
                 android:text="Евгений Белов"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
-
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="15dp"
-                android:adjustViewBounds="true"
-                android:scaleType="centerInside" />
-
         </RelativeLayout>
 
         <LinearLayout
-            android:id="@+id/linlay1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/accept_btn"
             android:layout_below="@id/rellay1"
-            android:orientation="horizontal">
+            android:layout_height="45dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@color/red_dark"
-                android:gravity="center"
-                android:paddingBottom="5dp"
-                android:paddingTop="5dp">
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <Button android:id="@+id/btn_info"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
-                    android:text="Моя\n информация"
-                    android:layout_gravity="center"
-                    android:textColor="@color/white"
-                    android:textSize="18sp" />
+                    android:text="Информация"
+                    android:background="@color/red_dark"
+
+                    android:textColor="@color/white"/>
 
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@color/gradStart"
-                android:gravity="center"
-                android:paddingBottom="5dp"
-                android:paddingTop="5dp">
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <Button android:id="@+id/btn_my_problems"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
-                    android:text="Я\n участвую"
-                    android:textColor="@color/white"
-                    android:textSize="18sp" />
+                    android:text="Я участвую"
+                    android:background="@color/gradStart"
+                    android:textColor="@color/white"/>
 
             </RelativeLayout>
 
         </LinearLayout>
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/frame_recycler_view"
+            android:layout_below="@+id/accept_btn">
+
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/main_swiperefresh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/comment_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+            <include layout="@layout/error_layout"/>
+
+        </FrameLayout>
 
         <RelativeLayout
+            android:id="@+id/my_info_rellay"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/linlay1">
+            android:layout_below="@+id/accept_btn">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -145,6 +144,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-light"
                         android:textColor="@color/black"
+                        android:text="Пользователь"
                         android:textSize="18sp" />
 
                     <View
@@ -299,5 +299,5 @@
             </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>
 

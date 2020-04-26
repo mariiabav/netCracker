@@ -241,9 +241,7 @@
             <include layout="@layout/error_layout"/>
 
         </FrameLayout>
-
-
-
+        
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
 
