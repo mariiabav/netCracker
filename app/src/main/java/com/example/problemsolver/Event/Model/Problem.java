@@ -34,6 +34,13 @@ public class Problem {
     @Expose
     private String coordinates;
 
+    public Problem() {
+    }
+
+    public Problem(String id) {
+        this.id = id;
+    }
+
     public String getId() {
         return id;
     }

@@ -3,6 +3,7 @@ package com.example.problemsolver;
 
 import com.example.problemsolver.Authorized.AuthorizedPerson;
 import com.example.problemsolver.Event.Model.EventResponse;
+import com.example.problemsolver.ProblemFeed.model.Comment;
 import com.example.problemsolver.ProblemFeed.model.CommentResponse;
 import com.example.problemsolver.ProblemFeed.model.FeedResponse;
 import com.example.problemsolver.ProblemFeed.model.MyAssessmentResponse;
@@ -197,5 +198,11 @@ public interface ServerApi {
             @Query("sortBy") String sortBy
     );
 
+    @Headers("Content-Type: application/json")
+    @POST("/api/comment/create")
+    Call<CommentResponse> createComment(
+            @Header("Authorization") String token,
+            @Body Comment comment
+            );
 
 }

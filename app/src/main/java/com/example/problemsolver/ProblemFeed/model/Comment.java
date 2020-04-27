@@ -23,6 +23,15 @@ public class Comment {
     @Expose
     private String CreationDate;
 
+    public Comment() {
+    }
+
+    public Comment(Person person, Problem problem, String text) {
+        this.person = person;
+        this.problem = problem;
+        this.text = text;
+    }
+
     public Person getPerson() {
         return person;
     }

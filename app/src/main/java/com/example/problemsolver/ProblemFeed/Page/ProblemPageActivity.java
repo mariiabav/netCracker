@@ -21,6 +21,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -34,9 +35,11 @@ import com.bumptech.glide.load.model.LazyHeaders;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.problemsolver.ApplicationService;
 import com.example.problemsolver.Assessment;
+import com.example.problemsolver.Event.Model.Problem;
 import com.example.problemsolver.ProblemFeed.model.Comment;
 import com.example.problemsolver.ProblemFeed.model.CommentResponse;
 import com.example.problemsolver.ProblemFeed.model.MyAssessmentResponse;
+import com.example.problemsolver.ProblemFeed.model.Person;
 import com.example.problemsolver.R;
 import com.example.problemsolver.ServerApi;
 import com.example.problemsolver.utils.PaginationAdapterCallback;
@@ -103,6 +106,8 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
         settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
         token = settings.getString("JWT","");
         commentRecycler = findViewById(R.id.comment_recycler);
+        EditText newComment = findViewById(R.id.post_comment);
+        Button sendComment = findViewById(R.id.send_comment_button);
 
         myAssessmentRequest();
 
@@ -155,23 +160,40 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
             }
         });
 
-        supportBtn.setOnClickListener(view -> {
+        supportBtn.setOnClickListener(view -> ApplicationService.getInstance()
+        .getJSONApi()
+        .subscribe(token, problemId, personId)
+        .enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                //showMessage("Подписался");
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        }));
+
+
+        sendComment.setOnClickListener(view -> {
+            Comment comment = new Comment(new Person(personId), new Problem(problemId), newComment.getText().toString());
             ApplicationService.getInstance()
-            .getJSONApi()
-            .subscribe(token, problemId, personId)
-            .enqueue(new Callback<Void>() {
-                @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
-                    //showMessage("Подписался");
-                }
-                @Override
-                public void onFailure(Call<Void> call, Throwable t) {
+                    .getJSONApi()
+                    .createComment(token, comment)
+                    .enqueue(new Callback<CommentResponse>() {
+                        @Override
+                        public void onResponse(Call<CommentResponse> call, Response<CommentResponse> response) {
+                            showMessage("Комментарий успешно отправлен");
+                            doRefresh();
+                        }
 
-                }
-            });
+                        @Override
+                        public void onFailure(Call<CommentResponse> call, Throwable t) {
+
+                        }
+                    });
+
         });
-
-
         address.setText(getIntent().getStringExtra("problem_address"));
         type.setText(getIntent().getStringExtra("problem_type"));
         description.setText(getIntent().getStringExtra("problem_description"));
@@ -233,6 +255,8 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
         btnRetry.setOnClickListener(view -> loadFirstPage());
 
         swipeRefreshLayout.setOnRefreshListener(this::doRefresh);
+
+
     }
 
     private void showMessage(String string) {
