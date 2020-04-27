@@ -472,7 +472,7 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
                 problemId,
                 currentPage,
                 3,
-                "text"
+                "creationDate"
 
         );
     }

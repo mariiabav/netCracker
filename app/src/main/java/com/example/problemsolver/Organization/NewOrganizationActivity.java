@@ -46,29 +46,25 @@ public class NewOrganizationActivity extends AppCompatActivity implements Sugges
 
     private final String MAPKIT_API_KEY = "d57819df-534a-4ba4-89d4-430e73a03ab3";
     private final int RESULT_NUMBER_LIMIT = 5;
-    private final Point CENTER = new Point(55.75, 37.62);
+
     private final BoundingBox BOUNDING_BOX = new BoundingBox(
             new Point(60.092945, 29.961734),
             new Point(59.705141, 30.787196));
     private final SuggestOptions SEARCH_OPTIONS = new SuggestOptions().setSuggestTypes(
             SuggestType.GEO.value);
 
-    private SearchManager searchManager;
     private SuggestSession suggestSession;
     private ArrayAdapter resultAdapter;
     private List<String> suggestResult;
     private ListView suggestResultView;
 
-
     private EditText name, description, email, number;
-    private Button registerOrg;
     private Spinner spinner;
 
     private String orgName, orgDescription, orgEmail, orgPhone, address;
     private Area orgArea;
     private Address orgAddress;
 
-    private SharedPreferences settings;
     private String token;
 
     @Override
@@ -79,23 +75,23 @@ public class NewOrganizationActivity extends AppCompatActivity implements Sugges
         SearchFactory.initialize(this);
         setContentView(R.layout.activity_new_organization);
 
-        searchManager = SearchFactory.getInstance().createSearchManager(SearchManagerType.COMBINED);
+        SearchManager searchManager = SearchFactory.getInstance().createSearchManager(SearchManagerType.COMBINED);
         suggestSession = searchManager.createSuggestSession();
 
-        settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
+        SharedPreferences settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
         token = settings.getString("JWT", "");
 
         name = findViewById(R.id.org_input_name);
         description = findViewById(R.id.org_input_desc);
         email = findViewById(R.id.org_input_email);
         number = findViewById(R.id.org_input_number);
-        EditText queryEdit = findViewById(R.id.query_address);
         suggestResultView = findViewById(R.id.suggest_result);
         spinner = findViewById(R.id.spinner);
 
+        EditText queryEdit = findViewById(R.id.query_address);
         ArrayAdapter<String> adapter;
         String[] array = getResources().getStringArray(R.array.areas);
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, array);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, array);
         spinner.setAdapter(adapter);
 
         suggestResult = new ArrayList<>();
@@ -106,7 +102,7 @@ public class NewOrganizationActivity extends AppCompatActivity implements Sugges
         suggestResultView.setAdapter(resultAdapter);
 
 
-        registerOrg = findViewById(R.id.btn_signup);
+        Button registerOrgBtn = findViewById(R.id.btn_signup);
 
         queryEdit.addTextChangedListener(new TextWatcher() {
             @Override
@@ -127,7 +123,7 @@ public class NewOrganizationActivity extends AppCompatActivity implements Sugges
 
         });
 
-        registerOrg.setOnClickListener(view -> {
+        registerOrgBtn.setOnClickListener(view -> {
             orgName = name.getText().toString();
             orgDescription = description.getText().toString();
             orgEmail = email.getText().toString();

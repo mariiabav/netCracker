@@ -14,6 +14,9 @@ import com.example.problemsolver.Organization.model.RegisteredOrganization;
 import com.example.problemsolver.R;
 import com.example.problemsolver.utils.PaginationAdapterCallback;
 
+import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +31,7 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private static final int LOADING = 1;
     private String sortBy;
 
-    private List<RegisteredOrganization> eventResults;
+    private List<RegisteredOrganization> orgResult;
     private Context context;
 
     private boolean isLoadingAdded = false;
@@ -41,17 +44,18 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     PaginationAdapter(Context context) {
         this.context = context;
         this.mCallback = (PaginationAdapterCallback) context;
-        eventResults = new ArrayList<>();
+        orgResult = new ArrayList<>();
     }
 
-    public List<RegisteredOrganization> getProblems() {
-        return eventResults;
+    public List<RegisteredOrganization> getOrgs() {
+        return orgResult;
     }
 
-    public void setProblems(List<RegisteredOrganization> eventResults) {
-        this.eventResults = eventResults;
+    public void setOrgs(List<RegisteredOrganization> orgResult) {
+        this.orgResult = orgResult;
     }
 
+    @NotNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder = null;
@@ -59,8 +63,8 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         switch (viewType) {
             case ITEM:
-                View viewItem = inflater.inflate(R.layout.event_feed, parent, false);
-                viewHolder = new ProblemVH(viewItem);
+                View viewItem = inflater.inflate(R.layout.org_item, parent, false);
+                viewHolder = new OrganizationVH(viewItem);
                 break;
             case LOADING:
                 View viewLoading = inflater.inflate(R.layout.item_progress, parent, false);
@@ -72,25 +76,28 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        RegisteredOrganization result = eventResults.get(position);
+        RegisteredOrganization result = orgResult.get(position);
 
         switch (getItemViewType(position)) {
 
             case ITEM:
-                final ProblemVH problemVH = (ProblemVH) holder;
+                final OrganizationVH organizationVH = (OrganizationVH) holder;
 
-                problemVH.offerStatus.setText(result.getName());
+                organizationVH.orgName.setText(result.getName());
+                organizationVH.address.setText(result.getAddress().toString());
+                organizationVH.email.setText(result.getEmail());
+                organizationVH.phone.setText(result.getPhone());
 
                 Integer rate = result.getAllProblemsCount();
 
                 switch (sortBy) {
                     case "name":
-                        problemVH.offerDate.setText(result.getEmail());
+                        organizationVH.rate.setText(result.getEmail());
                         break;
                     case "solvedProblemsCount":
                     case "inProcessProblemsCount":
                     case "unsolvedProblemsCount":
-                        problemVH.offerDate.setText(String.valueOf(rate));
+                        organizationVH.rate.setText(String.valueOf(rate));
                         break;
                 }
 
@@ -144,17 +151,17 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemCount() {
-        return eventResults == null ? 0 : eventResults.size();
+        return orgResult == null ? 0 : orgResult.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-            return (position == eventResults.size() - 1 && isLoadingAdded) ? LOADING : ITEM;
+            return (position == orgResult.size() - 1 && isLoadingAdded) ? LOADING : ITEM;
     }
 
     private void add(RegisteredOrganization r) {
-        eventResults.add(r);
-        notifyItemInserted(eventResults.size() - 1);
+        orgResult.add(r);
+        notifyItemInserted(orgResult.size() - 1);
     }
 
     public void addAll(List<RegisteredOrganization> moveResults) {
@@ -168,9 +175,9 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     private void remove(RegisteredOrganization r) {
-        int position = eventResults.indexOf(r);
+        int position = orgResult.indexOf(r);
         if (position > -1) {
-            eventResults.remove(position);
+            orgResult.remove(position);
             notifyItemRemoved(position);
         }
     }
@@ -194,37 +201,41 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void removeLoadingFooter() {
         isLoadingAdded = false;
 
-        int position = eventResults.size() - 1;
+        int position = orgResult.size() - 1;
         RegisteredOrganization result = getItem(position);
 
         if (result != null) {
-            eventResults.remove(position);
+            orgResult.remove(position);
             notifyItemRemoved(position);
         }
     }
 
     public RegisteredOrganization getItem(int position) {
-        return eventResults.get(position);
+        return orgResult.get(position);
     }
 
     public void showRetry(boolean show, @Nullable String errorMsg) {
         retryPageLoad = show;
-        notifyItemChanged(eventResults.size() - 1);
+        notifyItemChanged(orgResult.size() - 1);
 
         if (errorMsg != null) this.errorMsg = errorMsg;
     }
 
-    protected class ProblemVH extends RecyclerView.ViewHolder {
-        private TextView offerStatus;
-        private TextView offerDate;
+    protected class OrganizationVH extends RecyclerView.ViewHolder {
+        private TextView orgName;
+        private TextView address;
+        private TextView email;
+        private TextView phone;
+        private TextView rate;
 
-        private ProgressBar mProgress;
-
-        public ProblemVH(View itemView) {
+        public OrganizationVH(View itemView) {
             super(itemView);
 
-            offerStatus = itemView.findViewById(R.id.event_status);
-            offerDate = itemView.findViewById(R.id.date);
+            orgName = itemView.findViewById(R.id.org_name);
+            address = itemView.findViewById(R.id.org_address);
+            email = itemView.findViewById(R.id.org_email);
+            phone = itemView.findViewById(R.id.org_phone);
+            rate = itemView.findViewById(R.id.org_rate);
         }
     }
 

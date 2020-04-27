@@ -17,14 +17,6 @@ import retrofit2.Response;
 
 public class OrgPageActivity extends AppCompatActivity {
 
-
-    private TextView address, date, type, description, rating;//, status;
-    private Button supportBtn;
-    private static final String statusCreated = "created";
-    private static final String statusInProcess = "in process";
-    private static final String statusSolved = "solved";
-    private static final String statusRejected = "rejected";
-    private SharedPreferences settings;
     private String token, personId, problemId;
 
     @Override
@@ -32,18 +24,17 @@ public class OrgPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_problem_page);
 
-        settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
+        SharedPreferences settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
         token = settings.getString("JWT","");
         personId = settings.getString("id", "");
         problemId = getIntent().getStringExtra("problem_id");
 
-        address = findViewById(R.id.address);
-        date = findViewById(R.id.date);
-        type = findViewById(R.id.problem_type);
-        description = findViewById(R.id.problem_description);
-        rating = findViewById(R.id.rating);
-        //status = findViewById(R.id.status);
-        supportBtn = findViewById(R.id.btn_support);
+        TextView address = findViewById(R.id.address);
+        TextView date = findViewById(R.id.date);
+        TextView type = findViewById(R.id.problem_type);
+        TextView description = findViewById(R.id.problem_description);
+        TextView rating = findViewById(R.id.rating);
+        Button supportBtn = findViewById(R.id.btn_support);
 
         supportBtn.setOnClickListener(view -> {
             ApplicationService.getInstance()

@@ -24,9 +24,10 @@ import com.example.problemsolver.utils.PaginationScrollListener;
 import com.example.problemsolver.R;
 import com.example.problemsolver.ServerApi;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 import java.util.concurrent.TimeoutException;
-
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -39,30 +40,25 @@ import retrofit2.Response;
 
 public class FeedOrgActivity extends AppCompatActivity implements PaginationAdapterCallback {
 
-    private static final String TAG = "EventActivity";
+    private static final String TAG = "FeedOrgActivity";
+    private static final int PAGE_START = 0;
 
     private PaginationAdapter adapter;
     private LinearLayoutManager linearLayoutManager;
-    private RecyclerView rv;
     private ProgressBar progressBar;
     private LinearLayout errorLayout;
-    private Button btnRetry, allAreas, myAreas, solvedTop, inProccessTop, unsolvedTop;
+    private Button allAreasBtn, myAreasBtn, solvedTopBtn, inProcessTopBtn, unsolvedTopBtn;
     private TextView txtError;
     private SwipeRefreshLayout swipeRefreshLayout;
-
-    private static final int PAGE_START = 0;
 
     private boolean isLoading = false;
     private boolean isLastPage = false;
 
-    private int total_pages;
     private int currentPage = PAGE_START;
 
     private ServerApi serverApi;
-    private SharedPreferences settings;
     private String token;
     private String personId;
-
     private Boolean onlyMyAreas = false;
     private String sortBy = "name";
 
@@ -70,90 +66,76 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test_org);
+        SharedPreferences settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
+        Button btnRetry = findViewById(R.id.error_btn_retry);
 
-        settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
+        serverApi = ApplicationService.getInstance().getJSONApi();
         token = settings.getString("JWT","");
         personId = settings.getString("id","");
-
-        rv = findViewById(R.id.main_recycler);
         progressBar = findViewById(R.id.main_progress);
         errorLayout = findViewById(R.id.error_layout);
-        btnRetry = findViewById(R.id.error_btn_retry);
         txtError = findViewById(R.id.error_txt_cause);
         swipeRefreshLayout = findViewById(R.id.main_swiperefresh);
 
-        allAreas = findViewById(R.id.all_area_btn);
-        myAreas = findViewById(R.id.my_area_btn);
+        allAreasBtn = findViewById(R.id.all_area_btn);
+        myAreasBtn = findViewById(R.id.my_area_btn);
 
-        solvedTop = findViewById(R.id.solved_top_btn);
-        inProccessTop = findViewById(R.id.in_proccess_top_btn);
-        unsolvedTop = findViewById(R.id.unsolved_top_btn);
+        solvedTopBtn = findViewById(R.id.solved_top_btn);
+        inProcessTopBtn = findViewById(R.id.in_proccess_top_btn);
+        unsolvedTopBtn = findViewById(R.id.unsolved_top_btn);
 
-        solvedTop.setVisibility(View.INVISIBLE);
-        inProccessTop.setVisibility(View.INVISIBLE);
-        unsolvedTop.setVisibility(View.INVISIBLE);
+        solvedTopBtn.setVisibility(View.INVISIBLE);
+        inProcessTopBtn.setVisibility(View.INVISIBLE);
+        unsolvedTopBtn.setVisibility(View.INVISIBLE);
 
         adapter = new PaginationAdapter(this);
 
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        RecyclerView rv = findViewById(R.id.main_recycler);
         rv.setLayoutManager(linearLayoutManager);
         rv.setItemAnimator(new DefaultItemAnimator());
         rv.setAdapter(adapter);
 
-        allAreas.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                sortBy = "name";
-                onlyMyAreas = false;
-                showMessage("false");
-                swipeRefreshLayout.setRefreshing(true);
-                doRefresh();
-            }
+        allAreasBtn.setOnClickListener(view -> {
+            sortBy = "name";
+            onlyMyAreas = false;
+            showMessage("false");
+            swipeRefreshLayout.setRefreshing(true);
+            doRefresh();
         });
 
-        myAreas.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                sortBy = "name";
-                onlyMyAreas = true;
-                showMessage("true");
-                swipeRefreshLayout.setRefreshing(true);
-                doRefresh();
-            }
+        myAreasBtn.setOnClickListener(view -> {
+            sortBy = "name";
+            onlyMyAreas = true;
+            showMessage("true");
+            swipeRefreshLayout.setRefreshing(true);
+            doRefresh();
         });
 
-        solvedTop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                sortBy = "solvedProblemsCount";
-                //sortBy = "rate";
-                showMessage("решенные");
-                swipeRefreshLayout.setRefreshing(true);
-                doRefresh();
-            }
+        solvedTopBtn.setOnClickListener(view -> {
+            sortBy = "solvedProblemsCount";
+            //sortBy = "rate";
+            showMessage("решенные");
+            swipeRefreshLayout.setRefreshing(true);
+            doRefresh();
         });
 
-        inProccessTop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                sortBy = "inProcessProblemsCount";
-                //sortBy = "rate";
-                showMessage("организация решает");
-                swipeRefreshLayout.setRefreshing(true);
-                doRefresh();
-            }
+        inProcessTopBtn.setOnClickListener(view -> {
+            sortBy = "inProcessProblemsCount";
+            //sortBy = "rate";
+            showMessage("организация решает");
+            swipeRefreshLayout.setRefreshing(true);
+            doRefresh();
         });
 
-        unsolvedTop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                sortBy = "unsolvedProblemsCount";
-                //sortBy = "rate";
-                showMessage("просрочены или нерешенные");
-                swipeRefreshLayout.setRefreshing(true);
-                doRefresh();
-            }
+        unsolvedTopBtn.setOnClickListener(view -> {
+            sortBy = "unsolvedProblemsCount";
+            //sortBy = "rate";
+            showMessage("просрочены или нерешенные");
+            swipeRefreshLayout.setRefreshing(true);
+            doRefresh();
         });
+
         rv.addOnScrollListener(new PaginationScrollListener(linearLayoutManager) {
             @Override
             protected void loadMoreItems() {
@@ -173,8 +155,6 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
                 return isLoading;
             }
         });
-
-        serverApi = ApplicationService.getInstance().getJSONApi();
 
         loadFirstPage();
 
@@ -200,30 +180,25 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
                 break;
             case R.id.menu_org_stat:
                 showMessage("топ");
-                solvedTop.setVisibility(View.VISIBLE);
-                inProccessTop.setVisibility(View.VISIBLE);
-                unsolvedTop.setVisibility(View.VISIBLE);
+                solvedTopBtn.setVisibility(View.VISIBLE);
+                inProcessTopBtn.setVisibility(View.VISIBLE);
+                unsolvedTopBtn.setVisibility(View.VISIBLE);
 
-                allAreas.setVisibility(View.INVISIBLE);
-                myAreas.setVisibility(View.INVISIBLE);
+                allAreasBtn.setVisibility(View.INVISIBLE);
+                myAreasBtn.setVisibility(View.INVISIBLE);
                 break;
             case R.id.menu_org_list:
                 showMessage("все огранизации");
 
-                solvedTop.setVisibility(View.INVISIBLE);
-                inProccessTop.setVisibility(View.INVISIBLE);
-                unsolvedTop.setVisibility(View.INVISIBLE);
+                solvedTopBtn.setVisibility(View.INVISIBLE);
+                inProcessTopBtn.setVisibility(View.INVISIBLE);
+                unsolvedTopBtn.setVisibility(View.INVISIBLE);
 
-                allAreas.setVisibility(View.VISIBLE);
-                myAreas.setVisibility(View.VISIBLE);
+                allAreasBtn.setVisibility(View.VISIBLE);
+                myAreasBtn.setVisibility(View.VISIBLE);
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void showMessage(String string){
-        Toast t = Toast.makeText(this, string, Toast.LENGTH_SHORT);
-        t.show();
     }
 
     private void doRefresh() {
@@ -231,7 +206,7 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
         if (callServerApi().isExecuted())
             callServerApi().cancel();
 
-        adapter.getProblems().clear();
+        adapter.getOrgs().clear();
         adapter.notifyDataSetChanged();
         currentPage = 0;
         isLastPage = false;
@@ -247,7 +222,7 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
 
         callServerApi().enqueue(new Callback<FeedOrgResponse>() {
             @Override
-            public void onResponse(Call<FeedOrgResponse> call, Response<FeedOrgResponse> response) {
+            public void onResponse(@NotNull Call<FeedOrgResponse> call, @NotNull Response<FeedOrgResponse> response) {
                 hideErrorView();
 
                 List<RegisteredOrganization> results = fetchResults(response);
@@ -263,7 +238,7 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
             }
 
             @Override
-            public void onFailure(Call<FeedOrgResponse> call, Throwable t) {
+            public void onFailure(@NotNull Call<FeedOrgResponse> call, @NotNull Throwable t) {
                 t.printStackTrace();
                 showErrorView(t);
             }
@@ -272,8 +247,7 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
 
 
     private List<RegisteredOrganization> fetchResults(Response<FeedOrgResponse> response) {
-        List<RegisteredOrganization> eventList = response.body().getOrganizationList();
-        return eventList;
+        return response.body().getOrganizationList();
     }
 
     private void loadNextPage() {
@@ -281,7 +255,7 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
 
         callServerApi().enqueue(new Callback<FeedOrgResponse>() {
             @Override
-            public void onResponse(Call<FeedOrgResponse> call, Response<FeedOrgResponse> response) {
+            public void onResponse(@NotNull Call<FeedOrgResponse> call, @NotNull Response<FeedOrgResponse> response) {
 
                 adapter.removeLoadingFooter();
                 isLoading = false;
@@ -297,7 +271,7 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
             }
 
             @Override
-            public void onFailure(Call<FeedOrgResponse> call, Throwable t) {
+            public void onFailure(@NotNull Call<FeedOrgResponse> call, @NotNull Throwable t) {
                 t.printStackTrace();
                 adapter.showRetry(true, fetchErrorMessage(t));
             }
@@ -354,6 +328,11 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
     private boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null;
+    }
+
+    private void showMessage(String string){
+        Toast t = Toast.makeText(this, string, Toast.LENGTH_SHORT);
+        t.show();
     }
 }
 
