@@ -153,14 +153,13 @@ public class EventActivity extends AppCompatActivity implements PaginationAdapte
                 hideErrorView();
 
                 List<Event> results = fetchResults(response);
-                total_pages = response.body().getPagesLimit();
                 progressBar.setVisibility(View.GONE);
                 adapter.addAll(results);
-                if(currentPage <= total_pages) {
-                    adapter.addLoadingFooter();
+                if(results.size() == 0) {
+                    isLastPage = true;
                 }
                 else {
-                    isLastPage = true;
+                    adapter.addLoadingFooter();
                 }
             }
 
@@ -190,11 +189,11 @@ public class EventActivity extends AppCompatActivity implements PaginationAdapte
 
                 List<Event> results = fetchResults(response);
                 adapter.addAll(results);
-                if(currentPage != total_pages) {
-                    adapter.addLoadingFooter();
+                if(results.size() == 0) {
+                    isLastPage = true;
                 }
                 else {
-                    isLastPage = true;
+                    adapter.addLoadingFooter();
                 }
             }
 

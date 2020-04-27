@@ -43,7 +43,7 @@ public class FeedActivity extends AppCompatActivity implements PaginationAdapter
 
     private static final String TAG = "FeedActivity";
 
-    private PaginationAdapter adapter;
+    private ProblemPaginationAdapter adapter;
     private LinearLayoutManager linearLayoutManager;
     private RecyclerView rv;
     private ProgressBar progressBar;
@@ -85,7 +85,7 @@ public class FeedActivity extends AppCompatActivity implements PaginationAdapter
         txtError = findViewById(R.id.error_txt_cause);
         swipeRefreshLayout = findViewById(R.id.main_swiperefresh);
 
-        adapter = new PaginationAdapter(this);
+        adapter = new ProblemPaginationAdapter(this);
 
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rv.setLayoutManager(linearLayoutManager);
@@ -168,15 +168,16 @@ public class FeedActivity extends AppCompatActivity implements PaginationAdapter
                 hideErrorView();
 
                 List<Feed2Problem> results = fetchResults(response);
-                total_pages = response.body().getPagesLimit();
                 progressBar.setVisibility(View.GONE);
                 adapter.addAll(results);
-                if(currentPage <= total_pages) {
-                    adapter.addLoadingFooter();
-                }
-                else {
+
+                if(results.size() == 0) {
                     isLastPage = true;
                 }
+                else {
+                    adapter.addLoadingFooter();
+                }
+
             }
 
             @Override
@@ -205,11 +206,12 @@ public class FeedActivity extends AppCompatActivity implements PaginationAdapter
 
                 List<Feed2Problem> results = fetchResults(response);
                 adapter.addAll(results);
-                if(currentPage != total_pages) {
-                    adapter.addLoadingFooter();
+
+                if(results.size() == 0) {
+                    isLastPage = true;
                 }
                 else {
-                    isLastPage = true;
+                    adapter.addLoadingFooter();
                 }
             }
 

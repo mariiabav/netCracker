@@ -12,24 +12,51 @@ public class RegisteredOrganization {
     @SerializedName("id")
     @Expose
     private UUID id;
+
     @SerializedName("address")
     @Expose
     private Address address;
+
     @SerializedName("name")
     @Expose
     private String name;
+
     @SerializedName("email")
     @Expose
     private String email;
+
     @SerializedName("phone")
     @Expose
     private String phone;
+
     @SerializedName("description")
     @Expose
     private String description;
-    @SerializedName("statistics")
+
+    @SerializedName("allProblemsCount")
     @Expose
-    private HashMap<String, Integer> statistics;
+    private Integer allProblemsCount;
+
+    @SerializedName("initProblemsCount")
+    @Expose
+    private Integer initProblemsCount;
+
+    @SerializedName("solvedProblemsCount")
+    @Expose
+    private Integer solvedProblemsCount;
+
+    @SerializedName("unsolvedProblemsCount")
+    @Expose
+    private Integer unsolvedProblemsCount;
+
+    @SerializedName("closedProblemsCount")
+    @Expose
+    private Integer closedProblemsCount;
+
+    @SerializedName("inProcessProblemsCount")
+    @Expose
+    private Integer inProcessProblemsCount;
+
 
     public RegisteredOrganization() {
     }
@@ -90,11 +117,51 @@ public class RegisteredOrganization {
         this.id = id;
     }
 
-    public HashMap<String, Integer> getStatistics() {
-        return statistics;
+    public Integer getAllProblemsCount() {
+        return allProblemsCount;
     }
 
-    public void setStatistics(HashMap<String, Integer> statistics) {
-        this.statistics = statistics;
+    public void setAllProblemsCount(Integer allProblemsCount) {
+        this.allProblemsCount = allProblemsCount;
+    }
+
+    public Integer getInitProblemsCount() {
+        return initProblemsCount;
+    }
+
+    public void setInitProblemsCount(Integer initProblemsCount) {
+        this.initProblemsCount = initProblemsCount;
+    }
+
+    public Integer getSolvedProblemsCount() {
+        return solvedProblemsCount;
+    }
+
+    public void setSolvedProblemsCount(Integer solvedProblemsCount) {
+        this.solvedProblemsCount = solvedProblemsCount;
+    }
+
+    public Integer getUnsolvedProblemsCount() {
+        return unsolvedProblemsCount;
+    }
+
+    public void setUnsolvedProblemsCount(Integer unsolvedProblemsCount) {
+        this.unsolvedProblemsCount = unsolvedProblemsCount;
+    }
+
+    public Integer getClosedProblemsCount() {
+        return closedProblemsCount;
+    }
+
+    public void setClosedProblemsCount(Integer closedProblemsCount) {
+        this.closedProblemsCount = closedProblemsCount;
+    }
+
+    public Integer getInProcessProblemsCount() {
+        return inProcessProblemsCount;
+    }
+
+    public void setInProcessProblemsCount(Integer inProcessProblemsCount) {
+        this.inProcessProblemsCount = inProcessProblemsCount;
     }
 }

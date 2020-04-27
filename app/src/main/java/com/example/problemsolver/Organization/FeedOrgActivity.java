@@ -125,8 +125,8 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
         solvedTop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                //sortBy = "solvedProblemsCount";
-                sortBy = "rate";
+                sortBy = "solvedProblemsCount";
+                //sortBy = "rate";
                 showMessage("решенные");
                 swipeRefreshLayout.setRefreshing(true);
                 doRefresh();
@@ -136,8 +136,8 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
         inProccessTop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                //sortBy = "inProcessProblemsCount";
-                sortBy = "rate";
+                sortBy = "inProcessProblemsCount";
+                //sortBy = "rate";
                 showMessage("организация решает");
                 swipeRefreshLayout.setRefreshing(true);
                 doRefresh();
@@ -147,8 +147,8 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
         unsolvedTop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                //sortBy = "unsolvedProblemsCount";
-                sortBy = "rate";
+                sortBy = "unsolvedProblemsCount";
+                //sortBy = "rate";
                 showMessage("просрочены или нерешенные");
                 swipeRefreshLayout.setRefreshing(true);
                 doRefresh();
@@ -251,15 +251,14 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
                 hideErrorView();
 
                 List<RegisteredOrganization> results = fetchResults(response);
-                total_pages = response.body().getPagesLimit();
                 progressBar.setVisibility(View.GONE);
                 adapter.addAll(results);
                 adapter.addSortBy(sortBy);
-                if(currentPage <= total_pages) {
-                    adapter.addLoadingFooter();
+                if(results.size() == 0) {
+                    isLastPage = true;
                 }
                 else {
-                    isLastPage = true;
+                    adapter.addLoadingFooter();
                 }
             }
 
@@ -289,11 +288,11 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
 
                 List<RegisteredOrganization> results = fetchResults(response);
                 adapter.addAll(results);
-                if(currentPage != total_pages) {
-                    adapter.addLoadingFooter();
+                if(results.size() == 0) {
+                    isLastPage = true;
                 }
                 else {
-                    isLastPage = true;
+                    adapter.addLoadingFooter();
                 }
             }
 

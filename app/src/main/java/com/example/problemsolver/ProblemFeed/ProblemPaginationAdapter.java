@@ -1,16 +1,19 @@
-package com.example.problemsolver.Organization;
+package com.example.problemsolver.ProblemFeed;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.problemsolver.Organization.model.RegisteredOrganization;
+import com.example.problemsolver.ProblemFeed.Page.ProblemPageActivity;
+import com.example.problemsolver.ProblemFeed.model.Feed2Problem;
 import com.example.problemsolver.R;
 import com.example.problemsolver.utils.PaginationAdapterCallback;
 
@@ -21,14 +24,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-
-public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int ITEM = 0;
     private static final int LOADING = 1;
-    private String sortBy;
 
-    private List<RegisteredOrganization> eventResults;
+    private List<Feed2Problem> problemsResults;
     private Context context;
 
     private boolean isLoadingAdded = false;
@@ -38,18 +39,18 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private String errorMsg;
 
-    PaginationAdapter(Context context) {
+    ProblemPaginationAdapter(Context context) {
         this.context = context;
         this.mCallback = (PaginationAdapterCallback) context;
-        eventResults = new ArrayList<>();
+        problemsResults = new ArrayList<>();
     }
 
-    public List<RegisteredOrganization> getProblems() {
-        return eventResults;
+    public List<Feed2Problem> getProblems() {
+        return problemsResults;
     }
 
-    public void setProblems(List<RegisteredOrganization> eventResults) {
-        this.eventResults = eventResults;
+    public void setProblems(List<Feed2Problem> movieResults) {
+        this.problemsResults = movieResults;
     }
 
     @Override
@@ -59,7 +60,7 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         switch (viewType) {
             case ITEM:
-                View viewItem = inflater.inflate(R.layout.event_feed, parent, false);
+                View viewItem = inflater.inflate(R.layout.item_list, parent, false);
                 viewHolder = new ProblemVH(viewItem);
                 break;
             case LOADING:
@@ -72,47 +73,41 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        RegisteredOrganization result = eventResults.get(position);
+        Feed2Problem result = problemsResults.get(position); // Movie
 
         switch (getItemViewType(position)) {
 
             case ITEM:
                 final ProblemVH problemVH = (ProblemVH) holder;
 
-                problemVH.offerStatus.setText(result.getName());
+                problemVH.mProblemTitle.setText(result.getAddress().toString());
+                problemVH.mDate.setText(result.getCreationDate().substring(0, 10));
+                problemVH.mProblemType.setText(result.getProblemName());
+                problemVH.mRate.setText("Рейтинг: " + result.getRate().toString());
 
-                Integer rate = result.getAllProblemsCount();
+                problemVH.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(view.getContext(), ProblemPageActivity.class);
 
-                switch (sortBy) {
-                    case "name":
-                        problemVH.offerDate.setText(result.getEmail());
-                        break;
-                    case "solvedProblemsCount":
-                    case "inProcessProblemsCount":
-                    case "unsolvedProblemsCount":
-                        problemVH.offerDate.setText(String.valueOf(rate));
-                        break;
-                }
+                        intent.putExtra("problem_address",  result.getAddress().toString());
+                        intent.putExtra("problem_type",  result.getProblemName());
+                        intent.putExtra("problem_description", result.getDescription());
+                        intent.putExtra("problem_date",  result.getCreationDate().substring(0, 10));
+
+                        //тут надо не рейтинг результата, а запрос лайки и дизлайки по id проблемы
+                        intent.putExtra("problem_likes",  result.getRate().toString());
+                        if(result.getPicture() != null) {
+                            intent.putExtra("picture_id", result.getPicture().getId());
+                        }
 
 
-                /*
-                problemVH.itemView.setOnClickListener(view -> {
-                    Intent intent = new Intent(view.getContext(), ProblemPageActivity.class);
+                        intent.putExtra("problem_status", result.getStatus());
+                        intent.putExtra("problem_id", result.getId());
 
-                    intent.putExtra("problem_address",  result.getProblem().getAddress().toString());
-                    intent.putExtra("problem_type",  result.getProblem().getProblemName());
-                    intent.putExtra("problem_description", result.getProblem().getDescription());
-                    intent.putExtra("problem_date",  result.getProblem().getCreationDate().substring(0, 10));
-                    intent.putExtra("problem_rating",  result.getProblem().getRate().toString());
-                    intent.putExtra("problem_status", result.getProblem().getStatus());
-                    intent.putExtra("problem_id", result.getId());
-                    intent.putExtra("event_status", result.getOfferStatus());
-
-                    view.getContext().startActivity(intent);
+                        view.getContext().startActivity(intent);
+                    }
                 });
-
-                 */
-
 
 
                 break;
@@ -144,33 +139,29 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemCount() {
-        return eventResults == null ? 0 : eventResults.size();
+        return problemsResults == null ? 0 : problemsResults.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-            return (position == eventResults.size() - 1 && isLoadingAdded) ? LOADING : ITEM;
+            return (position == problemsResults.size() - 1 && isLoadingAdded) ? LOADING : ITEM;
     }
 
-    private void add(RegisteredOrganization r) {
-        eventResults.add(r);
-        notifyItemInserted(eventResults.size() - 1);
+    private void add(Feed2Problem r) {
+        problemsResults.add(r);
+        notifyItemInserted(problemsResults.size() - 1);
     }
 
-    public void addAll(List<RegisteredOrganization> moveResults) {
-        for (RegisteredOrganization result : moveResults) {
+    public void addAll(List<Feed2Problem> moveResults) {
+        for (Feed2Problem result : moveResults) {
             add(result);
         }
     }
 
-    public void addSortBy(String sortBy){
-        this.sortBy = sortBy;
-    }
-
-    private void remove(RegisteredOrganization r) {
-        int position = eventResults.indexOf(r);
+    private void remove(Feed2Problem r) {
+        int position = problemsResults.indexOf(r);
         if (position > -1) {
-            eventResults.remove(position);
+            problemsResults.remove(position);
             notifyItemRemoved(position);
         }
     }
@@ -188,43 +179,49 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public void addLoadingFooter() {
         isLoadingAdded = true;
-        add(new RegisteredOrganization());
+        add(new Feed2Problem());
     }
 
     public void removeLoadingFooter() {
         isLoadingAdded = false;
 
-        int position = eventResults.size() - 1;
-        RegisteredOrganization result = getItem(position);
+        int position = problemsResults.size() - 1;
+        Feed2Problem result = getItem(position);
 
         if (result != null) {
-            eventResults.remove(position);
+            problemsResults.remove(position);
             notifyItemRemoved(position);
         }
     }
 
-    public RegisteredOrganization getItem(int position) {
-        return eventResults.get(position);
+    public Feed2Problem getItem(int position) {
+        return problemsResults.get(position);
     }
 
     public void showRetry(boolean show, @Nullable String errorMsg) {
         retryPageLoad = show;
-        notifyItemChanged(eventResults.size() - 1);
+        notifyItemChanged(problemsResults.size() - 1);
 
         if (errorMsg != null) this.errorMsg = errorMsg;
     }
 
     protected class ProblemVH extends RecyclerView.ViewHolder {
-        private TextView offerStatus;
-        private TextView offerDate;
+        private TextView mProblemTitle;
+        private TextView mProblemType;
+        private TextView mDate;
+        private TextView mRate;
+        private ImageView mProblemImg;
 
         private ProgressBar mProgress;
 
         public ProblemVH(View itemView) {
             super(itemView);
 
-            offerStatus = itemView.findViewById(R.id.event_status);
-            offerDate = itemView.findViewById(R.id.date);
+            mProblemTitle = itemView.findViewById(R.id.street_name);
+            mProblemType = itemView.findViewById(R.id.problem_descriprion);
+            mDate = itemView.findViewById(R.id.date);
+            mRate = itemView.findViewById(R.id.rating);
+            mProblemImg = itemView.findViewById(R.id.status_pic);
         }
     }
 

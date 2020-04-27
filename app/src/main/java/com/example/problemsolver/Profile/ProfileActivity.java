@@ -172,6 +172,7 @@ public class ProfileActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menu_exit:
                 Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+                settings.edit().remove("JWT").remove("id").remove("Roles").apply();
                 intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
                 break;

@@ -3,6 +3,7 @@ package com.example.problemsolver;
 
 import com.example.problemsolver.Authorized.AuthorizedPerson;
 import com.example.problemsolver.Event.Model.EventResponse;
+import com.example.problemsolver.ProblemFeed.model.CommentResponse;
 import com.example.problemsolver.ProblemFeed.model.FeedResponse;
 import com.example.problemsolver.ProblemFeed.model.MyAssessmentResponse;
 import com.example.problemsolver.Login.LoginForm;
@@ -184,6 +185,16 @@ public interface ServerApi {
             @Query("problemId") String problemId,
             @Query("personId") String personId
 
+    );
+
+    @Headers("Content-Type: application/json")
+    @GET("/api/comment/all")
+    Call<CommentResponse> getComments(
+            @Header("Authorization") String token,
+            @Query("problemId") String problemId,
+            @Query("pageNumber") Integer pageNumber,
+            @Query("pageSize") Integer pageSize,
+            @Query("sortBy") String sortBy
     );
 
 

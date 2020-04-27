@@ -1,4 +1,4 @@
-package com.example.problemsolver.ProblemFeed;
+package com.example.problemsolver.ProblemFeed.Page;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.problemsolver.ProblemFeed.model.Feed2Problem;
+import com.example.problemsolver.ProblemFeed.model.Comment;
 import com.example.problemsolver.R;
 import com.example.problemsolver.utils.PaginationAdapterCallback;
 
@@ -23,12 +23,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class CommentPaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int ITEM = 0;
     private static final int LOADING = 1;
 
-    private List<Feed2Problem> problemsResults;
+    private List<Comment> problemsResults;
     private Context context;
 
     private boolean isLoadingAdded = false;
@@ -38,17 +38,17 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private String errorMsg;
 
-    PaginationAdapter(Context context) {
+    CommentPaginationAdapter(Context context) {
         this.context = context;
         this.mCallback = (PaginationAdapterCallback) context;
         problemsResults = new ArrayList<>();
     }
 
-    public List<Feed2Problem> getProblems() {
+    public List<Comment> getProblems() {
         return problemsResults;
     }
 
-    public void setProblems(List<Feed2Problem> movieResults) {
+    public void setProblems(List<Comment> movieResults) {
         this.problemsResults = movieResults;
     }
 
@@ -59,7 +59,7 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         switch (viewType) {
             case ITEM:
-                View viewItem = inflater.inflate(R.layout.item_list, parent, false);
+                View viewItem = inflater.inflate(R.layout.item_comment, parent, false);
                 viewHolder = new ProblemVH(viewItem);
                 break;
             case LOADING:
@@ -72,42 +72,15 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Feed2Problem result = problemsResults.get(position); // Movie
+        Comment result = problemsResults.get(position);
 
         switch (getItemViewType(position)) {
 
             case ITEM:
                 final ProblemVH problemVH = (ProblemVH) holder;
-
-                problemVH.mProblemTitle.setText(result.getAddress().toString());
-                problemVH.mDate.setText(result.getCreationDate().substring(0, 10));
-                problemVH.mProblemType.setText(result.getProblemName());
-                problemVH.mRate.setText("Рейтинг: " + result.getRate().toString());
-
-                problemVH.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(view.getContext(), ProblemPageActivity.class);
-
-                        intent.putExtra("problem_address",  result.getAddress().toString());
-                        intent.putExtra("problem_type",  result.getProblemName());
-                        intent.putExtra("problem_description", result.getDescription());
-                        intent.putExtra("problem_date",  result.getCreationDate().substring(0, 10));
-
-                        //тут надо не рейтинг результата, а запрос лайки и дизлайки по id проблемы
-                        intent.putExtra("problem_likes",  result.getRate().toString());
-                        if(result.getPicture() != null) {
-                            intent.putExtra("picture_id", result.getPicture().getId());
-                        }
-
-
-                        intent.putExtra("problem_status", result.getStatus());
-                        intent.putExtra("problem_id", result.getId());
-
-                        view.getContext().startActivity(intent);
-                    }
-                });
-
+                problemVH.person.setText(result.getPerson().getFirstName() + " " + result.getPerson().getSecondName());
+                problemVH.text.setText(result.getText());
+                problemVH.creationDate.setText(result.getCreationDate());
 
                 break;
 
@@ -143,21 +116,21 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemViewType(int position) {
-            return (position == problemsResults.size() - 1 && isLoadingAdded) ? LOADING : ITEM;
+        return (position == problemsResults.size() - 1 && isLoadingAdded) ? LOADING : ITEM;
     }
 
-    private void add(Feed2Problem r) {
+    private void add(Comment r) {
         problemsResults.add(r);
         notifyItemInserted(problemsResults.size() - 1);
     }
 
-    public void addAll(List<Feed2Problem> moveResults) {
-        for (Feed2Problem result : moveResults) {
+    public void addAll(List<Comment> moveResults) {
+        for (Comment result : moveResults) {
             add(result);
         }
     }
 
-    private void remove(Feed2Problem r) {
+    private void remove(Comment r) {
         int position = problemsResults.indexOf(r);
         if (position > -1) {
             problemsResults.remove(position);
@@ -178,14 +151,14 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public void addLoadingFooter() {
         isLoadingAdded = true;
-        add(new Feed2Problem());
+        add(new Comment());
     }
 
     public void removeLoadingFooter() {
         isLoadingAdded = false;
 
         int position = problemsResults.size() - 1;
-        Feed2Problem result = getItem(position);
+        Comment result = getItem(position);
 
         if (result != null) {
             problemsResults.remove(position);
@@ -193,7 +166,7 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
-    public Feed2Problem getItem(int position) {
+    public Comment getItem(int position) {
         return problemsResults.get(position);
     }
 
@@ -205,22 +178,18 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     protected class ProblemVH extends RecyclerView.ViewHolder {
-        private TextView mProblemTitle;
-        private TextView mProblemType;
-        private TextView mDate;
-        private TextView mRate;
-        private ImageView mProblemImg;
+        private TextView text;
+        private TextView person;
+        private TextView creationDate;
 
         private ProgressBar mProgress;
 
         public ProblemVH(View itemView) {
             super(itemView);
 
-            mProblemTitle = itemView.findViewById(R.id.street_name);
-            mProblemType = itemView.findViewById(R.id.problem_descriprion);
-            mDate = itemView.findViewById(R.id.date);
-            mRate = itemView.findViewById(R.id.rating);
-            mProblemImg = itemView.findViewById(R.id.status_pic);
+            text = itemView.findViewById(R.id.comment_content);
+            person = itemView.findViewById(R.id.comment_username);
+            creationDate = itemView.findViewById(R.id.comment_date);
         }
     }
 
@@ -258,3 +227,4 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
 }
+
