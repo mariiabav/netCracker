@@ -7,7 +7,7 @@
 
     <activity
         android:id="@+id/loginActivity"
-        android:name="com.example.problemsolver.Login.LoginActivity"
+        android:name="com.example.problemsolver.login.LoginActivity"
         android:label="activity_login"
         tools:layout="@layout/activity_login" />
 

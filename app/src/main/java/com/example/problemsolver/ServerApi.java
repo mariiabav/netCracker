@@ -1,20 +1,20 @@
 package com.example.problemsolver;
 
 
-import com.example.problemsolver.Authorized.AuthorizedPerson;
-import com.example.problemsolver.Event.Model.EventResponse;
-import com.example.problemsolver.ProblemFeed.model.Comment;
-import com.example.problemsolver.ProblemFeed.model.CommentResponse;
-import com.example.problemsolver.ProblemFeed.model.FeedResponse;
-import com.example.problemsolver.ProblemFeed.model.MyAssessmentResponse;
-import com.example.problemsolver.Login.LoginForm;
-import com.example.problemsolver.Organization.model.FeedOrgResponse;
-import com.example.problemsolver.Organization.model.RegisteredOrganization;
-import com.example.problemsolver.Map.Models.DistrictResponse.DistrictResponse;
-import com.example.problemsolver.Map.Models.NewProblemResponse.RegionDataResponse;
+import com.example.problemsolver.authorized.AuthorizedPerson;
+import com.example.problemsolver.event.Model.EventResponse;
+import com.example.problemsolver.problemFeed.model.Comment;
+import com.example.problemsolver.problemFeed.model.CommentResponse;
+import com.example.problemsolver.problemFeed.model.FeedResponse;
+import com.example.problemsolver.problemFeed.model.MyAssessmentResponse;
+import com.example.problemsolver.login.LoginForm;
+import com.example.problemsolver.organization.model.FeedOrgResponse;
+import com.example.problemsolver.organization.model.RegisteredOrganization;
+import com.example.problemsolver.map.Models.DistrictResponse.DistrictResponse;
+import com.example.problemsolver.map.Models.NewProblemResponse.RegionDataResponse;
 import com.example.problemsolver.PersonRoles.PersonRoles;
-import com.example.problemsolver.Problem.model.NewProblem;
-import com.example.problemsolver.Registration.RegisteredPerson;
+import com.example.problemsolver.problem.model.NewProblem;
+import com.example.problemsolver.registration.RegisteredPerson;
 
 import java.util.List;
 
@@ -204,5 +204,27 @@ public interface ServerApi {
             @Header("Authorization") String token,
             @Body Comment comment
             );
+
+    @Headers("Content-Type: application/json")
+    @GET("/api/org/areaOrgs")
+    Call<FeedOrgResponse> getAreaOrgs(
+            @Header("Authorization") String token,
+            @Query("pageNumber") Integer pageNumber,
+            @Query("pageSize") Integer pageSize,
+            @Query("sortBy") String sortBy,
+            @Query("sortHow") String sortHow,
+            @Query("areaName") String areaName
+    );
+
+    @Headers("Content-Type: application/json")
+    @GET("/api/problem/myProblems")
+    Call<FeedResponse> getMyProblems(
+            @Header("Authorization") String token,
+            @Query("pageNumber") Integer pageNumber,
+            @Query("pageSize") Integer pageSize,
+            @Query("sortBy") String sortBy,
+            @Query("sortHow") String sortHow,
+            @Query("personId") String personId
+    );
 
 }

@@ -19,26 +19,27 @@
         <activity android:name=".Main2Activity" />
         <activity android:name=".ImageActivity" />
         <activity android:name=".DashboardActivity" />
-        <activity android:name=".Login.LoginActivity" />
-        <activity android:name=".Organization.FeedOrgActivity" />
-        <activity android:name=".Profile.ProfileActivity" />
-        <activity android:name=".ProblemFeed.Page.ProblemPageActivity" />
-        <activity android:name=".Organization.NewOrganizationActivity" />
-        <activity android:name=".Registration.AreasActivity" />
-        <activity android:name=".Registration.RegistrationActivity" />
-        <activity android:name=".Problem.NewProblemActivity" />
-        <activity android:name=".ProblemFeed.FeedActivity" />
-        <activity android:name=".Event.EventActivity" />
-        <activity android:name=".Event.EventPageActivity" />
-        <activity android:name=".Map.MapActivity" />
-        <activity android:name=".Main.MainActivity">
+        <activity android:name=".login.LoginActivity" />
+        <activity android:name=".organization.feed.FeedOrgActivity" />
+        <activity android:name=".profile.ProfileActivity" />
+        <activity android:name=".problemFeed.Page.ProblemPageActivity" />
+        <activity android:name=".organization.NewOrganizationActivity" />
+        <activity android:name=".registration.AreasActivity" />
+        <activity android:name=".registration.RegistrationActivity" />
+        <activity android:name=".problem.NewProblemActivity" />
+        <activity android:name=".problemFeed.FeedActivity" />
+        <activity android:name=".event.EventActivity" />
+        <activity android:name=".problem.ChooseOrgActivity" />
+        <activity android:name=".event.EventPageActivity" />
+        <activity android:name=".map.MapActivity" />
+        <activity android:name=".main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ProblemFeed.SettingsActivity" />
+        <activity android:name=".problemFeed.SettingsActivity" />
     </application>
 
 </manifest>

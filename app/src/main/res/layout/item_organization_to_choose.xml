@@ -57,8 +57,17 @@
                 android:text="Почта"
                 android:textColor="@color/grey"
                 android:textSize="13sp" />
+            <TextView
+                android:id="@+id/org_rate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="Рейтинг"
+                android:textColor="@color/grey"
+                android:textSize="13sp" />
         </LinearLayout>
         <Button
+            android:id="@+id/chOrgBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -75,7 +84,7 @@
             android:id="@+id/imgView_next"
             android:layout_width="21dp"
             android:layout_height="18dp"
-
+            android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_marginTop="15dp"

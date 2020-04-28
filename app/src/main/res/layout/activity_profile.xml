@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".Profile.ProfileActivity">
+    tools:context=".profile.ProfileActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -91,7 +91,7 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/frame_recycler_view"
             android:layout_below="@+id/accept_btn">
 
@@ -101,7 +101,7 @@
                 android:layout_height="match_parent">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/comment_recycler"
+                    android:id="@+id/problem_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
 

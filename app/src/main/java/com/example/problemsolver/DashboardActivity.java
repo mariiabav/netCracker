@@ -10,12 +10,12 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.problemsolver.ProblemFeed.FeedActivity;
-import com.example.problemsolver.Map.MapActivity;
-import com.example.problemsolver.Organization.FeedOrgActivity;
-import com.example.problemsolver.Organization.NewOrganizationActivity;
-import com.example.problemsolver.Problem.NewProblemActivity;
-import com.example.problemsolver.Profile.ProfileActivity;
+import com.example.problemsolver.problemFeed.FeedActivity;
+import com.example.problemsolver.map.MapActivity;
+import com.example.problemsolver.organization.feed.FeedOrgActivity;
+import com.example.problemsolver.organization.NewOrganizationActivity;
+import com.example.problemsolver.problem.NewProblemActivity;
+import com.example.problemsolver.profile.ProfileActivity;
 
 public class DashboardActivity extends AppCompatActivity {
 

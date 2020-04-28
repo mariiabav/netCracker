@@ -10,7 +10,7 @@
     android:fillViewport="true"
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
-    tools:context=".Login.LoginActivity">
+    tools:context=".login.LoginActivity">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/login_input_layout_email"

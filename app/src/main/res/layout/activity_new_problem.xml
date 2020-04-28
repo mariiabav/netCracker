@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
-    tools:context=".Problem.NewProblemActivity">
+    tools:context=".problem.NewProblemActivity">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/problem_input_layout_name"

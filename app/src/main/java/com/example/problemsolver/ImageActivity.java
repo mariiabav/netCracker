@@ -1,15 +1,12 @@
 package com.example.problemsolver;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -18,8 +15,7 @@ import android.widget.TextView;
 
 
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
-import com.example.problemsolver.ProblemFeed.model.SearchCriteria;
-import com.example.problemsolver.Registration.RegistrationActivity;
+import com.example.problemsolver.problemFeed.model.SearchCriteria;
 
 import java.util.ArrayList;
 import java.util.Calendar;
