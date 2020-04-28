@@ -90,6 +90,7 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
         personId = settings.getString("id","");
 
         FScView = findViewById(R.id.profile_name);
+
         emailView = findViewById(R.id.profile_email);
         numberView = findViewById(R.id.profile_number);
         dateView = findViewById(R.id.profile_date);
@@ -98,6 +99,8 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
         area3View = findViewById(R.id.profile_area3);
         profileStatus = findViewById(R.id.profile_status);
         eventsBtn = findViewById(R.id.btn_events);
+
+
         eventsBtn.setVisibility(View.INVISIBLE);
 
         myInfo = findViewById(R.id.btn_info);
@@ -106,7 +109,8 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
         myInfoRellay = findViewById(R.id.my_info_rellay);
         myProfileFeed = findViewById(R.id.frame_recycler_view);
 
-
+        myInfoRellay.setVisibility(View.VISIBLE);
+        myProfileFeed.setVisibility(View.INVISIBLE);
 
         eventsBtn.setOnClickListener(view -> {
             Intent intent = new Intent(ProfileActivity.this, EventActivity.class);
@@ -175,9 +179,9 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
 
         serverApi = ApplicationService.getInstance().getJSONApi();
 
-        loadFirstPage();
-
         btnRetry.setOnClickListener(view -> loadFirstPage());
+
+        loadFirstPage();
 
         swipeRefreshLayout.setOnRefreshListener(this::doRefresh);
 
@@ -197,7 +201,7 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
                                 profileStatus.setText("Администратор");
                             }
                             else if(role.equals("ROLE_USER")) {
-                                eventsBtn.setVisibility(View.GONE);
+                               eventsBtn.setVisibility(View.GONE);
                                 profileStatus.setText("Пользователь");
                             }
 

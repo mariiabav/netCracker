@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scroll"
@@ -89,27 +89,6 @@
 
         </LinearLayout>
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/frame_recycler_view"
-            android:layout_below="@+id/accept_btn">
-
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/main_swiperefresh"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/problem_recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-            <include layout="@layout/error_layout"/>
-
-        </FrameLayout>
 
         <RelativeLayout
             android:id="@+id/my_info_rellay"
@@ -285,19 +264,49 @@
                         android:textColor="@color/black"
                         android:textSize="18sp" />
 
-                    <Button android:id="@+id/btn_events"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Ивенты"
-                        android:background="@color/red"
-                        android:layout_marginTop="10dp"
-                        android:textColor="@android:color/white"
-                        />
 
                 </LinearLayout>
 
             </LinearLayout>
+            <Button android:id="@+id/btn_events"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ивенты"
+                android:background="@color/red"
+                android:layout_marginTop="10dp"
+                android:layout_alignParentRight="true"
+                android:textColor="@android:color/white"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="50dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginEnd="50dp" />
+
+
         </RelativeLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/frame_recycler_view"
+            android:layout_below="@+id/accept_btn">
+
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/main_swiperefresh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/problem_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+            <include layout="@layout/error_layout"/>
+
+        </FrameLayout>
+
     </RelativeLayout>
-</androidx.core.widget.NestedScrollView>
+
+</LinearLayout>
 
