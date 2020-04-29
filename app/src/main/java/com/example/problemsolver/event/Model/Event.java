@@ -1,6 +1,7 @@
 
 package com.example.problemsolver.event.Model;
 
+import com.example.problemsolver.problem.model.DBFile;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -31,9 +32,12 @@ public class Event {
     @Expose
     private Problem problem;
 
+    @SerializedName("photo")
+    @Expose
+    private DBFile photo;
+
     public Event() {
     }
-
 
     public String getId() {
         return id;
