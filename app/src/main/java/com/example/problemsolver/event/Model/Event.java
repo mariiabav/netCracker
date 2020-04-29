@@ -9,9 +9,12 @@ public class Event {
     @SerializedName("id")
     @Expose
     private String id;
-    @SerializedName("text")
+    @SerializedName("userText")
     @Expose
-    private String text;
+    private String userText;
+    @SerializedName("moderatorText")
+    @Expose
+    private String moderatorText;
     @SerializedName("offerStatus")
     @Expose
     private String offerStatus;
@@ -31,10 +34,6 @@ public class Event {
     public Event() {
     }
 
-    public Event(String offerStatus, String offerDate) {
-        this.offerStatus = offerStatus;
-        this.offerDate = offerDate;
-    }
 
     public String getId() {
         return id;
@@ -44,12 +43,10 @@ public class Event {
         this.id = id;
     }
 
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
+    public Event(String userText, String offerStatus, Problem problem) {
+        this.userText = userText;
+        this.offerStatus = offerStatus;
+        this.problem = problem;
     }
 
     public String getOfferStatus() {

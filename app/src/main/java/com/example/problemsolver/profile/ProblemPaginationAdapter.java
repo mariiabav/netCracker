@@ -2,9 +2,11 @@ package com.example.problemsolver.profile;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -12,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.problemsolver.ProblemResultActivity;
 import com.example.problemsolver.problemFeed.Page.ProblemPageActivity;
 import com.example.problemsolver.problemFeed.model.Feed2Problem;
 import com.example.problemsolver.R;
@@ -85,29 +88,38 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
                 problemVH.mProblemType.setText(result.getProblemName());
                 problemVH.mRate.setText("Рейтинг: " + result.getRate().toString());
 
-                problemVH.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(view.getContext(), ProblemPageActivity.class);
+                problemVH.itemView.setOnClickListener(view -> {
+                    Intent intent = new Intent(view.getContext(), ProblemPageActivity.class);
 
-                        intent.putExtra("problem_address",  result.getAddress().toString());
-                        intent.putExtra("problem_type",  result.getProblemName());
-                        intent.putExtra("problem_description", result.getDescription());
-                        intent.putExtra("problem_date",  result.getCreationDate().substring(0, 10));
+                    intent.putExtra("problem_address",  result.getAddress().toString());
+                    intent.putExtra("problem_type",  result.getProblemName());
+                    intent.putExtra("problem_description", result.getDescription());
+                    intent.putExtra("problem_date",  result.getCreationDate().substring(0, 10));
 
-                        //тут надо не рейтинг результата, а запрос лайки и дизлайки по id проблемы
-                        intent.putExtra("problem_likes",  result.getRate().toString());
-                        if(result.getPicture() != null) {
-                            intent.putExtra("picture_id", result.getPicture().getId());
-                        }
-
-
-                        intent.putExtra("problem_status", result.getStatus());
-                        intent.putExtra("problem_id", result.getId());
-
-                        view.getContext().startActivity(intent);
+                    //тут надо не рейтинг результата, а запрос лайки и дизлайки по id проблемы
+                    intent.putExtra("problem_likes",  result.getRate().toString());
+                    if(result.getPicture() != null) {
+                        intent.putExtra("picture_id", result.getPicture().getId());
                     }
+
+
+                    intent.putExtra("problem_status", result.getStatus());
+                    intent.putExtra("problem_id", result.getId());
+
+                    view.getContext().startActivity(intent);
                 });
+
+                problemVH.applyBtn.setOnClickListener(view -> {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://letters.gov.spb.ru/reception/form/"));
+                    context.startActivity(browserIntent);
+                });
+
+                problemVH.reportBtn.setOnClickListener(view -> {
+                    Intent intent = new Intent(context, ProblemResultActivity.class);
+                    intent.putExtra("problem_id", result.getId());
+                    context.startActivity(intent);
+                });
+
 
 
                 break;
@@ -211,9 +223,8 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
         private TextView mProblemType;
         private TextView mDate;
         private TextView mRate;
+        private Button applyBtn, reportBtn;
         private ImageView mProblemImg;
-
-        private ProgressBar mProgress;
 
         public ProblemVH(View itemView) {
             super(itemView);
@@ -223,6 +234,8 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
             mDate = itemView.findViewById(R.id.date);
             mRate = itemView.findViewById(R.id.rating);
             mProblemImg = itemView.findViewById(R.id.status_pic);
+            applyBtn = itemView.findViewById(R.id.apply_btn);
+            reportBtn = itemView.findViewById(R.id.report_button);
         }
     }
 

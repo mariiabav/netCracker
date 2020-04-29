@@ -34,6 +34,10 @@ public class Problem {
     @Expose
     private String coordinates;
 
+    @SerializedName("scale")
+    @Expose
+    private String scale;
+
     public Problem() {
     }
 
@@ -113,4 +117,11 @@ public class Problem {
         this.coordinates = coordinates;
     }
 
+    public String getScale() {
+        return scale;
+    }
+
+    public void setScale(String scale) {
+        this.scale = scale;
+    }
 }

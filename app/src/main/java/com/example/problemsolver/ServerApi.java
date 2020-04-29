@@ -2,6 +2,7 @@ package com.example.problemsolver;
 
 
 import com.example.problemsolver.authorized.AuthorizedPerson;
+import com.example.problemsolver.event.Model.Event;
 import com.example.problemsolver.event.Model.EventResponse;
 import com.example.problemsolver.problemFeed.model.Comment;
 import com.example.problemsolver.problemFeed.model.CommentResponse;
@@ -134,6 +135,7 @@ public interface ServerApi {
             @Query("text") String text,
             @Query("status") String status,
             @Query("result") String result,
+            @Query("scale") String scale,
             @Query("moderatorId") String moderatorId
     );
 
@@ -226,5 +228,12 @@ public interface ServerApi {
             @Query("sortHow") String sortHow,
             @Query("personId") String personId
     );
+
+    @Headers("Content-Type: application/json")
+    @POST("/api/event/create")
+    Call<Void> createEvent(
+            @Header("Authorization") String token,
+            @Body Event event
+            );
 
 }

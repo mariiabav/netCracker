@@ -112,7 +112,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1">
 
-            <Button android:id="@+id/btn_complain"
+            <Button android:id="@+id/apply_btn"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Подать заявление"
@@ -127,7 +127,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1">
 
-            <Button android:id="@+id/btn_result"
+            <Button android:id="@+id/report_button"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Сообщить о результатае"

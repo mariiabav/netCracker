@@ -4,7 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,14 +23,12 @@ import retrofit2.Response;
 public class EventPageActivity extends AppCompatActivity {
 
 
-    private TextView address, date, type, description, rating;//, status;
+    private TextView address, date, type, description;
     private Button acceptBtn, rejectBtn;
-    private static final String statusCreated = "created";
-    private static final String statusInProcess = "in process";
-    private static final String statusSolved = "solved";
-    private static final String statusRejected = "rejected";
     private SharedPreferences settings;
     private String token, personId, problemId, eventStatus, eventId, result, moderatorId;
+    private String scale;
+    private RadioGroup radioGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,12 @@ public class EventPageActivity extends AppCompatActivity {
         problemId = getIntent().getStringExtra("problem_id");
         eventStatus = getIntent().getStringExtra("event_status");
         eventId = getIntent().getStringExtra("event_id");
+        radioGroup = findViewById(R.id.scale);
+        radioGroup.setVisibility(View.GONE);
+
+        if(getIntent().getStringExtra("problem_scale") == null) {
+            radioGroup.setVisibility(View.VISIBLE);
+        }
 
         address = findViewById(R.id.address);
         date = findViewById(R.id.date);
@@ -58,7 +66,7 @@ public class EventPageActivity extends AppCompatActivity {
             eventStatus = "rejected";
             ApplicationService.getInstance()
             .getJSONApi()
-            .updateEvent(token, eventId,"",eventStatus, "rejected", personId)
+            .updateEvent(token, eventId,"",eventStatus, "rejected", personId, scale)
             .enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
@@ -84,7 +92,7 @@ public class EventPageActivity extends AppCompatActivity {
 
             ApplicationService.getInstance()
                     .getJSONApi()
-                    .updateEvent(token, eventId,"",eventStatus, "accepted", personId)
+                    .updateEvent(token, eventId,"",eventStatus, "accepted", personId, scale)
                     .enqueue(new Callback<Void>() {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
@@ -132,5 +140,25 @@ public class EventPageActivity extends AppCompatActivity {
     private void showMessage(String string) {
         Toast t = Toast.makeText(this, string, Toast.LENGTH_SHORT);
         t.show();
+    }
+
+    public void onRadioButtonClicked(View view) {
+
+        boolean checked = ((RadioButton) view).isChecked();
+
+        switch(view.getId()) {
+            case R.id.small_rb:
+                if (checked)
+                    scale = "small";
+                    break;
+            case R.id.medium_rb:
+                if (checked)
+                    scale = "medium";
+                    break;
+            case R.id.large_rb:
+                if (checked)
+                    scale = "large";
+                    break;
+        }
     }
 }
