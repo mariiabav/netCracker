@@ -3,6 +3,7 @@ package com.example.problemsolver.problem;
 import androidx.annotation.NonNull;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Context;
@@ -12,30 +13,45 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.problemsolver.ApplicationService;
+import com.example.problemsolver.ServerApi;
 import com.example.problemsolver.map.Models.DistrictResponse.DistrictResponse;
 import com.example.problemsolver.map.Models.DistrictResponse.FeatureMember;
 import com.example.problemsolver.MapService;
 import com.example.problemsolver.Photo;
+import com.example.problemsolver.organization.model.FeedOrgResponse;
+import com.example.problemsolver.organization.model.RegisteredOrganization;
 import com.example.problemsolver.problem.model.Address;
 import com.example.problemsolver.problem.model.Area;
 import com.example.problemsolver.problem.model.DBFile;
 import com.example.problemsolver.problem.model.NewProblem;
 import com.example.problemsolver.problem.model.Owner;
 import com.example.problemsolver.R;
+import com.example.problemsolver.utils.PaginationAdapterCallback;
+import com.example.problemsolver.utils.PaginationScrollListener;
 import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.geometry.Point;
 
@@ -54,11 +70,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.TimeoutException;
 
 import androidx.core.app.ActivityCompat;
 
 import org.jetbrains.annotations.NotNull;
 
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -66,7 +88,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NewProblemActivity extends Activity {
+public class NewProblemActivity extends Activity implements PaginationAdapterCallback {
 
 
     private ImageView imageView;
@@ -103,27 +125,49 @@ public class NewProblemActivity extends Activity {
     private SharedPreferences settings;
     private String pictureId;
 
-    TextView layoutAddress;
+    private TextView layoutAddress;
 
     private MapService mapService;
 
     private final String API_KEY = "7e3eee55-cf92-4361-919e-e1666d3df1d1";
 
+    private static final int PAGE_START = 0;
+
+    private OrgPaginationAdapter adapter;
+    private LinearLayoutManager linearLayoutManager;
+    private SwipeRefreshLayout swipeRefreshLayout;
+
+    private boolean isLoading = false;
+    private boolean isLastPage = false;
+
+    private int currentPage = PAGE_START;
+
+    private String sortBy = "rate";
+    private ServerApi serverApi;
+    private String orgId;
+
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MapKitFactory.setApiKey(MAPKIT_API_KEY);
+        MapKitFactory.initialize(this);
+        setContentView(R.layout.activity_new_problem);
         settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
         token = settings.getString("JWT", "");
         personId = settings.getString("id","");
         mContext = this;
+        serverApi = ApplicationService.getInstance().getJSONApi();
+
+        swipeRefreshLayout = findViewById(R.id.main_swiperefresh);
+        swipeRefreshLayout.setVisibility(View.GONE);
 
         requestMultiplePermissions();
         if (!checkLocationPermission()) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
-        MapKitFactory.setApiKey(MAPKIT_API_KEY);
-        MapKitFactory.initialize(this);
-        setContentView(R.layout.activity_new_problem);
+
+
 
         mapService = MapService.getInstance();
 
@@ -143,9 +187,8 @@ public class NewProblemActivity extends Activity {
         chooseOrgBtn.setBackgroundColor(getResources().getColor(R.color.grey));
 
         chooseOrgBtn.setOnClickListener(view -> {
-            Intent intent = new Intent(view.getContext(), ChooseOrgActivity.class);
-            intent.putExtra("admin_area", adminAreaName);
-            view.getContext().startActivity(intent);
+            swipeRefreshLayout.setVisibility(View.VISIBLE);
+            loadFirstPage();
         });
 
         locationUpdate();
@@ -166,6 +209,59 @@ public class NewProblemActivity extends Activity {
             problemDescription = description.getText().toString();
             createNewProblem();
         });
+
+
+        ScrollView mainScrollView =  findViewById(R.id.main_scroll_view);
+        ImageView transparentImageView = findViewById(R.id.transparent_image);
+        transparentImageView.setOnTouchListener((v, event) -> {
+            int action = event.getAction();
+            switch (action) {
+                case MotionEvent.ACTION_DOWN:
+
+                case MotionEvent.ACTION_MOVE:
+                    mainScrollView.requestDisallowInterceptTouchEvent(true);
+                    return false;
+
+                case MotionEvent.ACTION_UP:
+                    mainScrollView.requestDisallowInterceptTouchEvent(false);
+                    return true;
+
+                default:
+                    return true;
+            }
+        });
+
+
+        adapter = new OrgPaginationAdapter(this);
+
+        linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        RecyclerView rv = findViewById(R.id.main_recycler);
+        rv.setLayoutManager(linearLayoutManager);
+        rv.setItemAnimator(new DefaultItemAnimator());
+        rv.setAdapter(adapter);
+
+        rv.addOnScrollListener(new PaginationScrollListener(linearLayoutManager) {
+            @Override
+            protected void loadMoreItems() {
+                isLoading = true;
+                currentPage += 1;
+
+                loadNextPage();
+            }
+
+            @Override
+            public boolean isLastPage() {
+                return isLastPage;
+            }
+
+            @Override
+            public boolean isLoading() {
+                return isLoading;
+            }
+        });
+
+        swipeRefreshLayout.setOnRefreshListener(this::doRefresh);
+
     }
 
 
@@ -456,8 +552,9 @@ public class NewProblemActivity extends Activity {
                         Address fullAddress = new Address(street, building, area);
                         Owner owner = new Owner(personId);
                         DBFile dbFile = new DBFile(pictureId);
+                        RegisteredOrganization org = new RegisteredOrganization(UUID.fromString(orgId));
                         //showMessage(pictureId);
-                        NewProblem newProblem = new NewProblem(fullAddress, problemType, problemDescription, "init", 0, coordinates, owner, dbFile);
+                        NewProblem newProblem = new NewProblem(fullAddress, problemType, problemDescription, "init",  coordinates, owner, dbFile, org);
 
                         ApplicationService.getInstance()
                                 .getJSONApi()
@@ -519,5 +616,134 @@ public class NewProblemActivity extends Activity {
 
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_org, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_org_refresh:
+                swipeRefreshLayout.setRefreshing(true);
+                doRefresh();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void doRefresh() {
+        if (callServerApi().isExecuted())
+            callServerApi().cancel();
+
+        adapter.getOrgs().clear();
+        adapter.notifyDataSetChanged();
+        currentPage = 0;
+        isLastPage = false;
+        loadFirstPage();
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    private void loadFirstPage() {
+
+        currentPage = PAGE_START;
+
+        callServerApi().enqueue(new Callback<FeedOrgResponse>() {
+            @Override
+            public void onResponse(@NotNull Call<FeedOrgResponse> call, @NotNull Response<FeedOrgResponse> response) {
+
+                List<RegisteredOrganization> results = fetchResults(response);
+                adapter.addAll(results);
+                adapter.addSortBy(sortBy);
+                if(results.size() == 0) {
+                    isLastPage = true;
+                }
+                else {
+                    adapter.addLoadingFooter();
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<FeedOrgResponse> call, @NotNull Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+
+    private List<RegisteredOrganization> fetchResults(Response<FeedOrgResponse> response) {
+        return response.body().getOrganizationList();
+    }
+
+    private void loadNextPage() {
+
+        callServerApi().enqueue(new Callback<FeedOrgResponse>() {
+            @Override
+            public void onResponse(@NotNull Call<FeedOrgResponse> call, @NotNull Response<FeedOrgResponse> response) {
+
+                adapter.removeLoadingFooter();
+                isLoading = false;
+
+                List<RegisteredOrganization> results = fetchResults(response);
+                adapter.addAll(results);
+                if(results.size() == 0) {
+                    isLastPage = true;
+                }
+                else {
+                    adapter.addLoadingFooter();
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<FeedOrgResponse> call, @NotNull Throwable t) {
+                t.printStackTrace();
+                adapter.showRetry(true, fetchErrorMessage(t));
+            }
+        });
+    }
+
+    private Call<FeedOrgResponse> callServerApi() {
+        return serverApi.getAreaOrgs(
+                token,
+                currentPage,
+                8,
+                sortBy,
+                "desc",
+                adminAreaName
+        );
+    }
+
+
+    @Override
+    public void retryPageLoad() {
+        loadNextPage();
+    }
+
+
+    private String fetchErrorMessage(Throwable throwable) {
+        String errorMsg = getResources().getString(R.string.error_msg_unknown);
+
+        if (!isNetworkConnected()) {
+            errorMsg = getResources().getString(R.string.error_msg_no_internet);
+        } else if (throwable instanceof TimeoutException) {
+            errorMsg = getResources().getString(R.string.error_msg_timeout);
+        }
+
+        return errorMsg;
+    }
+
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null;
+    }
+
+    public void onChooseClick(View view) {
+        orgId = (String)view.getTag();
+        showMessage(orgId);
+        swipeRefreshLayout.setVisibility(View.GONE);
     }
 }

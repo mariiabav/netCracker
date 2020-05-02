@@ -60,6 +60,10 @@ public class RegisteredOrganization {
     public RegisteredOrganization() {
     }
 
+    public RegisteredOrganization(UUID id) {
+        this.id = id;
+    }
+
     public RegisteredOrganization(Address address, String name, String description, String email, String phone) {
         this.address = address;
         this.name = name;

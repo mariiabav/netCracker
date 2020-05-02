@@ -292,7 +292,6 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
 
                 List<Feed2Problem> results = fetchResults(response);
                 //progressBar.setVisibility(View.GONE);
-                showMessage(results.get(0).getId());
                 adapter.addAll(results);
 
                 if(results.size() == 0) {

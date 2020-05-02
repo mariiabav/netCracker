@@ -5,8 +5,6 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import androidx.annotation.NonNull;
-
 public class MyFCMClass extends FirebaseMessagingService {
 
     private final String TAG = "JSA-FCM";

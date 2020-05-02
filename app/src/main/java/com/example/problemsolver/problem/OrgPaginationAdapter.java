@@ -40,7 +40,7 @@ public class OrgPaginationAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     private PaginationAdapterCallback mCallback;
 
-    private String errorMsg;
+    private String errorMsg, orgId;
 
     public OrgPaginationAdapter(Context context) {
         this.context = context;
@@ -90,6 +90,7 @@ public class OrgPaginationAdapter extends RecyclerView.Adapter<RecyclerView.View
                 organizationVH.phone.setText(result.getPhone());
 
                 Integer rate = result.getAllProblemsCount();
+                organizationVH.chooseBtn.setTag(result.getId().toString());
 
                 switch (sortBy) {
                     case "name":
@@ -101,13 +102,6 @@ public class OrgPaginationAdapter extends RecyclerView.Adapter<RecyclerView.View
                         organizationVH.rate.setText(String.valueOf(rate));
                         break;
                 }
-
-                organizationVH.chooseBtn.setOnClickListener(view -> {
-                    Intent intent = new Intent(view.getContext(), NewProblemActivity.class);
-                    intent.putExtra("org_id", result.getId().toString());
-                    showMessage(result.getId().toString());
-                    view.getContext().startActivity(intent);
-                });
 
                 /*
                 problemVH.itemView.setOnClickListener(view -> {
@@ -149,11 +143,6 @@ public class OrgPaginationAdapter extends RecyclerView.Adapter<RecyclerView.View
                 }
                 break;
         }
-    }
-
-    private void showMessage(String string){
-        Toast t = Toast.makeText(context.getApplicationContext(), string, Toast.LENGTH_SHORT);
-        t.show();
     }
 
     @Override

@@ -29,7 +29,6 @@
         <activity android:name=".problem.NewProblemActivity" />
         <activity android:name=".problemFeed.FeedActivity" />
         <activity android:name=".event.EventActivity" />
-        <activity android:name=".problem.ChooseOrgActivity" />
         <activity android:name=".event.EventPageActivity" />
         <activity android:name=".map.MapActivity" />
         <activity android:name=".main.MainActivity">

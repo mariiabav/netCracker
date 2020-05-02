@@ -1,6 +1,7 @@
 
 package com.example.problemsolver.problem.model;
 
+import com.example.problemsolver.organization.model.RegisteredOrganization;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -18,9 +19,6 @@ public class NewProblem {
     @SerializedName("status")
     @Expose
     private String status;
-    @SerializedName("rate")
-    @Expose
-    private Integer rate;
     @SerializedName("coordinates")
     @Expose
     private String coordinates;
@@ -30,16 +28,19 @@ public class NewProblem {
     @SerializedName("picture")
     @Expose
     private DBFile picture;
+    @SerializedName("organization")
+    @Expose
+    private RegisteredOrganization orgId;
 
-    public NewProblem(Address address, String problemName, String description, String status, Integer rate, String coordinates, Owner owner, DBFile dbFile) {
+    public NewProblem(Address address, String problemName, String description, String status,  String coordinates, Owner owner, DBFile dbFile, RegisteredOrganization orgId) {
         this.address = address;
         this.problemName = problemName;
         this.description = description;
         this.status = status;
-        this.rate = rate;
         this.coordinates = coordinates;
         this.owner = owner;
         this.picture = dbFile;
+        this.orgId = orgId;
     }
 
     public Address getAddress() {
@@ -74,13 +75,6 @@ public class NewProblem {
         this.status = status;
     }
 
-    public Integer getRate() {
-        return rate;
-    }
-
-    public void setRate(Integer rate) {
-        this.rate = rate;
-    }
 
     public String getCoordinates() {
         return coordinates;
@@ -104,5 +98,13 @@ public class NewProblem {
 
     public void setPicture(DBFile picture) {
         this.picture = picture;
+    }
+
+    public RegisteredOrganization getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(RegisteredOrganization orgId) {
+        this.orgId = orgId;
     }
 }
