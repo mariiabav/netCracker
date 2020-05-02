@@ -16,6 +16,7 @@ import com.example.problemsolver.organization.feed.FeedOrgActivity;
 import com.example.problemsolver.organization.NewOrganizationActivity;
 import com.example.problemsolver.problem.NewProblemActivity;
 import com.example.problemsolver.profile.ProfileActivity;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 public class DashboardActivity extends AppCompatActivity {
 
@@ -24,11 +25,21 @@ public class DashboardActivity extends AppCompatActivity {
     TextView orgVeiw;
     private SharedPreferences settings;
     private String role;
+    private String FCMtoken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
+        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                return;
+            }
+
+            // Get new Instance ID token
+            FCMtoken = task.getResult().getToken();
+        });
 
 
         profile = findViewById(R.id.rellay_profile);
@@ -41,13 +52,13 @@ public class DashboardActivity extends AppCompatActivity {
 
 
         settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
+        settings.edit().putString("FCM", FCMtoken).apply();
         role = settings.getString("Roles", "");
         System.out.println(role);
 
-        if(role.equals("ROLE_ADMIN")) {
+        if (role.equals("ROLE_ADMIN")) {
             orgVeiw.setText("Создать орг");
-        }
-        else if(role.equals("ROLE_USER")) {
+        } else if (role.equals("ROLE_USER")) {
             orgVeiw.setText("Список орг");
         }
 
@@ -71,12 +82,11 @@ public class DashboardActivity extends AppCompatActivity {
 
         organization.setOnClickListener(view -> {
 
-            if(role.equals("ROLE_ADMIN")) {
+            if (role.equals("ROLE_ADMIN")) {
                 Intent intent = new Intent(DashboardActivity.this, NewOrganizationActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
-            }
-            else if(role.equals("ROLE_USER")) {
+            } else if (role.equals("ROLE_USER")) {
                 Intent intent = new Intent(DashboardActivity.this, FeedOrgActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);

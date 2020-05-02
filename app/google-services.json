@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "356664772175",
+    "firebase_url": "https://netcrackeredu-6b3fd.firebaseio.com",
+    "project_id": "netcrackeredu-6b3fd",
+    "storage_bucket": "netcrackeredu-6b3fd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:356664772175:android:424fd340423e309fd30c3a",
+        "android_client_info": {
+          "package_name": "com.example.problemsolver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "356664772175-2ihadosi33h09d7imskc39260hv5g5gn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrv96lxf0sI-2DeY57GGKatHcVkNsj55A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "356664772175-2ihadosi33h09d7imskc39260hv5g5gn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
