@@ -13,43 +13,44 @@
     tools:context=".login.LoginActivity">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/login_input_layout_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <EditText
-            android:id="@+id/login_input_email"
+            android:id="@+id/editText_login_email"
             android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
-            android:hint="Адрес электронной почты" />
+            android:hint="@string/registration_hint_email" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/login_input_layout_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <EditText
-            android:id="@+id/login_input_password"
+            android:id="@+id/editText_login_password"
             android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:hint="Пароль" />
+            android:hint="@string/registration_hint_pass" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button android:id="@+id/btn_login"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Войти"
+        android:text="@string/registration_btn_login"
         android:background="@color/red"
         android:layout_marginTop="20dp"
         android:textColor="@android:color/white"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_below="@+id/imgView_line">
+        android:layout_height="45dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -61,10 +62,10 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true">
 
-                <Button android:id="@+id/link_password"
+                <Button android:id="@+id/btn_forgot_password"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="Забыли пароль?"
+                    android:text="@string/registration_btn_forgot_pass"
                     android:background="@null"
                     android:layout_marginTop="3dp"
                     android:textColor="@android:color/black"/>
@@ -83,10 +84,10 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true">
 
-                <Button android:id="@+id/link_signup"
+                <Button android:id="@+id/btn_signup"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="Создать аккаунт"
+                    android:text="@string/registration_btn_new_acc"
                     android:background="@null"
                     android:layout_marginTop="3dp"
                     android:textColor="@android:color/black"/>

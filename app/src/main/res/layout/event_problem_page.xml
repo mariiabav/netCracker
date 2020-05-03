@@ -17,7 +17,7 @@
         android:layout_marginRight="15dp"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
-        android:src="@mipmap/hole" />
+        android:src="@drawable/ic_problem_photo" />
 
     <ImageView
         android:id="@+id/imgView_line"
@@ -121,7 +121,7 @@
             android:layout_marginTop="15dp"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            android:src="@drawable/red_circle" />
+            android:src="@drawable/status_pic_unsolved" />
 
         <LinearLayout
             android:layout_width="wrap_content"

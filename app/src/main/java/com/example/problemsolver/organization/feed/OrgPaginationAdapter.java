@@ -62,7 +62,7 @@ public class OrgPaginationAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         switch (viewType) {
             case ITEM:
-                View viewItem = inflater.inflate(R.layout.org_item, parent, false);
+                View viewItem = inflater.inflate(R.layout.item_org, parent, false);
                 viewHolder = new OrganizationVH(viewItem);
                 break;
             case LOADING:

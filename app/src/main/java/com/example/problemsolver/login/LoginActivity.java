@@ -26,21 +26,20 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText emailField, passwordField;
     private Button loginBtn, registerBtn;
-    private String email, password;
+    private String email, password, token;
+
     private SharedPreferences settings;
     private PersonRoles personRoles;
-    private String token;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        emailField = findViewById(R.id.login_input_email);
-        passwordField = findViewById(R.id.login_input_password);
+        emailField = findViewById(R.id.editText_login_email);
+        passwordField = findViewById(R.id.editText_login_password);
         loginBtn = findViewById(R.id.btn_login);
-        registerBtn = findViewById(R.id.link_signup);
+        registerBtn = findViewById(R.id.btn_signup);
 
         settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
 
@@ -68,19 +67,17 @@ public class LoginActivity extends AppCompatActivity {
                                                 if (response.isSuccessful()) {
                                                     personRoles = response.body();
                                                     String role = personRoles.getRole().getName();
-
                                                     prefEditor.putString("Roles", role);
                                                     prefEditor.putString("id", personRoles.getId());
                                                     prefEditor.apply();
-                                                    //showMessage("Получили список ролей загеристированного");
                                                 } else {
-                                                    //showMessage("Список ролей в login не получен, сервер вернул ошибку");
+
                                                 }
                                             }
 
                                             @Override
                                             public void onFailure(@NonNull Call<PersonRoles> call, @NonNull Throwable t) {
-                                                showMessage("Ошибка во время выполнения запроса: список ролей в login");
+
                                             }
                                         });
 
@@ -91,7 +88,6 @@ public class LoginActivity extends AppCompatActivity {
                                 showMessage("Неверный логин или пароль");
                             }
                         }
-
                         @Override
                         public void onFailure(Call<Void> call, Throwable t) {
                         }
@@ -100,13 +96,9 @@ public class LoginActivity extends AppCompatActivity {
 
         });
 
-
-        registerBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
-                startActivity(intent);
-            }
+        registerBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
+            startActivity(intent);
         });
     }
 

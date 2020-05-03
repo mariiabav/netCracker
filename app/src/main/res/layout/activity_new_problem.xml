@@ -1,66 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main_scroll_view"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".problem.NewProblemActivity">
+    android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingLeft="20dp"
         android:paddingRight="20dp">
+
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/problem_input_layout_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
+
             <EditText
-                android:id="@+id/problem_input_name"
+                android:id="@+id/editText_new_problem_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Тип проблемы"/>
+                android:hint="@string/new_problem_name"/>
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/problem_input_layout_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
+
             <EditText
-                android:id="@+id/problem_input_description"
+                android:id="@+id/editText_new_problem_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Опишите проблему"/>
+                android:hint="@string/new_problem_desc"/>
+
         </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/query_address"
+        android:id="@+id/editText_new_problem_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:textSize="18sp"
-        android:hint="Укажите место на карте"/>
+        android:hint="@string/new_problem_address"/>
+
         <RelativeLayout
             android:id="@+id/map_layout"
             android:layout_width="match_parent"
             android:layout_height="300dp">
-    <com.yandex.mapkit.mapview.MapView
-        android:layout_marginTop="10dp"
-        android:id="@+id/map"
-        android:layout_width="wrap_content"
-        android:layout_height="300dp"
-        />
+
+            <com.yandex.mapkit.mapview.MapView
+                android:layout_marginTop="10dp"
+                android:id="@+id/map"
+                android:layout_width="wrap_content"
+                android:layout_height="300dp" />
+
             <ImageView
                 android:id="@+id/transparent_image"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
+                android:layout_height="match_parent" />
+
         </RelativeLayout>
+
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/main_swiperefresh"
             android:layout_width="match_parent"
@@ -70,8 +75,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/main_recycler"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-               />
+                android:layout_height="match_parent" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
@@ -80,7 +84,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Выбрать ответственную организацию"
+        android:text="@string/new_problem_btn_choose_org"
         android:background="@color/red"
         android:textColor="@android:color/white"
         android:layout_marginTop="10dp">
@@ -127,13 +131,12 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
                 android:layout_marginTop="10dp"
-                android:text="Если возможно, загрузите фото"
+                android:text="@string/new_problem_photo"
                 android:textSize="18sp" />
 
         </RelativeLayout>
 
     </LinearLayout>
-
 
     <ImageView
         android:id="@+id/imageView"
@@ -141,15 +144,16 @@
         android:layout_height="150dp"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
-        android:src="@mipmap/hole" />
+        android:src="@drawable/ic_problem_photo" />
 
     <Button android:id="@+id/btn_problem"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Рассказать о проблеме"
+            android:text="@string/new_problem_btn_send"
             android:background="@color/red"
             android:layout_marginTop="10dp"
-            android:textColor="@android:color/white"
-        />
+            android:textColor="@android:color/white" />
+
     </LinearLayout>
+
 </ScrollView>

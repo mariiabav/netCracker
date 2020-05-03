@@ -1,109 +1,111 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scroll"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
     tools:context=".organization.NewOrganizationActivity">
 
-
-    <ScrollView
-        android:id="@+id/scroll"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginTop="10dp">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/org_input_layout_name"
+            <EditText
+                android:id="@+id/editText_new_org_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
-                <EditText
-                    android:id="@+id/org_input_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="Название организации"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                android:ems="10"
+                android:hint="@string/new_org_name"/>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/org_input_layout_address"
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <EditText
+                android:id="@+id/editText_new_org_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
-                <EditText
-                    android:id="@+id/query_address"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="Адрес организации"/>
-            </com.google.android.material.textfield.TextInputLayout>
-              <ListView
-                  android:id="@+id/suggest_result"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:visibility="invisible" />
-            <Spinner
-                android:layout_marginTop="50dp"
-                android:id="@+id/spinner"
+                android:ems="10"
+                android:hint="@string/new_org_address"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ListView
+            android:id="@+id/suggest_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" />
+
+        <Spinner
+            android:layout_marginTop="50dp"
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown">
+        </Spinner>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <EditText
+                android:id="@+id/editText_new_org_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:spinnerMode="dropdown">
-            </Spinner>
+                android:ems="10"
+                android:hint="@string/new_org_desc"/>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/org_input_layout_desc"
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <EditText
+                android:id="@+id/editText_new_org_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
-                <EditText
-                    android:id="@+id/org_input_desc"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="Описание организации"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                android:ems="10"
+                android:inputType="textEmailAddress"
+                android:hint="@string/new_org_email" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/org_input_layout_email"
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <EditText
+                android:id="@+id/editText_new_org_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
-                <EditText
-                    android:id="@+id/org_input_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="textEmailAddress"
-                    android:hint="Адрес электронной почты" />
-            </com.google.android.material.textfield.TextInputLayout>
+                android:ems="10"
+                android:hint="@string/new_org_number"/>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/org_input_layout_number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
-                <EditText
-                    android:id="@+id/org_input_number"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="Номер телефона"/>
-            </com.google.android.material.textfield.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-            <Button android:id="@+id/btn_signup"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="Зарегистировать организацию"
-                android:background="@color/red"
-                android:layout_marginTop="10dp"
-                android:textColor="@android:color/white"/>
-        </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+        <Button android:id="@+id/btn_signup"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/new_org_btn_login"
+            android:background="@color/red"
+            android:layout_marginTop="10dp"
+            android:textColor="@android:color/white"/>
+
+    </LinearLayout>
+
+</ScrollView>

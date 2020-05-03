@@ -14,7 +14,6 @@
         android:background="@color/white">
 
         <RelativeLayout
-            android:id="@+id/rellay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
@@ -22,25 +21,25 @@
             android:layout_marginTop="0dp">
 
             <ImageView
-                android:id="@+id/status_pic"
+                android:id="@+id/imgView_status_pic"
                 android:layout_width="55dp"
                 android:layout_height="55dp"
                 android:layout_marginTop="15dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:src="@drawable/red_circle" />
+                android:src="@drawable/status_pic_unsolved" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="70dp"
-                android:orientation="vertical">
-
+                android:orientation="vertical"
+                android:layout_marginStart="70dp">
 
 
                 <TextView
-                    android:id="@+id/address"
+                    android:id="@+id/textView_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
@@ -49,7 +48,7 @@
                     android:textSize="20sp" />
 
                 <TextView
-                    android:id="@+id/date"
+                    android:id="@+id/textView_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
@@ -64,10 +63,9 @@
 
 
         <TextView
-            android:id="@+id/problem_type"
+            android:id="@+id/textView_problem_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rellay"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="15dp"
@@ -76,10 +74,9 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/problem_description"
+            android:id="@+id/textView_problem_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/problem_type"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="15dp"
@@ -91,28 +88,24 @@
             android:id="@+id/imgView_postPic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/problem_description"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
             android:layout_marginRight="15dp"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            android:src="@mipmap/hole" />
-        <!--android:visibility="gone"-->
+            android:src="@drawable/ic_problem_photo" />
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:id="@+id/two_btn"
             android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_below="@+id/imgView_postPic">
+            android:layout_marginRight="15dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/like_not_btn"
+                android:id="@+id/relay_like"
                 android:layout_weight="1">
 
                 <LinearLayout
@@ -121,30 +114,32 @@
                     android:layout_centerInParent="true">
 
                     <ImageView
-                        android:id="@+id/heart"
+                        android:id="@+id/imgView_like"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:adjustViewBounds="true"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/heart" />
+                        android:src="@drawable/ic_unpressed_like" />
 
                     <TextView
-                        android:id="@+id/likes"
+                        android:id="@+id/textView_likes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:fontFamily="sans-serif-medium"
-                        android:text="likes: "
+                        android:text="@string/page_likes"
                         android:textColor="@color/black"
-                        android:textSize="13sp" />
+                        android:textSize="13sp"
+                        android:layout_marginStart="10dp" />
 
                 </LinearLayout>
+
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/dislike_not_btn"
+                android:id="@+id/relay_dislike"
                 android:layout_weight="1">
 
                 <LinearLayout
@@ -153,39 +148,38 @@
                     android:layout_centerInParent="true">
 
                     <ImageView
-                        android:id="@+id/broken_heart"
+                        android:id="@+id/imgView_dislike"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:adjustViewBounds="true"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/broken" />
+                        android:src="@drawable/ic_unpressed_dislike" />
 
                     <TextView
-                        android:id="@+id/dislikes"
+                        android:id="@+id/textView_dislikes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:fontFamily="sans-serif-medium"
-                        android:text="dislikes: "
+                        android:text="@string/page_dislikes"
                         android:textColor="@color/black"
-                        android:textSize="13sp" />
+                        android:textSize="13sp"
+                        android:layout_marginStart="10dp" />
 
                 </LinearLayout>
 
-
             </RelativeLayout>
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:id="@+id/btn_participate"
             android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_below="@+id/two_btn">
+            android:layout_marginRight="15dp">
 
             <RelativeLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
@@ -200,80 +194,103 @@
                         android:adjustViewBounds="true"
                         android:scaleType="fitCenter"
                         android:layout_gravity="center"
-                        android:src="@drawable/like" />
+                        android:src="@drawable/ic_support_like" />
 
                     <Button android:id="@+id/btn_support"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:fontFamily="sans-serif-medium"
-                        android:text="Подписаться"
+                        android:text="@string/page_support"
                         android:background="@color/white"
                         android:textColor="@color/black"
-                        android:textSize="13sp" />
+                        android:textSize="13sp"
+                        android:layout_marginStart="10dp" />
                 </LinearLayout>
+
             </RelativeLayout>
+
         </LinearLayout>
+
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:id="@+id/top_btn"
+            android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:layout_marginTop="15dp"
-            android:layout_gravity="center_horizontal">
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp">
 
             <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginRight="5dp"
-                android:layout_gravity="center">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
-                <ImageView
-                    android:id="@+id/avatar"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    tools:srcCompat="@tools:sample/avatars" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginRight="5dp">
-
-                <EditText
-                    android:id="@+id/post_comment"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Комментарий"
-                    android:ems="8"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:background="@drawable/edittext_button_style_rounded"/>
+                    android:layout_centerInParent="true">
+
+                    <ImageView
+                        android:id="@+id/imgView_avatar"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        tools:srcCompat="@tools:sample/avatars" />
+
+                </LinearLayout>
 
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginLeft="5dp">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5">
 
-                <Button
-                    android:id="@+id/send_comment_button"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:background="@drawable/edittext_button_style_rounded"
-                    android:text="Добавить"/>
+                    android:layout_centerInParent="true">
+
+                    <EditText
+                        android:id="@+id/editText_post_comment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/page_comment_hint"
+                        android:ems="8"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@drawable/edittext_button_style_rounded"/>
+
+                </LinearLayout>
 
             </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.8">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true">
+
+                    <Button
+                        android:id="@+id/btn_send_comment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:textSize="12dp"
+                        android:background="@drawable/edittext_button_style_rounded"
+                        android:text="@string/page_comment_add"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
         </LinearLayout>
+
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -303,7 +320,7 @@
             <include layout="@layout/error_layout"/>
 
         </FrameLayout>
-        
-    </LinearLayout>
-</androidx.core.widget.NestedScrollView>
 
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

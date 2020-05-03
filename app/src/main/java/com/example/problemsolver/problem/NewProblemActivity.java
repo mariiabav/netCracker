@@ -20,7 +20,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,8 +29,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -167,17 +164,15 @@ public class NewProblemActivity extends Activity implements PaginationAdapterCal
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
 
-
-
         mapService = MapService.getInstance();
 
         locationManager = MapKitFactory.getInstance().createLocationManager();
 
         problem = findViewById(R.id.btn_problem);
-        type = findViewById(R.id.problem_input_name);
-        description = findViewById(R.id.problem_input_description);
+        type = findViewById(R.id.editText_new_problem_name);
+        description = findViewById(R.id.editText_new_problem_description);
         mapView = findViewById(R.id.map);
-        layoutAddress = findViewById(R.id.query_address);
+        layoutAddress = findViewById(R.id.editText_new_problem_address);
 
         imageView = findViewById(R.id.imageView);
         PickImage = findViewById(R.id.problem_photo_btn);
@@ -194,13 +189,8 @@ public class NewProblemActivity extends Activity implements PaginationAdapterCal
         locationUpdate();
 
         PickImage.setOnClickListener(v -> {
-            //Вызываем стандартную галерею для выбора изображения с помощью Intent.ACTION_PICK:
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-
-            //Тип получаемых объектов - image:
             photoPickerIntent.setType("image/*");
-
-            //Запускаем переход с ожиданием обратного результата в виде информации об изображении:
             startActivityForResult(photoPickerIntent, Pick_image);
         });
 
@@ -297,18 +287,16 @@ public class NewProblemActivity extends Activity implements PaginationAdapterCal
                             public void onResponse(@NonNull Call<Photo> call, @NonNull Response<Photo> response) {
                                 if (response.isSuccessful()){
                                     pictureId = response.body().getId();
-                                    showMessage("Фото отправлено успешно");
 
                                 }
                                 else {
-                                    //сервер вернул ошибку
-                                    showMessage("Фото не отправлено, сервер вернул ошибку");
+
                                 }
                                 problem.setClickable(true);
                             }
                             @Override
                             public void onFailure(@NonNull Call<Photo> call, @NonNull Throwable t) {
-                                showMessage(t.toString());
+
                             }
                         });
             }
@@ -334,13 +322,12 @@ public class NewProblemActivity extends Activity implements PaginationAdapterCal
                         problem.setClickable(false);
                         uploadFile(imageUri);
                     }
-
                     try {
                         final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                         selectedImage = BitmapFactory.decodeStream(imageStream);
                         imageView.setImageBitmap(selectedImage);
                     } catch (FileNotFoundException e) {
-                        imageView.setImageResource(R.drawable.red_circle); //каринка "невозмонжо отобразить"
+                        imageView.setImageResource(R.drawable.status_pic_unsolved); //каринка "невозмонжо отобразить"
                     }
                 }
         }
@@ -553,7 +540,6 @@ public class NewProblemActivity extends Activity implements PaginationAdapterCal
                         Owner owner = new Owner(personId);
                         DBFile dbFile = new DBFile(pictureId);
                         RegisteredOrganization org = new RegisteredOrganization(UUID.fromString(orgId));
-                        //showMessage(pictureId);
                         NewProblem newProblem = new NewProblem(fullAddress, problemType, problemDescription, "init",  coordinates, owner, dbFile, org);
 
                         ApplicationService.getInstance()
@@ -563,22 +549,22 @@ public class NewProblemActivity extends Activity implements PaginationAdapterCal
                                     @Override
                                     public void onResponse(@NonNull Call<NewProblem> call, @NonNull Response<NewProblem> response) {
                                         if (response.isSuccessful()) {
-                                            showMessage("Проблема отправлена успешно");
+                                            showMessage("Проблема отправлена успешно.");
                                         } else {
-                                            showMessage("Проблема не отправлена");
+                                            showMessage("Сервен вернул ошибку. Проблема не отправлена.");
                                         }
                                     }
 
                                     @Override
                                     public void onFailure(@NonNull Call<NewProblem> call, @NonNull Throwable t) {
-                                        showMessage("Ошибка во время выполнения запроса");
+                                        showMessage("Ошибка во время выполнения запроса. Проблема не отправлена.");
                                     }
                                 });
                     }
 
                     @Override
                     public void onFailure(@NotNull Call<DistrictResponse> call, @NotNull Throwable t) {
-                        //ошибка во время выполнения запроса
+
                     }
                 });
     }

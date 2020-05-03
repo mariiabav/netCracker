@@ -70,10 +70,11 @@ public class NewOrganizationActivity extends AppCompatActivity implements Sugges
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_new_organization);
+
         MapKitFactory.setApiKey(MAPKIT_API_KEY);
         MapKitFactory.initialize(this);
         SearchFactory.initialize(this);
-        setContentView(R.layout.activity_new_organization);
 
         SearchManager searchManager = SearchFactory.getInstance().createSearchManager(SearchManagerType.COMBINED);
         suggestSession = searchManager.createSuggestSession();
@@ -81,14 +82,14 @@ public class NewOrganizationActivity extends AppCompatActivity implements Sugges
         SharedPreferences settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
         token = settings.getString("JWT", "");
 
-        name = findViewById(R.id.org_input_name);
-        description = findViewById(R.id.org_input_desc);
-        email = findViewById(R.id.org_input_email);
-        number = findViewById(R.id.org_input_number);
+        name = findViewById(R.id.editText_new_org_name);
+        description = findViewById(R.id.editText_new_org_desc);
+        email = findViewById(R.id.editText_new_org_email);
+        number = findViewById(R.id.editText_new_org_number);
         suggestResultView = findViewById(R.id.suggest_result);
         spinner = findViewById(R.id.spinner);
 
-        EditText queryEdit = findViewById(R.id.query_address);
+        EditText queryEdit = findViewById(R.id.editText_new_org_address);
         ArrayAdapter<String> adapter;
         String[] array = getResources().getStringArray(R.array.areas);
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, array);
@@ -142,17 +143,15 @@ public class NewOrganizationActivity extends AppCompatActivity implements Sugges
                         @Override
                         public void onResponse(@NonNull Call<RegisteredOrganization> call, @NonNull Response<RegisteredOrganization> response) {
                             if (response.isSuccessful()) {
-                                //запрос выполнился успешно
-                                showMessage("Регистрация организации вполнена успешно");
+                                showMessage("Регистрация организации вполнена успешно.");
                             } else {
-                                //сервер вернул ошибку
-                                showMessage("Регистрация организации не вполнена");
+                                showMessage("Сервер вернул ошибку. Регистрация организации не вполнена");
                             }
                         }
 
                         @Override
                         public void onFailure(@NonNull Call<RegisteredOrganization> call, @NonNull Throwable t) {
-                            showMessage("Ошибка во время выполнения запроса (созд. организации)");
+                            showMessage("Ошибка во время выполнения запроса. Организация не ыбла создана. ");
                         }
                     });
         });
@@ -184,7 +183,6 @@ public class NewOrganizationActivity extends AppCompatActivity implements Sugges
     public void onError(@NonNull Error error) {
 
     }
-
 
     private void requestSuggest(String query) {
         suggestResultView.setVisibility(View.INVISIBLE);

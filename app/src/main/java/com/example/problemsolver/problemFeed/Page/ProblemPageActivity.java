@@ -49,13 +49,13 @@ import java.util.concurrent.TimeoutException;
 
 public class ProblemPageActivity extends AppCompatActivity implements PaginationAdapterCallback {
 
-    private ImageView imageLikes, imageDislikes;
+    private RelativeLayout likesRelay, dislikesRelay;
+    private ImageView imageLikes, imageDislikes, status, picture;
+    private TextView likes, dislikes, address, date, type, description, txtError;
+    private EditText newComment;
+    private Button retryBtn, sendCommentBtn, supportBtn;
 
-    private TextView likes;
-    private TextView dislikes;
-    private String token;
-    private String personId;
-    private String problemId;
+    private String token, personId, problemId, pictureId;
 
     private boolean pressedLikeBtn = false,  pressedDislikeBtn = false;
 
@@ -64,8 +64,7 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
     private RecyclerView commentRecycler;
     private ProgressBar progressBar;
     private LinearLayout errorLayout;
-    private Button btnRetry;
-    private TextView txtError;
+
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private static final int PAGE_START = 0;
@@ -73,44 +72,54 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
     private boolean isLoading = false;
     private boolean isLastPage = false;
 
-    private int total_pages;
     private int currentPage = PAGE_START;
 
     private ServerApi serverApi;
     private SharedPreferences settings;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_problem_page);
 
-        SharedPreferences settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
-        String pictureId = getIntent().getStringExtra("picture_id");
-        TextView address = findViewById(R.id.address);
-        TextView date = findViewById(R.id.date);
-        TextView type = findViewById(R.id.problem_type);
-        TextView description = findViewById(R.id.problem_description);
-        ImageView status = findViewById(R.id.status_pic);
-        Button supportBtn = findViewById(R.id.btn_support);
-        RelativeLayout likesRelley = findViewById(R.id.like_not_btn);
-        RelativeLayout dislikesRelley = findViewById(R.id.dislike_not_btn);
-        ImageView picture = findViewById(R.id.imgView_postPic);
-        token = settings.getString("JWT","");
-        personId = settings.getString("id", "");
-        problemId = getIntent().getStringExtra("problem_id");
-        likes = findViewById(R.id.likes);
-        dislikes = findViewById(R.id.dislikes);
-        imageLikes = findViewById(R.id.heart);
-        imageDislikes = findViewById(R.id.broken_heart);
         settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
         token = settings.getString("JWT","");
+        token = settings.getString("JWT","");
+        personId = settings.getString("id", "");
+        pictureId = getIntent().getStringExtra("picture_id");
+        problemId = getIntent().getStringExtra("problem_id");
+
+
+        address = findViewById(R.id.textView_address);
+        date = findViewById(R.id.textView_date);
+        type = findViewById(R.id.textView_problem_type);
+        description = findViewById(R.id.textView_problem_description);
+        status = findViewById(R.id.imgView_status_pic);
+
+        likesRelay = findViewById(R.id.relay_like);
+        dislikesRelay = findViewById(R.id.relay_dislike);
+
+        supportBtn = findViewById(R.id.btn_support);
+        sendCommentBtn = findViewById(R.id.btn_send_comment);
+
+        likes = findViewById(R.id.textView_likes);
+        dislikes = findViewById(R.id.textView_dislikes);
+
+        imageLikes = findViewById(R.id.imgView_like);
+        imageDislikes = findViewById(R.id.imgView_dislike);
+        picture = findViewById(R.id.imgView_postPic);
+
         commentRecycler = findViewById(R.id.comment_recycler);
-        EditText newComment = findViewById(R.id.post_comment);
-        Button sendComment = findViewById(R.id.send_comment_button);
+        newComment = findViewById(R.id.editText_post_comment);
+
+        progressBar = findViewById(R.id.main_progress);
+        errorLayout = findViewById(R.id.error_layout);
+        retryBtn = findViewById(R.id.error_btn_retry);
+        txtError = findViewById(R.id.error_txt_cause);
+        swipeRefreshLayout = findViewById(R.id.main_swiperefresh);
 
         myAssessmentRequest();
-
-
 
 
         GlideUrl glideUrl = new GlideUrl("https://netcrackeredu.herokuapp.com/downloadFile/" + pictureId, new LazyHeaders.Builder()
@@ -125,35 +134,34 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
         }
 
 
-        likesRelley.setOnClickListener(view -> {
+        likesRelay.setOnClickListener(view -> {
            if (pressedLikeBtn){
-               imageLikes.setImageResource(R.drawable.heart);
+               imageLikes.setImageResource(R.drawable.ic_unpressed_like);
                pressedLikeBtn = false;
                likeRequest(token, personId, problemId);
            } else {
                if (pressedDislikeBtn){
-                   imageDislikes.setImageResource(R.drawable.broken);
+                   imageDislikes.setImageResource(R.drawable.ic_unpressed_dislike);
                    pressedDislikeBtn = false;
                }
-               imageLikes.setImageResource(R.drawable.heart_red);
+               imageLikes.setImageResource(R.drawable.ic_pressed_like);
                pressedLikeBtn = true;
                likeRequest(token, personId, problemId);
            }
         });
 
-        dislikesRelley.setOnClickListener(view -> {
+        dislikesRelay.setOnClickListener(view -> {
             if (pressedDislikeBtn){
-                imageDislikes.setImageResource(R.drawable.broken);
+                imageDislikes.setImageResource(R.drawable.ic_unpressed_dislike);
                 pressedDislikeBtn = false;
                 dislikeRequest(token, personId, problemId);
-                //обновляем текствью
             } else {
                 if (pressedLikeBtn){
-                    imageLikes.setImageResource(R.drawable.heart);
+                    imageLikes.setImageResource(R.drawable.ic_unpressed_like);
                     pressedLikeBtn = false;
                 }
 
-                imageDislikes.setImageResource(R.drawable.broken_black);
+                imageDislikes.setImageResource(R.drawable.ic_pressed_dislike);
                 pressedDislikeBtn =  true;
                 dislikeRequest(token, personId, problemId);
             }
@@ -165,7 +173,6 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
         .enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                //showMessage("Подписался");
             }
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
@@ -174,7 +181,7 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
         }));
 
 
-        sendComment.setOnClickListener(view -> {
+        sendCommentBtn.setOnClickListener(view -> {
             Comment comment = new Comment(new Person(personId), new Problem(problemId), newComment.getText().toString());
             ApplicationService.getInstance()
                     .getJSONApi()
@@ -185,7 +192,6 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
                             showMessage("Комментарий успешно отправлен");
                             doRefresh();
                         }
-
                         @Override
                         public void onFailure(Call<CommentResponse> call, Throwable t) {
 
@@ -198,27 +204,20 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
         description.setText(getIntent().getStringExtra("problem_description"));
         date.setText(getIntent().getStringExtra("problem_date"));
         assessmentRequest(token, problemId);
-        //dislikes.setText("dislikes: " + getIntent().getStringExtra("problem_dislikes"));
 
         String serverStatus = getIntent().getStringExtra("problem_status");
 
         switch (serverStatus) {
             case "created":
-                status.setImageResource(R.drawable.red_circle);
+                status.setImageResource(R.drawable.status_pic_unsolved);
                 break;
             case "in_process":
-                status.setImageResource(R.drawable.yellow_circle);
+                status.setImageResource(R.drawable.status_pic_in_progress);
                 break;
             case "solved":
-                status.setImageResource(R.drawable.green_cirle);
+                status.setImageResource(R.drawable.status_pic_solved);
                 break;
         }
-
-        progressBar = findViewById(R.id.main_progress);
-        errorLayout = findViewById(R.id.error_layout);
-        btnRetry = findViewById(R.id.error_btn_retry);
-        txtError = findViewById(R.id.error_txt_cause);
-        swipeRefreshLayout = findViewById(R.id.main_swiperefresh);
 
         adapter = new CommentPaginationAdapter(this);
 
@@ -248,14 +247,9 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
         });
 
         serverApi = ApplicationService.getInstance().getJSONApi();
-
         loadFirstPage();
-
-        btnRetry.setOnClickListener(view -> loadFirstPage());
-
+        retryBtn.setOnClickListener(view -> loadFirstPage());
         swipeRefreshLayout.setOnRefreshListener(this::doRefresh);
-
-
     }
 
     private void showMessage(String string) {
@@ -271,13 +265,15 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
                     @Override
                     public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                         if (response.isSuccessful()){
-                            //showMessage("Лайк поставлен/снят успешно");
                             assessmentRequest(token, problemId);
+                        }
+                        else {
+                            showMessage("Сервер вернул ошибку. Лайк не поставлен.");
                         }
                     }
                     @Override
                     public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                        //showMessage("Ошибка во время выполнения запроса: лайк");
+                        showMessage("Ошибка во время выполнения запроса. Лайк не поставлен.");
                     }
                 });
     }
@@ -290,18 +286,15 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
                     @Override
                     public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                         if (response.isSuccessful()){
-                            //запрос выполнился успешно
-                            //showMessage("Дизайк поставлен/снят успешно");
                             assessmentRequest(token, problemId);
                         }
                         else {
-                            //сервер вернул ошибку
-                            //showMessage("Дизайк не поставлен, сервер вернул ошибку");
+                            showMessage("Сервер вернул ошибку. Дизайк не поставлен.");
                         }
                     }
                     @Override
                     public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                        showMessage("Ошибка во время выполнения запроса: дизлайк");
+                        showMessage("Ошибка во время выполнения запроса. Дизайк не поставлен.");
                     }
                 });
     }
@@ -315,19 +308,16 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
                     public void onResponse(@NonNull Call<Assessment> call, @NonNull Response<Assessment> response) {
                         if (response.isSuccessful()){
                             Assessment assessments = response.body();
-                            //запрос выполнился успешно
-                            likes.setText("likes: " + assessments.getLikesCount());
-                            dislikes.setText("dislikes: " + assessments.getDislikesCount());
-                            //showMessage("Оценки получены успешно");
+                            likes.setText(getResources().getString(R.string.page_likes) + assessments.getLikesCount());
+                            dislikes.setText(getResources().getString(R.string.page_dislikes) + assessments.getDislikesCount());
                         }
                         else {
-                            //сервер вернул ошибку
-                            showMessage("Оценки не получены, сервер вернул ошибку");
+                            showMessage("Сервер вернул ошибку. Невозможно получить количество лайков и дизлайков");
                         }
                     }
                     @Override
                     public void onFailure(@NonNull Call<Assessment> call, @NonNull Throwable t) {
-                        showMessage("Ошибка во время выполнения запроса: оценка");
+                        showMessage("Ошибка во время выполнения запроса. Невозможно получить количество лайков и дизлайков");
                     }
                 });
     }
@@ -342,24 +332,22 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
                         if (response.isSuccessful()){
                             String myAssessment = response.body().getResponse();
                             showMessage(myAssessment);
-                            //запрос выполнился успешно
                             if(myAssessment.equals("like")){
-                                imageLikes.setImageResource(R.drawable.heart_red);
+                                imageLikes.setImageResource(R.drawable.ic_pressed_like);
                                 pressedLikeBtn = true;
                             }
                             else if(myAssessment.equals("dislike")){
-                                imageDislikes.setImageResource(R.drawable.broken_black);
+                                imageDislikes.setImageResource(R.drawable.ic_pressed_like);
                                 pressedDislikeBtn = true;
                             }
                         }
                         else {
-                            //сервер вернул ошибку
-                            showMessage("Оценки не получены, сервер вернул ошибку");
+                            showMessage("Сервер вернул ошибку. Невозможно понять оценена ли Вами проблема.");
                         }
                     }
                     @Override
                     public void onFailure(@NonNull Call<MyAssessmentResponse> call, @NonNull Throwable t) {
-                        showMessage("Ошибка во время выполнения запроса: оценка");
+                        showMessage("Ошибка во время выполнения запроса. Невозможно понять оценена ли Вами проблема.");
                     }
                 });
     }
@@ -379,9 +367,8 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
                 doRefresh();
                 break;
             case R.id.menu_settings:
-
+                break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -407,9 +394,7 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
             @Override
             public void onResponse(Call<CommentResponse> call, Response<CommentResponse> response) {
                 hideErrorView();
-
                 List<Comment> results = fetchResults(response);
-                //total_pages = response.body().getPagesLimit();
                 progressBar.setVisibility(View.GONE);
                 adapter.addAll(results);
 
@@ -419,7 +404,6 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
                 else {
                     adapter.addLoadingFooter();
                 }
-
             }
 
             @Override
@@ -437,14 +421,12 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
     }
 
     private void loadNextPage() {
-
         callServerApi().enqueue(new Callback<CommentResponse>() {
             @Override
             public void onResponse(Call<CommentResponse> call, Response<CommentResponse> response) {
 
                 adapter.removeLoadingFooter();
                 isLoading = false;
-
                 List<Comment> results = fetchResults(response);
                 adapter.addAll(results);
 
@@ -454,7 +436,6 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
                 else {
                     adapter.addLoadingFooter();
                 }
-
             }
 
             @Override
@@ -472,7 +453,6 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
                 currentPage,
                 3,
                 "creationDate"
-
         );
     }
 
@@ -487,7 +467,6 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
         if (errorLayout.getVisibility() == View.GONE) {
             errorLayout.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.GONE);
-
             txtError.setText(fetchErrorMessage(throwable));
         }
     }
@@ -515,9 +494,4 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null;
     }
-
-
-
-
-
 }

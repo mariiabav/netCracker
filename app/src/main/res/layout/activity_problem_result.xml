@@ -74,7 +74,7 @@
         android:layout_height="150dp"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
-        android:src="@mipmap/hole" />
+        android:src="@drawable/ic_problem_photo" />
 
     <Button android:id="@+id/btn_result"
         android:layout_width="fill_parent"

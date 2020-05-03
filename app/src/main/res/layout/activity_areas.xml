@@ -7,14 +7,16 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/btnChecked"
+        android:id="@+id/btn_checked"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Подтвердить выбранные районы">
+        android:text="@string/checked_areas"
+        android:background="@color/red"
+        android:textColor="@android:color/white">
     </Button>
 
     <ListView
-        android:id="@+id/lvMain"
+        android:id="@+id/listView_areas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </ListView>

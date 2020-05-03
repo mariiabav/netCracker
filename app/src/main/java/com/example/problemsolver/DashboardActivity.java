@@ -21,11 +21,10 @@ import com.google.firebase.iid.FirebaseInstanceId;
 public class DashboardActivity extends AppCompatActivity {
 
 
-    private RelativeLayout register, login, problem, feed, map, organization, profile, set;
-    TextView orgVeiw;
+    private RelativeLayout problem, feed, map, organization, profile, set;
     private SharedPreferences settings;
-    private String role;
-    private String FCMtoken;
+    private String role, FCMtoken;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,31 +35,19 @@ public class DashboardActivity extends AppCompatActivity {
             if (!task.isSuccessful()) {
                 return;
             }
-
-            // Get new Instance ID token
             FCMtoken = task.getResult().getToken();
         });
 
-
-        profile = findViewById(R.id.rellay_profile);
-        problem = findViewById(R.id.rellay_problems);
-        feed = findViewById(R.id.rellay_feed);
-        map = findViewById(R.id.rellay_map);
-        organization = findViewById(R.id.rellay_org);
-        set = findViewById(R.id.rellay_timeline);
-        orgVeiw = findViewById(R.id.textview_org);
-
+        profile = findViewById(R.id.relay_profile);
+        problem = findViewById(R.id.relay_new_problems);
+        feed = findViewById(R.id.relay_feed);
+        map = findViewById(R.id.relay_map);
+        organization = findViewById(R.id.relay_org);
+        set = findViewById(R.id.relay_settings);
 
         settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
         settings.edit().putString("FCM", FCMtoken).apply();
         role = settings.getString("Roles", "");
-        System.out.println(role);
-
-        if (role.equals("ROLE_ADMIN")) {
-            orgVeiw.setText("Создать орг");
-        } else if (role.equals("ROLE_USER")) {
-            orgVeiw.setText("Список орг");
-        }
 
         problem.setOnClickListener(view -> {
             Intent intent = new Intent(DashboardActivity.this, NewProblemActivity.class);
@@ -106,7 +93,6 @@ public class DashboardActivity extends AppCompatActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
         });
-
     }
 
     @Override
