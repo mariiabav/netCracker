@@ -7,14 +7,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.problemsolver.ApplicationService;
 import com.example.problemsolver.DashboardActivity;
-import com.example.problemsolver.PersonRoles.PersonRoles;
+import com.example.problemsolver.personRoles.PersonRoles;
 import com.example.problemsolver.R;
 import com.example.problemsolver.registration.RegistrationActivity;
 

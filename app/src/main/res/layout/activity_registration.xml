@@ -14,30 +14,31 @@
         android:paddingRight="20dp">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/signup_input_layout_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
+
             <EditText
                 android:id="@+id/signup_input_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Имя"/>
+                android:hint="@string/registration_hint_name"/>
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/signup_input_layout_surname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp">
+
             <EditText
                 android:id="@+id/signup_input_surname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Фамилия"/>
+                android:hint="@string/registration_hint_lastname"/>
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
@@ -49,55 +50,61 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.4">
+
                 <TextView
                     android:id="@+id/checked_areas"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="Мои районы"
+                    android:text="@string/registration_hint_areas"
                     android:textColor="@color/grey"
                     android:textSize="18sp" />
+
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
+
                 <Button android:id="@+id/btn_link_area_list"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:textSize="10sp"
-                    android:text="Выбрать"/>
+                    android:text="@string/btn_choose"/>
+
             </RelativeLayout>
+
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/signup_input_layout_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp">
+
             <EditText
                 android:id="@+id/signup_input_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textEmailAddress"
-                android:hint="Адрес электронной почты" />
+                android:hint="@string/registration_hint_email" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/signup_input_layout_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
+
             <EditText
                 android:id="@+id/signup_input_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Номер телефона"/>
+                android:hint="@string/registration_hint_nubmer"/>
+
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -110,14 +117,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.4">
+
                 <TextView
                     android:id="@+id/currentDateTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Дата рождения"
+                    android:text="@string/registration_hint_date"
                     android:layout_centerInParent="true"
                     android:textColor="@color/grey"
                     android:textSize="18sp" />
+
             </RelativeLayout>
 
             <RelativeLayout
@@ -128,9 +137,10 @@
                 <Button android:id="@+id/dateButton"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Выбрать"
+                    android:text="@string/btn_choose"
                     android:textSize="10sp"
                     android:onClick="setDate"/>
+
             </RelativeLayout>
 
         </LinearLayout>
@@ -140,19 +150,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
+
             <EditText
                 android:id="@+id/signup_input_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textPassword"
-                android:hint="Пароль" />
+                android:hint="@string/registration_hint_pass" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button android:id="@+id/btn_signup"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Зарегистрироваться"
+            android:text="@string/registration_btn_register"
             android:background="@color/red"
             android:layout_marginTop="10dp"
             android:textColor="@android:color/white"/>
@@ -160,11 +172,13 @@
         <Button android:id="@+id/btn_link_login"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Уже есть аккаунт"
+            android:text="@string/registration_btn_acc"
             android:background="@null"
             android:layout_marginTop="5dp"
             android:textColor="@android:color/black"/>
+
     </LinearLayout>
+
 </ScrollView>
 
 

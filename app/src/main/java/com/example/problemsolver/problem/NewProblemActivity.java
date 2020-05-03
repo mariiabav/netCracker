@@ -37,7 +37,6 @@ import com.example.problemsolver.ApplicationService;
 import com.example.problemsolver.ServerApi;
 import com.example.problemsolver.map.Models.DistrictResponse.DistrictResponse;
 import com.example.problemsolver.map.Models.DistrictResponse.FeatureMember;
-import com.example.problemsolver.MapService;
 import com.example.problemsolver.Photo;
 import com.example.problemsolver.organization.model.FeedOrgResponse;
 import com.example.problemsolver.organization.model.RegisteredOrganization;

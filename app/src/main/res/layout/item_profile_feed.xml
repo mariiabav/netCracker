@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
     android:background="@color/white"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -25,7 +25,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/rellay1"
+        android:id="@+id/relay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
@@ -33,7 +33,7 @@
         android:layout_marginTop="0dp">
 
         <ImageView
-            android:id="@+id/status_pic"
+            android:id="@+id/imgView_status_pic"
             android:layout_width="55dp"
             android:layout_height="55dp"
             android:layout_marginTop="15dp"
@@ -46,9 +46,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="70dp"
-            android:orientation="vertical">
-
-
+            android:orientation="vertical"
+            android:layout_marginStart="70dp">
 
             <TextView
                 android:id="@+id/street_name"
@@ -82,15 +81,15 @@
             android:layout_marginRight="-5dp"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/arrow_right" />
+            app:srcCompat="@drawable/arrow_right"
+            android:layout_marginEnd="-5dp" />
 
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/problem_descriprion"
+        android:id="@+id/problem_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rellay1"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="10dp"
@@ -101,7 +100,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:id="@+id/accept_btn"
-        android:layout_below="@id/rellay1"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="15dp"
@@ -115,7 +113,7 @@
             <Button android:id="@+id/apply_btn"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Подать заявление"
+                android:text="@string/profile_feed_btn_claim"
                 android:background="@color/red_dark"
 
                 android:textColor="@color/white"/>
@@ -130,7 +128,7 @@
             <Button android:id="@+id/report_button"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Сообщить о результатае"
+                android:text="@string/profile_feed_btn_result"
                 android:background="@color/gradStart"
                 android:textColor="@color/white"/>
 

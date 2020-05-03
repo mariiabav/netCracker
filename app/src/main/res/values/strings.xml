@@ -39,7 +39,6 @@
     <string name="tap_to_reload">Нажмите для обновления</string>
     <string name="menu_refresh">Обновить</string>
 
-
     <string name="menu_name_settings">Настройки</string>
     <string name="menu_name_profile">Личный кабинет</string>
     <string name="menu_name_new_problems">Создать проблему</string>
@@ -67,11 +66,37 @@
     <string name="new_org_email">Адрес электронной почты</string>
     <string name="new_org_number">Номер телефона</string>
     <string name="new_org_btn_login">Зарегистировать организацию</string>
+
     <string name="new_problem_name">Тип проблемы</string>
     <string name="new_problem_desc">Опишите проблему</string>
     <string name="new_problem_address">Укажите место на карте</string>
     <string name="new_problem_btn_choose_org">Выбрать ответственную организацию</string>
     <string name="new_problem_btn_send">Рассказать о проблеме</string>
     <string name="new_problem_photo">Если возможно, загрузите фото</string>
+
+    <string name="problem_result_hint_comment">Добавьте комментарий</string>
+    <string name="problem_result_hint_photo">Если возможно, загрузите фото</string>
+    <string name="problem_result_btn_send">Сообщить о результате</string>
+
+    <string name="profile_btn_info">Информация</string>
+    <string name="profile_btn_participate">Я участвую</string>
+    <string name="profile_info_status">Статус</string>
+    <string name="profile_info_email">Электронный адрес</string>
+    <string name="profile_info_number">Номер телефона</string>
+    <string name="profile_info_date">Дата рождения</string>
+    <string name="profile_info_areas">Мои районы</string>
+    <string name="profile_feed_btn_result">Сообщить о результатае</string>
+    <string name="profile_feed_btn_claim">Подать заявление</string>
+
+    <string name="registration_hint_name">Имя</string>
+    <string name="registration_hint_lastname">Фамилия</string>
+    <string name="registration_hint_areas">Мои районы</string>
+    <string name="registration_hint_nubmer">Номер телефона</string>
+    <string name="registration_hint_date">Дата рождения</string>
+    <string name="registration_btn_register">Зарегистрироваться</string>
+    <string name="registration_btn_acc">Уже есть аккаунт</string>
+
+    <string name="btn_choose">Выбрать</string>
+
 
 </resources>

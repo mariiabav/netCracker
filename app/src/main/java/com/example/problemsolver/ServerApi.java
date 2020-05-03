@@ -13,7 +13,7 @@ import com.example.problemsolver.organization.model.FeedOrgResponse;
 import com.example.problemsolver.organization.model.RegisteredOrganization;
 import com.example.problemsolver.map.Models.DistrictResponse.DistrictResponse;
 import com.example.problemsolver.map.Models.NewProblemResponse.RegionDataResponse;
-import com.example.problemsolver.PersonRoles.PersonRoles;
+import com.example.problemsolver.personRoles.PersonRoles;
 import com.example.problemsolver.problem.model.NewProblem;
 import com.example.problemsolver.registration.RegisteredPerson;
 

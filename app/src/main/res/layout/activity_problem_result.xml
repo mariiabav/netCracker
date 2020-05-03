@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -10,22 +9,23 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/problem_layout_comment"
         android:layout_width="match_parent"
+
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp">
+
         <EditText
             android:id="@+id/problem_result_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Добавьте комментарий"/>
+            android:hint="@string/problem_result_hint_comment"/>
+
     </com.google.android.material.textfield.TextInputLayout>
 
 
     <LinearLayout
-        android:id="@+id/linlay1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/rellay1"
         android:orientation="horizontal">
 
         <RelativeLayout
@@ -60,13 +60,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
-                android:text="Если возможно, загрузите фото"
+                android:text="@string/problem_result_hint_photo"
                 android:textSize="18sp" />
 
         </RelativeLayout>
 
     </LinearLayout>
-
 
     <ImageView
         android:id="@+id/imageView_result"
@@ -79,9 +78,9 @@
     <Button android:id="@+id/btn_result"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Сообщить о результате"
+        android:text="@string/problem_result_btn_send"
         android:background="@color/red"
         android:layout_marginTop="10dp"
-        android:textColor="@android:color/white"
-        />
+        android:textColor="@android:color/white" />
+
 </LinearLayout>

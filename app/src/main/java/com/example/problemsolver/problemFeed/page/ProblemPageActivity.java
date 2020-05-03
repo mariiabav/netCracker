@@ -1,4 +1,4 @@
-package com.example.problemsolver.problemFeed.Page;
+package com.example.problemsolver.problemFeed.page;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

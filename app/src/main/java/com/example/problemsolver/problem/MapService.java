@@ -1,12 +1,9 @@
-package com.example.problemsolver;
+package com.example.problemsolver.problem;
 
-import java.io.IOException;
+import com.example.problemsolver.ServerApi;
 
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 

@@ -15,7 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.problemsolver.ProblemResultActivity;
-import com.example.problemsolver.problemFeed.Page.ProblemPageActivity;
+import com.example.problemsolver.problemFeed.page.ProblemPageActivity;
 import com.example.problemsolver.problemFeed.model.Feed2Problem;
 import com.example.problemsolver.R;
 import com.example.problemsolver.utils.PaginationAdapterCallback;
@@ -230,10 +230,10 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
             super(itemView);
 
             mProblemTitle = itemView.findViewById(R.id.street_name);
-            mProblemType = itemView.findViewById(R.id.problem_descriprion);
+            mProblemType = itemView.findViewById(R.id.problem_description);
             mDate = itemView.findViewById(R.id.date);
             mRate = itemView.findViewById(R.id.rating);
-            mProblemImg = itemView.findViewById(R.id.status_pic);
+            mProblemImg = itemView.findViewById(R.id.imgView_status_pic);
             applyBtn = itemView.findViewById(R.id.apply_btn);
             reportBtn = itemView.findViewById(R.id.report_button);
         }

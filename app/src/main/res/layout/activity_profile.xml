@@ -13,7 +13,7 @@
         android:layout_height="match_parent">
 
         <RelativeLayout
-            android:id="@+id/rellay1"
+            android:id="@+id/relay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/profile_avatar_grad"
@@ -55,7 +55,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:id="@+id/accept_btn"
-            android:layout_below="@id/rellay1"
+            android:layout_below="@id/relay"
             android:layout_height="45dp">
 
             <RelativeLayout
@@ -66,7 +66,7 @@
                 <Button android:id="@+id/btn_info"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="Информация"
+                    android:text="@string/profile_btn_info"
                     android:background="@color/red_dark"
 
                     android:textColor="@color/white"/>
@@ -81,7 +81,7 @@
                 <Button android:id="@+id/btn_my_problems"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="Я участвую"
+                    android:text="@string/profile_btn_participate"
                     android:background="@color/gradStart"
                     android:textColor="@color/white"/>
 
@@ -113,7 +113,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Статус"
+                        android:text="@string/profile_info_status"
                         android:textColor="@color/headings"
                         android:textSize="13sp" />
 
@@ -142,7 +142,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Электронный адрес"
+                        android:text="@string/profile_info_email"
                         android:textColor="@color/headings"
                         android:textSize="13sp" />
 
@@ -172,7 +172,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Номер телефона"
+                        android:text="@string/profile_info_number"
                         android:textColor="@color/headings"
                         android:textSize="13sp" />
 
@@ -202,7 +202,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Дата рождения"
+                        android:text="@string/profile_info_date"
                         android:textColor="@color/headings"
                         android:textSize="13sp" />
 
@@ -232,7 +232,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Мои районы"
+                        android:text="@string/profile_info_areas"
                         android:textColor="@color/headings"
                         android:textSize="13sp" />
 
@@ -302,7 +302,7 @@
 
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-            <include layout="@layout/error_layout"/>
+            <include layout="@layout/feed_error_layout"/>
 
         </FrameLayout>
 

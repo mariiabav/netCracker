@@ -51,7 +51,6 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
     private ProblemPaginationAdapter adapter;
     private LinearLayoutManager linearLayoutManager;
     private RecyclerView rv;
-    //private ProgressBar progressBar;
     private LinearLayout errorLayout;
     private Button btnRetry;
     private TextView txtError;
@@ -144,7 +143,6 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
         personInfoRequest();
 
         rv = findViewById(R.id.problem_recycler);
-        //progressBar = findViewById(R.id.main_progress);
         errorLayout = findViewById(R.id.error_layout);
         btnRetry = findViewById(R.id.error_btn_retry);
         txtError = findViewById(R.id.error_txt_cause);
@@ -228,14 +226,13 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
                                 areaView[i].setText(personArea.getAreaName());
                                 i++;
                             }
-                            //showMessage("Получили инфу о person для лк");
                         } else {
-                            showMessage("person в лк не получен, сервер вернул ошибку");
+                            showMessage("Сервер вернул ошибку. Информация о пользователе не получена.");
                         }
                     }
                     @Override
                     public void onFailure(@NonNull Call<AuthorizedPerson> call, @NonNull Throwable t) {
-                        showMessage("Ошибка во время выполнения запроса: person в лк");
+                        showMessage("Ошибка во время выполнения запроса. Информация о пользователе не получена.");
                     }
                 });
     }
@@ -267,7 +264,6 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
     }
 
     private void doRefresh() {
-        //progressBar.setVisibility(View.VISIBLE);
         if (callServerApi().isExecuted())
             callServerApi().cancel();
 
@@ -291,7 +287,6 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
                 hideErrorView();
 
                 List<Feed2Problem> results = fetchResults(response);
-                //progressBar.setVisibility(View.GONE);
                 adapter.addAll(results);
 
                 if(results.size() == 0) {
@@ -367,8 +362,6 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
 
         if (errorLayout.getVisibility() == View.GONE) {
             errorLayout.setVisibility(View.VISIBLE);
-            //progressBar.setVisibility(View.GONE);
-
             txtError.setText(fetchErrorMessage(throwable));
         }
     }
@@ -388,7 +381,6 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
     private void hideErrorView() {
         if (errorLayout.getVisibility() == View.VISIBLE) {
             errorLayout.setVisibility(View.GONE);
-            //progressBar.setVisibility(View.VISIBLE);
         }
     }
 

@@ -1,4 +1,4 @@
-package com.example.problemsolver.problemFeed.Page;
+package com.example.problemsolver.problemFeed.page;
 
 import android.content.Context;
 import android.view.LayoutInflater;

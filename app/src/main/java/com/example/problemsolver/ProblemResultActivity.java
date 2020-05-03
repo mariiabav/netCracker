@@ -25,6 +25,7 @@ public class ProblemResultActivity extends AppCompatActivity {
     private ImageView resultPhoto;
     private String token;
     private SharedPreferences settings;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
