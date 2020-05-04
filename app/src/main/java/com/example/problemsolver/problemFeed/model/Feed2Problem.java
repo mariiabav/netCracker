@@ -7,6 +7,7 @@ import androidx.annotation.RequiresApi;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Feed2Problem {
@@ -38,6 +39,16 @@ public class Feed2Problem {
     @SerializedName("picture")
     @Expose
     private Picture picture;
+    @SerializedName("personsOfThisProblemAsParticipant")
+    @Expose
+    private List<String> personsOfThisProblemAsParticipant;
+
+    public Feed2Problem() {
+    }
+
+    public Feed2Problem(String id) {
+        this.id = id;
+    }
 
     public String getId() {
         return id;
@@ -109,6 +120,14 @@ public class Feed2Problem {
 
     public void setPicture(Picture picture) {
         this.picture = picture;
+    }
+
+    public List<String> getPersonsOfThisProblemAsParticipant() {
+        return personsOfThisProblemAsParticipant;
+    }
+
+    public void setPersonsOfThisProblemAsParticipant(List<String> personsOfThisProblemAsParticipant) {
+        this.personsOfThisProblemAsParticipant = personsOfThisProblemAsParticipant;
     }
 
     @Override

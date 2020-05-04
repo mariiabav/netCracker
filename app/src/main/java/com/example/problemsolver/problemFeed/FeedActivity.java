@@ -71,8 +71,9 @@ public class FeedActivity extends AppCompatActivity implements PaginationAdapter
         setContentView(R.layout.activity_feed);
         settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
         token = settings.getString("JWT","");
+        String personId = settings.getString("id", "");
         arrayList = new ArrayList<>();
-        arrayList.add(new SearchCriteria("areaName", "~", "Выборгский район"));
+        arrayList.add(new SearchCriteria("areaName", "in", "Выборгский район,Калининский район"));
         //arrayList.add(new SearchCriteria("rate", ">", "0"));
         //arrayList.add(new SearchCriteria("rate", "<","40"));
 
@@ -85,7 +86,7 @@ public class FeedActivity extends AppCompatActivity implements PaginationAdapter
         txtError = findViewById(R.id.error_txt_cause);
         swipeRefreshLayout = findViewById(R.id.main_swiperefresh);
 
-        adapter = new ProblemPaginationAdapter(this);
+        adapter = new ProblemPaginationAdapter(this, personId);
 
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rv.setLayoutManager(linearLayoutManager);
@@ -273,4 +274,5 @@ public class FeedActivity extends AppCompatActivity implements PaginationAdapter
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null;
     }
+
 }

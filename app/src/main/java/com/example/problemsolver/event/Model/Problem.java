@@ -4,6 +4,8 @@ package com.example.problemsolver.event.Model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Problem {
 
     @SerializedName("id")
@@ -12,9 +14,6 @@ public class Problem {
     @SerializedName("address")
     @Expose
     private Address address;
-    @SerializedName("owner")
-    @Expose
-    private Owner owner;
     @SerializedName("problemName")
     @Expose
     private String problemName;
@@ -33,7 +32,9 @@ public class Problem {
     @SerializedName("coordinates")
     @Expose
     private String coordinates;
-
+    @SerializedName("personsOfThisProblemAsParticipant")
+    @Expose
+    private List<String> personsOfThisProblemAsParticipant;
     @SerializedName("scale")
     @Expose
     private String scale;
@@ -59,14 +60,6 @@ public class Problem {
 
     public void setAddress(Address address) {
         this.address = address;
-    }
-
-    public Owner getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Owner owner) {
-        this.owner = owner;
     }
 
     public String getProblemName() {
@@ -123,5 +116,13 @@ public class Problem {
 
     public void setScale(String scale) {
         this.scale = scale;
+    }
+
+    public List<String> getPersonsOfThisProblemAsParticipant() {
+        return personsOfThisProblemAsParticipant;
+    }
+
+    public void setPersonsOfThisProblemAsParticipant(List<String> personsOfThisProblemAsParticipant) {
+        this.personsOfThisProblemAsParticipant = personsOfThisProblemAsParticipant;
     }
 }

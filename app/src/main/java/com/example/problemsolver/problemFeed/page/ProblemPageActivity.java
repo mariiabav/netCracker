@@ -37,12 +37,14 @@ import com.example.problemsolver.Assessment;
 import com.example.problemsolver.event.Model.Problem;
 import com.example.problemsolver.problemFeed.model.Comment;
 import com.example.problemsolver.problemFeed.model.CommentResponse;
+import com.example.problemsolver.problemFeed.model.Feed2Problem;
 import com.example.problemsolver.problemFeed.model.MyAssessmentResponse;
 import com.example.problemsolver.problemFeed.model.Person;
 import com.example.problemsolver.R;
 import com.example.problemsolver.ServerApi;
 import com.example.problemsolver.utils.PaginationAdapterCallback;
 import com.example.problemsolver.utils.PaginationScrollListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.List;
 import java.util.concurrent.TimeoutException;
@@ -90,6 +92,14 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
         pictureId = getIntent().getStringExtra("picture_id");
         problemId = getIntent().getStringExtra("problem_id");
 
+        supportBtn = findViewById(R.id.btn_support);
+        showMessage(String.valueOf(getIntent().getBooleanExtra("is_participant", false)));
+        if(getIntent().getBooleanExtra("is_participant", false)) {
+            supportBtn.setText("Отписаться");
+        }
+        else{
+            supportBtn.setText("Подписаться");
+        }
 
         address = findViewById(R.id.textView_address);
         date = findViewById(R.id.textView_date);
@@ -100,7 +110,6 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
         likesRelay = findViewById(R.id.relay_like);
         dislikesRelay = findViewById(R.id.relay_dislike);
 
-        supportBtn = findViewById(R.id.btn_support);
         sendCommentBtn = findViewById(R.id.btn_send_comment);
 
         likes = findViewById(R.id.textView_likes);
@@ -167,22 +176,33 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
             }
         });
 
-        supportBtn.setOnClickListener(view -> ApplicationService.getInstance()
-        .getJSONApi()
-        .subscribe(token, problemId, personId)
-        .enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-            }
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+        supportBtn.setOnClickListener(view -> {
+            ApplicationService.getInstance()
+                    .getJSONApi()
+                    .subscribe(token, problemId, personId)
+                    .enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                        }
 
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+
+                        }
+                    });
+            if("Подписаться".equals(supportBtn.getText().toString())) {
+                supportBtn.setText("Отписаться");
+                FirebaseMessaging.getInstance().subscribeToTopic(problemId);
             }
-        }));
+            else if("Отписаться".equals(supportBtn.getText().toString())) {
+                supportBtn.setText("Подписаться");
+                FirebaseMessaging.getInstance().unsubscribeFromTopic(problemId);
+            }
+        });
 
 
         sendCommentBtn.setOnClickListener(view -> {
-            Comment comment = new Comment(new Person(personId), new Problem(problemId), newComment.getText().toString());
+            Comment comment = new Comment(new Person(personId), new Feed2Problem(problemId), newComment.getText().toString());
             ApplicationService.getInstance()
                     .getJSONApi()
                     .createComment(token, comment)

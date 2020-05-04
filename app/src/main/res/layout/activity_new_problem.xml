@@ -94,7 +94,7 @@
         android:id="@+id/linlay1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/rellay1"
+        android:layout_below="@id/choose_org"
         android:orientation="horizontal">
 
         <RelativeLayout

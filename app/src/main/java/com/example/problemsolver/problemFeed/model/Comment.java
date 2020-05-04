@@ -11,7 +11,7 @@ public class Comment {
 
     @SerializedName("problem")
     @Expose
-    private Problem problem;
+    private Feed2Problem problem;
 
     @SerializedName("text")
     @Expose
@@ -24,7 +24,7 @@ public class Comment {
     public Comment() {
     }
 
-    public Comment(Person person, Problem problem, String text) {
+    public Comment(Person person, Feed2Problem problem, String text) {
         this.person = person;
         this.problem = problem;
         this.text = text;
@@ -38,11 +38,11 @@ public class Comment {
         this.person = person;
     }
 
-    public Problem getProblem() {
+    public Feed2Problem getProblem() {
         return problem;
     }
 
-    public void setProblem(Problem problem) {
+    public void setProblem(Feed2Problem problem) {
         this.problem = problem;
     }
 

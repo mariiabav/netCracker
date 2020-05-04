@@ -2,6 +2,7 @@
 package com.example.problemsolver.event.Model;
 
 import com.example.problemsolver.problem.model.DBFile;
+import com.example.problemsolver.problemFeed.model.Feed2Problem;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -31,7 +32,6 @@ public class Event {
     @SerializedName("problem")
     @Expose
     private Problem problem;
-
     @SerializedName("photo")
     @Expose
     private DBFile photo;

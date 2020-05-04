@@ -148,7 +148,7 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
         txtError = findViewById(R.id.error_txt_cause);
         swipeRefreshLayout = findViewById(R.id.main_swiperefresh);
 
-        adapter = new ProblemPaginationAdapter(this);
+        adapter = new ProblemPaginationAdapter(this, personId);
 
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rv.setLayoutManager(linearLayoutManager);

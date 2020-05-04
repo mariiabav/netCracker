@@ -38,11 +38,13 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
     private PaginationAdapterCallback mCallback;
 
     private String errorMsg;
+    private String personId;
 
-    ProblemPaginationAdapter(Context context) {
+    ProblemPaginationAdapter(Context context, String personId) {
         this.context = context;
         this.mCallback = (PaginationAdapterCallback) context;
         problemsResults = new ArrayList<>();
+        this.personId = personId;
     }
 
     public List<Feed2Problem> getProblems() {
@@ -94,6 +96,7 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
                         intent.putExtra("problem_type",  result.getProblemName());
                         intent.putExtra("problem_description", result.getDescription());
                         intent.putExtra("problem_date",  result.getCreationDate().substring(0, 10));
+                        intent.putExtra("is_participant", result.getPersonsOfThisProblemAsParticipant().contains(personId));
 
                         //тут надо не рейтинг результата, а запрос лайки и дизлайки по id проблемы
                         intent.putExtra("problem_likes",  result.getRate().toString());

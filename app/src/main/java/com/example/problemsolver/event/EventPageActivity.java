@@ -66,7 +66,7 @@ public class EventPageActivity extends AppCompatActivity {
             eventStatus = "rejected";
             ApplicationService.getInstance()
             .getJSONApi()
-            .updateEvent(token, eventId,"",eventStatus, "rejected", personId, scale)
+            .updateEvent(token, eventId,"",eventStatus, "rejected", scale, personId)
             .enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
@@ -92,7 +92,7 @@ public class EventPageActivity extends AppCompatActivity {
 
             ApplicationService.getInstance()
                     .getJSONApi()
-                    .updateEvent(token, eventId,"",eventStatus, "accepted", personId, scale)
+                    .updateEvent(token, eventId,"",eventStatus, "accepted", scale, personId)
                     .enqueue(new Callback<Void>() {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {

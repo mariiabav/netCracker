@@ -113,8 +113,8 @@ public interface ServerApi {
     @PUT("/api/problem/subscribe")
     Call<Void> subscribe(
             @Header("Authorization") String token,
-            @Query("problemID") String problemId,
-            @Query("personID") String personId
+            @Query("problemId") String problemId,
+            @Query("personId") String personId
     );
 
     @Headers("Content-Type: application/json")
