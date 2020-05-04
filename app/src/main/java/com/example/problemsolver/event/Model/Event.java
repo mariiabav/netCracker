@@ -47,10 +47,11 @@ public class Event {
         this.id = id;
     }
 
-    public Event(String userText, String offerStatus, Problem problem) {
+    public Event(String userText, String offerStatus, Problem problem, DBFile photo) {
         this.userText = userText;
         this.offerStatus = offerStatus;
         this.problem = problem;
+        this.photo = photo;
     }
 
     public String getOfferStatus() {

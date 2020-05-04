@@ -88,7 +88,7 @@ public class NewProblemActivity extends Activity implements PaginationAdapterCal
 
 
     private ImageView imageView;
-    private ImageButton PickImage;
+    private ImageButton pickImage;
     private final int Pick_image = 1;
     private Bitmap selectedImage;
 
@@ -174,7 +174,7 @@ public class NewProblemActivity extends Activity implements PaginationAdapterCal
         layoutAddress = findViewById(R.id.editText_new_problem_address);
 
         imageView = findViewById(R.id.imageView);
-        PickImage = findViewById(R.id.problem_photo_btn);
+        pickImage = findViewById(R.id.problem_photo_btn);
 
         chooseOrgBtn = findViewById(R.id.choose_org);
         chooseOrgBtn.setClickable(false);
@@ -187,7 +187,7 @@ public class NewProblemActivity extends Activity implements PaginationAdapterCal
 
         locationUpdate();
 
-        PickImage.setOnClickListener(v -> {
+        pickImage.setOnClickListener(v -> {
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
             photoPickerIntent.setType("image/*");
             startActivityForResult(photoPickerIntent, Pick_image);
@@ -201,6 +201,7 @@ public class NewProblemActivity extends Activity implements PaginationAdapterCal
 
 
         ScrollView mainScrollView =  findViewById(R.id.main_scroll_view);
+
         ImageView transparentImageView = findViewById(R.id.transparent_image);
         transparentImageView.setOnTouchListener((v, event) -> {
             int action = event.getAction();
