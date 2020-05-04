@@ -89,7 +89,7 @@ public class OrgPaginationAdapter extends RecyclerView.Adapter<RecyclerView.View
                 organizationVH.email.setText(result.getEmail());
                 organizationVH.phone.setText(result.getPhone());
 
-                Integer rate = result.getAllProblemsCount();
+                Integer rate = result.getStatistics().getAllProblemsCount();
                 organizationVH.chooseBtn.setTag(result.getId().toString());
 
                 switch (sortBy) {

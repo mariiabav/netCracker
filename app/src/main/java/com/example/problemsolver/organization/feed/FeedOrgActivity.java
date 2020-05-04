@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -60,16 +61,25 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
     private String token;
     private String personId;
     private Boolean onlyMyAreas = false;
-    private String sortBy = "name";
+    private String sortBy = "solvedProblemsCount";
     private String flag;
     private String adminArea;
+
+    private CheckBox checkBoxCreated;
+    private CheckBox checkBoxInProcess;
+    private CheckBox checkBoxSolved;
+    private CheckBox checkBoxAllAreas;
+    private CheckBox checkBoxMyAreas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.teest);
+        //setContentView(R.layout.test_org);
+
         flag = getIntent().getStringExtra("flag");
         adminArea = getIntent().getStringExtra("admin_area");
-        setContentView(R.layout.test_org);
+
         SharedPreferences settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
         Button btnRetry = findViewById(R.id.error_btn_retry);
 
@@ -88,10 +98,19 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
         inProcessTopBtn = findViewById(R.id.in_proccess_top_btn);
         unsolvedTopBtn = findViewById(R.id.unsolved_top_btn);
 
+/*
+        checkBoxAllAreas = findViewById(R.id.checkBox1);
+        checkBoxMyAreas = findViewById(R.id.checkBox2);
+
+        checkBoxCreated = findViewById(R.id.checkBox3);
+        checkBoxInProcess = findViewById(R.id.checkBox4);
+        checkBoxSolved = findViewById(R.id.checkBox5);
+*/
+        /*
         solvedTopBtn.setVisibility(View.INVISIBLE);
         inProcessTopBtn.setVisibility(View.INVISIBLE);
         unsolvedTopBtn.setVisibility(View.INVISIBLE);
-
+         */
         adapter = new OrgPaginationAdapter(this);
 
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -101,7 +120,8 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
         rv.setAdapter(adapter);
 
         allAreasBtn.setOnClickListener(view -> {
-            sortBy = "name";
+            //sortBy = "name";
+            sortBy = "solvedProblemsCount";
             onlyMyAreas = false;
             showMessage("false");
             swipeRefreshLayout.setRefreshing(true);
@@ -109,7 +129,8 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
         });
 
         myAreasBtn.setOnClickListener(view -> {
-            sortBy = "name";
+            ///sortBy = "name";
+            sortBy = "solvedProblemsCount";
             onlyMyAreas = true;
             showMessage("true");
             swipeRefreshLayout.setRefreshing(true);
@@ -181,25 +202,6 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
             case R.id.menu_org_refresh:
                 swipeRefreshLayout.setRefreshing(true);
                 doRefresh();
-                break;
-            case R.id.menu_org_stat:
-                showMessage("топ");
-                solvedTopBtn.setVisibility(View.VISIBLE);
-                inProcessTopBtn.setVisibility(View.VISIBLE);
-                unsolvedTopBtn.setVisibility(View.VISIBLE);
-
-                allAreasBtn.setVisibility(View.INVISIBLE);
-                myAreasBtn.setVisibility(View.INVISIBLE);
-                break;
-            case R.id.menu_org_list:
-                showMessage("все огранизации");
-
-                solvedTopBtn.setVisibility(View.INVISIBLE);
-                inProcessTopBtn.setVisibility(View.INVISIBLE);
-                unsolvedTopBtn.setVisibility(View.INVISIBLE);
-
-                allAreasBtn.setVisibility(View.VISIBLE);
-                myAreasBtn.setVisibility(View.VISIBLE);
                 break;
         }
         return super.onOptionsItemSelected(item);

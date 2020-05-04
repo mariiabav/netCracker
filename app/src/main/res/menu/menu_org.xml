@@ -5,12 +5,4 @@
         android:id="@+id/menu_org_refresh"
         android:title="@string/menu_refresh"
         app:showAsAction="never"/>
-    <item
-        android:id="@+id/menu_org_stat"
-        android:title="Топы"
-        app:showAsAction="never"/>
-    <item
-        android:id="@+id/menu_org_list"
-        android:title="Просто список"
-        app:showAsAction="never"/>
 </menu>
