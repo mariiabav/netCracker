@@ -7,7 +7,10 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -16,6 +19,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -23,6 +28,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.problemsolver.ApplicationService;
+import com.example.problemsolver.Parser;
+import com.example.problemsolver.Photo;
 import com.example.problemsolver.ServerApi;
 import com.example.problemsolver.authorized.AuthorizedPerson;
 import com.example.problemsolver.authorized.PersonArea;
@@ -34,6 +41,9 @@ import com.example.problemsolver.problemFeed.model.FeedResponse;
 import com.example.problemsolver.utils.PaginationAdapterCallback;
 import com.example.problemsolver.utils.PaginationScrollListener;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
@@ -41,6 +51,11 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -63,7 +78,7 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
     private int currentPage = PAGE_START;
 
     private TextView FScView, emailView, numberView, dateView, area1View, area2View, area3View, profileStatus;
-    private Button myInfo, myProblems, eventsBtn, complainBtn, resultBtn;
+    private Button myInfo, myProblems, eventsBtn, complainBtn;
     private AuthorizedPerson authorizedPerson;
     private String FSc, email, number, date, area1, area2, area3, role;
     private TextView [] areaView = new TextView[3];
@@ -77,6 +92,11 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
     private String personId;
     private SharedPreferences settings;
     private ServerApi serverApi;
+
+    private final int Pick_image = 1;
+    private String pictureId;
+    private Bitmap selectedImage;
+    private CircleImageView avatar;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -98,6 +118,8 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
         area3View = findViewById(R.id.profile_area3);
         profileStatus = findViewById(R.id.profile_status);
         eventsBtn = findViewById(R.id.btn_events);
+
+        avatar = findViewById(R.id.imgView_avatar);
 
 
         eventsBtn.setVisibility(View.INVISIBLE);
@@ -126,20 +148,6 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
             myProfileFeed.setVisibility(View.INVISIBLE);
         });
 
-        //ЭТО ДОЛЖНО БЫТЬ В АДАПТЕРЕ ДЛЯ КАЖДОГО item ЛЕНТЫ. Пока не уверена, как это будет работать. Нужна лента
-        /*
-        complainBtn = findViewById(R.id.btn_complain);
-        resultBtn = findViewById(R.id.btn_result);
-
-        complainBtn.setOnClickListener(view -> {
-            //переход по ссылке
-        });
-
-        resultBtn.setOnClickListener(view -> {
-            Intent intent = new Intent(ProfileActivity.this, ProblemResultActivity.class);
-            startActivity(intent);
-        });
-*/
         personInfoRequest();
 
         rv = findViewById(R.id.problem_recycler);
@@ -262,6 +270,74 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void uploadAvatar(View v) {
+        showMessage("Вьюшка нажимается");
+
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, Pick_image);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+
+        switch(requestCode) {
+            case Pick_image:
+                if (resultCode == RESULT_OK) {
+                    Uri imageUri = imageReturnedIntent.getData();
+                    if (imageUri != null) {
+                        showMessage("Фото загружается");
+                        //uploadFile(imageUri);
+                    }
+                    try {
+                        final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                        selectedImage = BitmapFactory.decodeStream(imageStream);
+                        avatar.setImageBitmap(selectedImage);
+                    } catch (FileNotFoundException e) {
+                        avatar.setImageResource(R.drawable.status_pic_unsolved); //каринка "невозмонжо отобразить"
+                    }
+                }
+        }
+    }
+
+
+    private void uploadFile(Uri imageUri) {
+        String imagePath = Parser.getRealPathFromUri(imageUri, this);
+        showMessage(imagePath);
+        if (imagePath != null && !imagePath.isEmpty()) {
+            File file = new File(imagePath);
+            if (file.exists()) {
+                RequestBody requestFile = RequestBody.create(file, MediaType.parse("multipart/form-data"));
+                MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+
+                //здесь нужен другой серверный метод
+                //отправлять и id человека для приклепления аватара
+                ApplicationService.getInstance()
+                        .getJSONApi()
+                        .uploadFile(token, body)
+                        .enqueue(new Callback<Photo>() {
+                            @Override
+                            public void onResponse(@NonNull Call<Photo> call, @NonNull Response<Photo> response) {
+                                if (response.isSuccessful()){
+                                    pictureId = response.body().getId();
+                                }
+                                else {
+
+                                }
+                            }
+                            @Override
+                            public void onFailure(@NonNull Call<Photo> call, @NonNull Throwable t) {
+
+                            }
+                        });
+            }
+        }
+    }
+
+
 
     private void doRefresh() {
         if (callServerApi().isExecuted())

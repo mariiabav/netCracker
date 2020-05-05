@@ -76,7 +76,6 @@ public class ProblemResultActivity extends AppCompatActivity {
         });
 
 
-
         resultBtn.setOnClickListener(view -> {
             DBFile dbFile = new DBFile(pictureId);
             Event event = new Event(resultComment.getText().toString(), "solved", problem, dbFile);
@@ -109,6 +108,7 @@ public class ProblemResultActivity extends AppCompatActivity {
                 }
         }
     }
+
     private void uploadFile(Uri imageUri) {
         String imagePath = Parser.getRealPathFromUri(imageUri, this);
         showMessage(imagePath);
