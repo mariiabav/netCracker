@@ -19,10 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -67,7 +64,7 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
     private LinearLayoutManager linearLayoutManager;
     private RecyclerView rv;
     private LinearLayout errorLayout;
-    private Button btnRetry;
+    private Button btnRetry, mySupportBtn, myAddingsBtn;
     private TextView txtError;
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -98,7 +95,11 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
     private Bitmap selectedImage;
     private CircleImageView avatar;
 
-    @SuppressLint("SetTextI18n")
+
+
+    private String sortBy = "rate";
+
+    @SuppressLint({"SetTextI18n", "ResourceAsColor"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,7 +122,6 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
 
         avatar = findViewById(R.id.imgView_avatar);
 
-
         eventsBtn.setVisibility(View.INVISIBLE);
 
         myInfo = findViewById(R.id.btn_info);
@@ -132,6 +132,34 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
 
         myInfoRellay.setVisibility(View.VISIBLE);
         myProfileFeed.setVisibility(View.INVISIBLE);
+
+        mySupportBtn = findViewById(R.id.btn_my_support);
+        myAddingsBtn = findViewById(R.id.btn_my_addings);
+
+
+        mySupportBtn.setOnClickListener(view -> {
+            mySupportBtn.setBackgroundColor(R.color.red);
+            mySupportBtn.setTextColor(R.color.white);
+
+            myAddingsBtn.setBackgroundColor(R.color.light_grey);
+            myAddingsBtn.setTextColor(R.color.vinous);
+
+            //sortBy = ""; только на "поддерживаю"
+            swipeRefreshLayout.setRefreshing(true);
+            doRefresh();
+        });
+
+        myAddingsBtn.setOnClickListener(view -> {
+            mySupportBtn.setBackgroundColor(R.color.light_grey);
+            mySupportBtn.setTextColor(R.color.vinous);
+
+            myAddingsBtn.setBackgroundColor(R.color.red);
+            myAddingsBtn.setTextColor(R.color.white);
+
+            //sortBy = ""; только на "созданные мной"
+            swipeRefreshLayout.setRefreshing(true);
+            doRefresh();
+        });
 
         eventsBtn.setOnClickListener(view -> {
             Intent intent = new Intent(ProfileActivity.this, EventActivity.class);
@@ -272,8 +300,6 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
     }
 
     public void uploadAvatar(View v) {
-        showMessage("Вьюшка нажимается");
-
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
         startActivityForResult(photoPickerIntent, Pick_image);
@@ -338,7 +364,6 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
     }
 
 
-
     private void doRefresh() {
         if (callServerApi().isExecuted())
             callServerApi().cancel();
@@ -351,11 +376,29 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
         swipeRefreshLayout.setRefreshing(false);
     }
 
+    /*
+    private void setSortBy() {
+        if (checkBoxMyProblems.isChecked()) {
+            if (checkBoxSupportProblems.isChecked()) {
+                //sortBy на и то, и другое
+            } else {
+                //sortBy только на "созданные"
+            }
+        } else {
+            if (checkBoxSupportProblems.isChecked()) {
+                //sortBy только на "поддерживаю"
+            } else {
+                //sortBy и на то, и на другое
+            }
+        }
+    }
+*/
     private void loadFirstPage() {
         Log.d(TAG, "loadFirstPage: ");
 
         hideErrorView();
         currentPage = PAGE_START;
+
 
         callServerApi().enqueue(new Callback<FeedResponse>() {
             @Override
@@ -371,9 +414,7 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
                 else {
                     adapter.addLoadingFooter();
                 }
-
             }
-
             @Override
             public void onFailure(Call<FeedResponse> call, Throwable t) {
                 t.printStackTrace();
@@ -422,7 +463,7 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
                 token,
                 currentPage,
                 3,
-                "rate",
+                sortBy,
                 "desc",
                 personId
         );

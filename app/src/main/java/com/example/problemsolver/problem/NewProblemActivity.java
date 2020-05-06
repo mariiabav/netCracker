@@ -335,7 +335,6 @@ public class NewProblemActivity extends Activity implements PaginationAdapterCal
                     try {
                         final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                         selectedImage = BitmapFactory.decodeStream(imageStream);
-
                         if (!photo1){
                             photo1 = true;
                             resultPhoto1.setImageBitmap(selectedImage);

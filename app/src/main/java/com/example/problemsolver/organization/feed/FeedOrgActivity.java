@@ -1,6 +1,7 @@
 package com.example.problemsolver.organization.feed;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -71,6 +72,7 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
     private CheckBox checkBoxAllAreas;
     private CheckBox checkBoxMyAreas;
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,26 +122,45 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
         rv.setAdapter(adapter);
 
         allAreasBtn.setOnClickListener(view -> {
-            //sortBy = "name";
-            sortBy = "solvedProblemsCount";
+
+            allAreasBtn.setBackgroundColor(R.color.red);
+            allAreasBtn.setTextColor(R.color.white);
+
+            myAreasBtn.setBackgroundColor(R.color.light_grey);
+            myAreasBtn.setTextColor(R.color.vinous);
+
             onlyMyAreas = false;
-            showMessage("false");
+
             swipeRefreshLayout.setRefreshing(true);
             doRefresh();
         });
 
         myAreasBtn.setOnClickListener(view -> {
-            ///sortBy = "name";
-            sortBy = "solvedProblemsCount";
+
+            myAreasBtn.setBackgroundColor(R.color.red);
+            myAreasBtn.setTextColor(R.color.white);
+
+            allAreasBtn.setBackgroundColor(R.color.light_grey);
+            allAreasBtn.setTextColor(R.color.vinous);
+
             onlyMyAreas = true;
-            showMessage("true");
+
             swipeRefreshLayout.setRefreshing(true);
             doRefresh();
         });
 
         solvedTopBtn.setOnClickListener(view -> {
             sortBy = "solvedProblemsCount";
-            //sortBy = "rate";
+
+            solvedTopBtn.setBackgroundColor(R.color.red);
+            solvedTopBtn.setTextColor(R.color.white);
+
+            inProcessTopBtn.setBackgroundColor(R.color.light_grey);
+            inProcessTopBtn.setTextColor(R.color.vinous);
+
+            unsolvedTopBtn.setBackgroundColor(R.color.light_grey);
+            unsolvedTopBtn.setTextColor(R.color.vinous);
+
             showMessage("решенные");
             swipeRefreshLayout.setRefreshing(true);
             doRefresh();
@@ -147,7 +168,16 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
 
         inProcessTopBtn.setOnClickListener(view -> {
             sortBy = "inProcessProblemsCount";
-            //sortBy = "rate";
+
+            inProcessTopBtn.setBackgroundColor(R.color.red);
+            inProcessTopBtn.setTextColor(R.color.white);
+
+            solvedTopBtn.setBackgroundColor(R.color.light_grey);
+            solvedTopBtn.setTextColor(R.color.vinous);
+
+            unsolvedTopBtn.setBackgroundColor(R.color.light_grey);
+            unsolvedTopBtn.setTextColor(R.color.vinous);
+
             showMessage("организация решает");
             swipeRefreshLayout.setRefreshing(true);
             doRefresh();
@@ -155,7 +185,16 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
 
         unsolvedTopBtn.setOnClickListener(view -> {
             sortBy = "unsolvedProblemsCount";
-            //sortBy = "rate";
+
+            unsolvedTopBtn.setBackgroundColor(R.color.red);
+            unsolvedTopBtn.setTextColor(R.color.white);
+
+            inProcessTopBtn.setBackgroundColor(R.color.light_grey);
+            inProcessTopBtn.setTextColor(R.color.vinous);
+
+            solvedTopBtn.setBackgroundColor(R.color.light_grey);
+            solvedTopBtn.setTextColor(R.color.vinous);
+
             showMessage("просрочены или нерешенные");
             swipeRefreshLayout.setRefreshing(true);
             doRefresh();

@@ -68,13 +68,13 @@
 
         <CheckBox
             android:id="@+id/checkBox1"
-
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginStart="5dp"
             android:layout_marginLeft="5dp"
             android:buttonTint="@color/red"
             android:text="Создана" />
+
         <CheckBox
             android:id="@+id/checkBox2"
             android:layout_marginLeft="5dp"
