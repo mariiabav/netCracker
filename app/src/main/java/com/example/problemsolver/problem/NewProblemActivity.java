@@ -5,21 +5,15 @@ import androidx.annotation.NonNull;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.DocumentsContract;
-import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -88,8 +82,8 @@ import retrofit2.Response;
 public class NewProblemActivity extends Activity implements PaginationAdapterCallback {
 
 
-    private ImageView imageView;
-    private ImageButton pickImage;
+    private ImageView imageView, resultPhoto1, resultPhoto2, resultPhoto3;
+    private ImageButton pickImageBtn;
     private final int Pick_image = 1;
     private Bitmap selectedImage;
 
@@ -143,6 +137,8 @@ public class NewProblemActivity extends Activity implements PaginationAdapterCal
     private ServerApi serverApi;
     private String orgId;
 
+    private boolean photo1 = false, photo2 = false, photo3 = false;
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,8 +170,12 @@ public class NewProblemActivity extends Activity implements PaginationAdapterCal
         mapView = findViewById(R.id.map);
         layoutAddress = findViewById(R.id.editText_new_problem_address);
 
-        imageView = findViewById(R.id.imageView);
-        pickImage = findViewById(R.id.problem_photo_btn);
+
+        pickImageBtn = findViewById(R.id.problem_photo_btn);
+
+        resultPhoto1 = findViewById(R.id.imageView_result1);
+        resultPhoto2 = findViewById(R.id.imageView_result2);
+        resultPhoto3 = findViewById(R.id.imageView_result3);
 
         chooseOrgBtn = findViewById(R.id.choose_org);
         chooseOrgBtn.setClickable(false);
@@ -188,7 +188,7 @@ public class NewProblemActivity extends Activity implements PaginationAdapterCal
 
         locationUpdate();
 
-        pickImage.setOnClickListener(v -> {
+        pickImageBtn.setOnClickListener(v -> {
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
             photoPickerIntent.setType("image/*");
             startActivityForResult(photoPickerIntent, Pick_image);
@@ -321,12 +321,33 @@ public class NewProblemActivity extends Activity implements PaginationAdapterCal
                     if (imageUri != null) {
                         showMessage("Фото загружается");
                         problem.setClickable(false);
+                        /*
                         uploadFile(imageUri);
+                        if (!photo1){
+                            picture1Id = pictureId;
+                        } else if (!photo2) {
+                            picture2Id = pictureId;
+                        } else if (!photo3) {
+                            picture3Id = pictureId;
+                        }
+                         */
                     }
                     try {
                         final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                         selectedImage = BitmapFactory.decodeStream(imageStream);
-                        imageView.setImageBitmap(selectedImage);
+
+                        if (!photo1){
+                            photo1 = true;
+                            resultPhoto1.setImageBitmap(selectedImage);
+                        } else if (!photo2) {
+                            photo2 = true;
+                            resultPhoto2.setImageBitmap(selectedImage);
+                        } else if (!photo3) {
+                            photo3 = true;
+                            resultPhoto3.setImageBitmap(selectedImage);
+                        }
+
+                        //imageView.setImageBitmap(selectedImage);
                     } catch (FileNotFoundException e) {
                         imageView.setImageResource(R.drawable.status_pic_unsolved); //каринка "невозмонжо отобразить"
                     }

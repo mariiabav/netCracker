@@ -79,74 +79,124 @@
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <Button
-        android:id="@+id/choose_org"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/new_problem_btn_choose_org"
-        android:background="@color/red"
-        android:textColor="@android:color/white"
-        android:layout_marginTop="10dp">
-    </Button>
-
-    <LinearLayout
-        android:id="@+id/linlay1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/choose_org"
-        android:orientation="horizontal">
-
-        <RelativeLayout
+        <Button
+            android:id="@+id/choose_org"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp">
+            android:text="@string/new_problem_btn_choose_org"
+            android:background="@color/red"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="10dp">
+        </Button>
 
-            <ImageButton
-                android:id="@+id/problem_photo_btn"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:background="@color/white"
-                android:scaleType="fitCenter"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/plus" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
+        <LinearLayout
+            android:id="@+id/linlay1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="0.2"
-            android:gravity="center"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp">
+            android:layout_below="@id/choose_org"
+            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-light"
-                android:layout_marginTop="10dp"
-                android:text="@string/new_problem_photo"
-                android:textSize="18sp" />
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
 
-        </RelativeLayout>
+                <ImageButton
+                    android:id="@+id/problem_photo_btn"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:background="@color/white"
+                    android:scaleType="fitCenter"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/plus" />
 
-    </LinearLayout>
+            </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_problem_photo" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="0.2"
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
 
-    <Button android:id="@+id/btn_problem"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:text="@string/problem_hint_photo"
+                    android:textSize="18sp" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:id="@+id/accept_btn"
+            android:layout_height="100dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/imageView_result1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_problem_photo" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/imageView_result2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_problem_photo" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/imageView_result3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_problem_photo" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/problem_photo_num"
+            android:textSize="18sp" />
+
+        <Button android:id="@+id/btn_problem"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/new_problem_btn_send"

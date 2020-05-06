@@ -2,7 +2,6 @@ package com.example.problemsolver;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -11,20 +10,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import android.Manifest;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.DocumentsContract;
-import android.provider.MediaStore;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -44,14 +37,16 @@ public class ProblemResultActivity extends AppCompatActivity {
 
     private Button resultBtn;
     private EditText resultComment;
-    private ImageView resultPhoto;
+    private ImageView resultPhoto, resultPhoto1, resultPhoto2, resultPhoto3;
     private String token;
     private SharedPreferences settings;
 
     private final int Pick_image = 1;
-    private ImageButton pickImage;
-    private String pictureId;
+    private ImageButton pickImageBtn;
+    private String pictureId, picture1Id, picture2Id, picture3Id;
     private Bitmap selectedImage;
+
+    private boolean photo1 = false, photo2 = false, photo3 = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,15 +61,18 @@ public class ProblemResultActivity extends AppCompatActivity {
         resultBtn = findViewById(R.id.btn_result);
         resultComment = findViewById(R.id.problem_result_comment);
 
-        resultPhoto = findViewById(R.id.imageView_result);
-        pickImage = findViewById(R.id.problem_photo_btn);
+        pickImageBtn = findViewById(R.id.problem_photo_btn);
 
-        pickImage.setOnClickListener(v -> {
+        resultPhoto1 = findViewById(R.id.imageView_result1);
+        resultPhoto2 = findViewById(R.id.imageView_result2);
+        resultPhoto3 = findViewById(R.id.imageView_result3);
+
+
+        pickImageBtn.setOnClickListener(v -> {
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
             photoPickerIntent.setType("image/*");
             startActivityForResult(photoPickerIntent, Pick_image);
         });
-
 
         resultBtn.setOnClickListener(view -> {
             DBFile dbFile = new DBFile(pictureId);
@@ -86,9 +84,7 @@ public class ProblemResultActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
-
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-
         switch(requestCode) {
             case Pick_image:
                 if (resultCode == RESULT_OK) {
@@ -96,12 +92,31 @@ public class ProblemResultActivity extends AppCompatActivity {
                     if (imageUri != null) {
                         showMessage("Фото загружается");
                         resultBtn.setClickable(false);
+                        /*
                         uploadFile(imageUri);
+                        if (!photo1){
+                            picture1Id = pictureId;
+                        } else if (!photo2) {
+                            picture2Id = pictureId;
+                        } else if (!photo3) {
+                            picture3Id = pictureId;
+                        }
+                         */
                     }
                     try {
                         final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                         selectedImage = BitmapFactory.decodeStream(imageStream);
-                        resultPhoto.setImageBitmap(selectedImage);
+                        if (!photo1){
+                            photo1 = true;
+                            resultPhoto1.setImageBitmap(selectedImage);
+                        } else if (!photo2) {
+                            photo2 = true;
+                            resultPhoto2.setImageBitmap(selectedImage);
+                        } else if (!photo3) {
+                            photo3 = true;
+                            resultPhoto3.setImageBitmap(selectedImage);
+                        }
+                        //resultPhoto.setImageBitmap(selectedImage);
                     } catch (FileNotFoundException e) {
                         resultPhoto.setImageResource(R.drawable.status_pic_unsolved); //каринка "невозмонжо отобразить"
                     }

@@ -75,8 +75,12 @@
     <string name="new_problem_photo">Если возможно, загрузите фото</string>
 
     <string name="problem_result_hint_comment">Добавьте комментарий</string>
-    <string name="problem_result_hint_photo">Если возможно, загрузите фото</string>
     <string name="problem_result_btn_send">Сообщить о результате</string>
+
+
+
+    <string name="problem_hint_photo">Если возможно, загрузите фотографии</string>
+    <string name="problem_photo_num">Максимальное количество фотографий - три</string>
 
     <string name="profile_btn_info">Информация</string>
     <string name="profile_btn_participate">Я участвую</string>
