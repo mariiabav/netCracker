@@ -123,11 +123,11 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
 
         allAreasBtn.setOnClickListener(view -> {
 
-            allAreasBtn.setBackgroundColor(R.color.red);
-            allAreasBtn.setTextColor(R.color.white);
+            allAreasBtn.setBackgroundColor(getResources().getColor(R.color.red));
+            allAreasBtn.setTextColor(getResources().getColor(R.color.white));
 
-            myAreasBtn.setBackgroundColor(R.color.light_grey);
-            myAreasBtn.setTextColor(R.color.vinous);
+            myAreasBtn.setBackgroundColor(getResources().getColor(R.color.light_grey));
+            myAreasBtn.setTextColor(getResources().getColor(R.color.vinous));
 
             onlyMyAreas = false;
 
@@ -137,11 +137,11 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
 
         myAreasBtn.setOnClickListener(view -> {
 
-            myAreasBtn.setBackgroundColor(R.color.red);
-            myAreasBtn.setTextColor(R.color.white);
+            myAreasBtn.setBackgroundColor(getResources().getColor(R.color.red));
+            myAreasBtn.setTextColor(getResources().getColor(R.color.white));
 
-            allAreasBtn.setBackgroundColor(R.color.light_grey);
-            allAreasBtn.setTextColor(R.color.vinous);
+            allAreasBtn.setBackgroundColor(getResources().getColor(R.color.light_grey));
+            allAreasBtn.setTextColor(getResources().getColor(R.color.vinous));
 
             onlyMyAreas = true;
 
@@ -152,14 +152,14 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
         solvedTopBtn.setOnClickListener(view -> {
             sortBy = "solvedProblemsCount";
 
-            solvedTopBtn.setBackgroundColor(R.color.red);
-            solvedTopBtn.setTextColor(R.color.white);
+            solvedTopBtn.setBackgroundColor(getResources().getColor(R.color.red));
+            solvedTopBtn.setTextColor(getResources().getColor(R.color.white));
 
-            inProcessTopBtn.setBackgroundColor(R.color.light_grey);
-            inProcessTopBtn.setTextColor(R.color.vinous);
+            inProcessTopBtn.setBackgroundColor(getResources().getColor(R.color.light_grey));
+            inProcessTopBtn.setTextColor(getResources().getColor(R.color.vinous));
 
-            unsolvedTopBtn.setBackgroundColor(R.color.light_grey);
-            unsolvedTopBtn.setTextColor(R.color.vinous);
+            unsolvedTopBtn.setBackgroundColor(getResources().getColor(R.color.light_grey));
+            unsolvedTopBtn.setTextColor(getResources().getColor(R.color.vinous));
 
             showMessage("решенные");
             swipeRefreshLayout.setRefreshing(true);
@@ -169,14 +169,14 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
         inProcessTopBtn.setOnClickListener(view -> {
             sortBy = "inProcessProblemsCount";
 
-            inProcessTopBtn.setBackgroundColor(R.color.red);
-            inProcessTopBtn.setTextColor(R.color.white);
+            inProcessTopBtn.setBackgroundColor(getResources().getColor(R.color.red));
+            inProcessTopBtn.setTextColor(getResources().getColor(R.color.white));
 
-            solvedTopBtn.setBackgroundColor(R.color.light_grey);
-            solvedTopBtn.setTextColor(R.color.vinous);
+            solvedTopBtn.setBackgroundColor(getResources().getColor(R.color.light_grey));
+            solvedTopBtn.setTextColor(getResources().getColor(R.color.vinous));
 
-            unsolvedTopBtn.setBackgroundColor(R.color.light_grey);
-            unsolvedTopBtn.setTextColor(R.color.vinous);
+            unsolvedTopBtn.setBackgroundColor(getResources().getColor(R.color.light_grey));
+            unsolvedTopBtn.setTextColor(getResources().getColor(R.color.vinous));
 
             showMessage("организация решает");
             swipeRefreshLayout.setRefreshing(true);
@@ -186,14 +186,14 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
         unsolvedTopBtn.setOnClickListener(view -> {
             sortBy = "unsolvedProblemsCount";
 
-            unsolvedTopBtn.setBackgroundColor(R.color.red);
-            unsolvedTopBtn.setTextColor(R.color.white);
+            unsolvedTopBtn.setBackgroundColor(getResources().getColor(R.color.red));
+            unsolvedTopBtn.setTextColor(getResources().getColor(R.color.white));
 
-            inProcessTopBtn.setBackgroundColor(R.color.light_grey);
-            inProcessTopBtn.setTextColor(R.color.vinous);
+            inProcessTopBtn.setBackgroundColor(getResources().getColor(R.color.light_grey));
+            inProcessTopBtn.setTextColor(getResources().getColor(R.color.vinous));
 
-            solvedTopBtn.setBackgroundColor(R.color.light_grey);
-            solvedTopBtn.setTextColor(R.color.vinous);
+            solvedTopBtn.setBackgroundColor(getResources().getColor(R.color.light_grey));
+            solvedTopBtn.setTextColor(getResources().getColor(R.color.vinous));
 
             showMessage("просрочены или нерешенные");
             swipeRefreshLayout.setRefreshing(true);

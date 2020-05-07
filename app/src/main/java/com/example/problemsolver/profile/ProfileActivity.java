@@ -138,11 +138,11 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
 
 
         mySupportBtn.setOnClickListener(view -> {
-            mySupportBtn.setBackgroundColor(R.color.red);
-            mySupportBtn.setTextColor(R.color.white);
+            mySupportBtn.setBackgroundColor(getResources().getColor(R.color.red));
+            mySupportBtn.setTextColor(getResources().getColor(R.color.white));
 
-            myAddingsBtn.setBackgroundColor(R.color.light_grey);
-            myAddingsBtn.setTextColor(R.color.vinous);
+            myAddingsBtn.setBackgroundColor(getResources().getColor(R.color.light_grey));
+            myAddingsBtn.setTextColor(getResources().getColor(R.color.vinous));
 
             //sortBy = ""; только на "поддерживаю"
             swipeRefreshLayout.setRefreshing(true);
@@ -150,11 +150,11 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
         });
 
         myAddingsBtn.setOnClickListener(view -> {
-            mySupportBtn.setBackgroundColor(R.color.light_grey);
-            mySupportBtn.setTextColor(R.color.vinous);
+            mySupportBtn.setBackgroundColor(getResources().getColor(R.color.light_grey));
+            mySupportBtn.setTextColor(getResources().getColor(R.color.vinous));
 
-            myAddingsBtn.setBackgroundColor(R.color.red);
-            myAddingsBtn.setTextColor(R.color.white);
+            myAddingsBtn.setBackgroundColor(getResources().getColor(R.color.red));
+            myAddingsBtn.setTextColor(getResources().getColor(R.color.white));
 
             //sortBy = ""; только на "созданные мной"
             swipeRefreshLayout.setRefreshing(true);
