@@ -1,327 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/scroll"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:id="@+id/activity_main"
     android:fillViewport="true"
-    tools:context=".profile.ProfileActivity">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        tools:context=".profile.ProfileActivity">
 
         <RelativeLayout
-            android:id="@+id/relay"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/profile_avatar_grad"
-            android:paddingBottom="20dp">
+            android:layout_height="match_parent">
 
             <RelativeLayout
-                android:id="@+id/imgUser"
-                android:layout_width="wrap_content"
+                android:id="@+id/relay"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/profile_avatar_circle_border">
+                android:background="@drawable/profile_avatar_grad"
+                android:paddingBottom="20dp">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/imgView_avatar"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_margin="9dp"
-                    android:background="@drawable/profile_avatar_circle"
-                    android:src="@drawable/ic_profile_avatar"/>
-
-                <TextView
-                    android:id="@+id/profile_plus_photo"
+                <RelativeLayout
+                    android:id="@+id/imgUser"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="0dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/profile_avatar_circle_border">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/imgView_avatar"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_margin="9dp"
+                        android:background="@drawable/profile_avatar_circle"
+                        android:src="@drawable/ic_profile_avatar"/>
+
+                    <TextView
+                        android:id="@+id/profile_plus_photo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="0dp"
+                        android:layout_marginTop="0sp"
+                        android:layout_marginEnd="0dp"
+                        android:fontFamily="sans-serif-light"
+                        android:textStyle="bold"
+                        android:text="+"
+                        android:onClick="uploadAvatar"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:textColor="@color/white"
+                        android:textSize="20sp" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/profile_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/imgUser"
+                    android:layout_centerHorizontal="true"
                     android:layout_marginTop="0sp"
-                    android:layout_marginEnd="0dp"
                     android:fontFamily="sans-serif-light"
-                    android:textStyle="bold"
-                    android:text="+"
-                    android:onClick="uploadAvatar"
-                    android:clickable="true"
-                    android:focusable="true"
+                    android:text="Евгений Белов"
                     android:textColor="@color/white"
                     android:textSize="20sp" />
-
             </RelativeLayout>
-
-            <TextView
-                android:id="@+id/profile_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/imgUser"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="0sp"
-                android:fontFamily="sans-serif-light"
-                android:text="Евгений Белов"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
-        </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:id="@+id/accept_btn"
-            android:layout_below="@id/relay"
-            android:layout_height="45dp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <Button android:id="@+id/btn_info"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/profile_btn_info"
-                    android:background="@color/red_dark"
-                    android:textColor="@color/white"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <Button android:id="@+id/btn_my_problems"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/profile_btn_participate"
-                    android:background="@color/gradStart"
-                    android:textColor="@color/white"/>
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-
-        <RelativeLayout
-            android:id="@+id/my_info_rellay"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/accept_btn">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/profile_info_status"
-                        android:textColor="@color/headings"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/profile_status"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:textColor="@color/black"
-                        android:text="Пользователь"
-                        android:textSize="18sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="15dp"
-                        android:background="@color/grey" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/profile_info_email"
-                        android:textColor="@color/headings"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/profile_email"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="belov@yandex.ru"
-                        android:textColor="@color/black"
-                        android:textSize="18sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="15dp"
-                        android:background="@color/grey" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/profile_info_number"
-                        android:textColor="@color/headings"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/profile_number"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="+7 (965) 071 55 12"
-                        android:textColor="@color/black"
-                        android:textSize="18sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="15dp"
-                        android:background="@color/grey" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/profile_info_date"
-                        android:textColor="@color/headings"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/profile_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="30.01.1983"
-                        android:textColor="@color/black"
-                        android:textSize="18sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="15dp"
-                        android:background="@color/grey" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/profile_info_areas"
-                        android:textColor="@color/headings"
-                        android:textSize="13sp" />
-
-
-                    <TextView
-                        android:id="@+id/profile_area1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text=""
-                        android:textColor="@color/black"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/profile_area2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text=""
-                        android:textColor="@color/black"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/profile_area3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text=""
-                        android:textColor="@color/black"
-                        android:textSize="18sp" />
-
-
-                </LinearLayout>
-
-            </LinearLayout>
-            <Button android:id="@+id/btn_events"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ивенты"
-                android:background="@color/red"
-                android:layout_marginTop="10dp"
-                android:layout_alignParentRight="true"
-                android:textColor="@android:color/white"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="50dp"
-                android:layout_marginRight="50dp"
-                android:layout_marginEnd="50dp" />
-
-
-        </RelativeLayout>
-
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/frame_recycler_view"
-            android:layout_below="@+id/accept_btn">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginTop="5dp">
+                android:id="@+id/accept_btn"
+                android:layout_below="@id/relay"
+                android:layout_height="45dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
                     android:layout_weight="1">
 
-                    <Button android:id="@+id/btn_my_addings"
+                    <Button android:id="@+id/btn_info"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="Я сообщил"
-                        android:background="@color/red"
+                        android:text="@string/profile_btn_info"
+                        android:background="@color/red_dark"
                         android:textColor="@color/white"/>
 
                 </RelativeLayout>
@@ -329,39 +95,273 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
                     android:layout_weight="1">
 
-                    <Button android:id="@+id/btn_my_support"
+                    <Button android:id="@+id/btn_my_problems"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="Я подписался"
-                        android:background="@color/light_grey"
-                        android:textColor="@color/vinous"/>
+                        android:text="@string/profile_btn_participate"
+                        android:background="@color/gradStart"
+                        android:textColor="@color/white"/>
 
                 </RelativeLayout>
 
             </LinearLayout>
 
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/main_swiperefresh"
+
+            <RelativeLayout
+                android:id="@+id/my_info_rellay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/accept_btn">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/profile_info_status"
+                            android:textColor="@color/headings"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/profile_status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:textColor="@color/black"
+                            android:text="Пользователь"
+                            android:textSize="18sp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="15dp"
+                            android:background="@color/grey" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/profile_info_email"
+                            android:textColor="@color/headings"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/profile_email"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:text="belov@yandex.ru"
+                            android:textColor="@color/black"
+                            android:textSize="18sp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="15dp"
+                            android:background="@color/grey" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/profile_info_number"
+                            android:textColor="@color/headings"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/profile_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:text="+7 (965) 071 55 12"
+                            android:textColor="@color/black"
+                            android:textSize="18sp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="15dp"
+                            android:background="@color/grey" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/profile_info_date"
+                            android:textColor="@color/headings"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/profile_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:text="30.01.1983"
+                            android:textColor="@color/black"
+                            android:textSize="18sp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="15dp"
+                            android:background="@color/grey" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/profile_info_areas"
+                            android:textColor="@color/headings"
+                            android:textSize="13sp" />
+
+
+                        <TextView
+                            android:id="@+id/profile_area1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:text=""
+                            android:textColor="@color/black"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/profile_area2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:text=""
+                            android:textColor="@color/black"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/profile_area3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:text=""
+                            android:textColor="@color/black"
+                            android:textSize="18sp" />
+
+
+                    </LinearLayout>
+
+                    <Button android:id="@+id/btn_events"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ивенты"
+                        android:background="@color/red"
+                        android:textColor="@android:color/white" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="45dp">
+                android:id="@+id/frame_recycler_view"
+                android:layout_below="@+id/accept_btn">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/problem_recycler"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="45dp"
+                    android:layout_marginTop="5dp">
 
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_weight="1">
 
-            <include layout="@layout/feed_error_layout"/>
+                        <Button android:id="@+id/btn_my_addings"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Я сообщил"
+                            android:background="@color/red"
+                            android:textColor="@color/white"/>
 
-        </FrameLayout>
+                    </RelativeLayout>
 
-    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_weight="1">
 
-</LinearLayout>
+                        <Button android:id="@+id/btn_my_support"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Я подписался"
+                            android:background="@color/light_grey"
+                            android:textColor="@color/vinous"/>
 
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                    android:id="@+id/main_swiperefresh"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="45dp">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/problem_recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+                <include layout="@layout/feed_error_layout"/>
+
+            </FrameLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

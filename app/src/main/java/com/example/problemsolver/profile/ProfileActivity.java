@@ -230,13 +230,21 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
                     public void onResponse(@NonNull Call<AuthorizedPerson> call, @NonNull Response<AuthorizedPerson> response) {
                         if (response.isSuccessful()) {
                             role = settings.getString("Roles", "");
-                            if(role.equals("ROLE_ADMIN")) {
-                                eventsBtn.setVisibility(View.VISIBLE);
-                                profileStatus.setText("Администратор");
-                            }
-                            else if(role.equals("ROLE_USER")) {
-                               eventsBtn.setVisibility(View.GONE);
-                                profileStatus.setText("Пользователь");
+                            switch (role) {
+                                case "ROLE_ADMIN":
+                                    eventsBtn.setVisibility(View.VISIBLE);
+                                    profileStatus.setText("Администратор");
+                                    break;
+                                case "ROLE_USER":
+                                    eventsBtn.setVisibility(View.GONE);
+                                    profileStatus.setText("Пользователь");
+                                    break;
+                                case "ROLE_SERVANT":
+                                    eventsBtn.setVisibility(View.GONE);
+                                    myAddingsBtn.setVisibility(View.GONE);
+                                    mySupportBtn.setVisibility(View.GONE);
+                                    profileStatus.setText("Представитель организации");
+                                    break;
                             }
 
                             authorizedPerson = response.body();
@@ -257,6 +265,7 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
                             areaView[1] = area2View;
                             areaView[2] = area3View;
 
+
                             int i = 0;
                             for (PersonArea personArea: personAreas){
                                 areaView[i].setText(personArea.getAreaName());
@@ -266,6 +275,7 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
                             showMessage("Сервер вернул ошибку. Информация о пользователе не получена.");
                         }
                     }
+                    //НЕ ВЫПОЛНЯЕТСЯ ЗАПРОС
                     @Override
                     public void onFailure(@NonNull Call<AuthorizedPerson> call, @NonNull Throwable t) {
                         showMessage("Ошибка во время выполнения запроса. Информация о пользователе не получена.");
@@ -376,23 +386,6 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
         swipeRefreshLayout.setRefreshing(false);
     }
 
-    /*
-    private void setSortBy() {
-        if (checkBoxMyProblems.isChecked()) {
-            if (checkBoxSupportProblems.isChecked()) {
-                //sortBy на и то, и другое
-            } else {
-                //sortBy только на "созданные"
-            }
-        } else {
-            if (checkBoxSupportProblems.isChecked()) {
-                //sortBy только на "поддерживаю"
-            } else {
-                //sortBy и на то, и на другое
-            }
-        }
-    }
-*/
     private void loadFirstPage() {
         Log.d(TAG, "loadFirstPage: ");
 

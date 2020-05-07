@@ -87,7 +87,6 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
 
         settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
         token = settings.getString("JWT","");
-        token = settings.getString("JWT","");
         personId = settings.getString("id", "");
         pictureId = getIntent().getStringExtra("picture_id");
         problemId = getIntent().getStringExtra("problem_id");

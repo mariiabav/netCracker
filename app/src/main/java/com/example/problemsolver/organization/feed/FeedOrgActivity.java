@@ -100,19 +100,6 @@ public class FeedOrgActivity extends AppCompatActivity implements PaginationAdap
         inProcessTopBtn = findViewById(R.id.in_proccess_top_btn);
         unsolvedTopBtn = findViewById(R.id.unsolved_top_btn);
 
-/*
-        checkBoxAllAreas = findViewById(R.id.checkBox1);
-        checkBoxMyAreas = findViewById(R.id.checkBox2);
-
-        checkBoxCreated = findViewById(R.id.checkBox3);
-        checkBoxInProcess = findViewById(R.id.checkBox4);
-        checkBoxSolved = findViewById(R.id.checkBox5);
-*/
-        /*
-        solvedTopBtn.setVisibility(View.INVISIBLE);
-        inProcessTopBtn.setVisibility(View.INVISIBLE);
-        unsolvedTopBtn.setVisibility(View.INVISIBLE);
-         */
         adapter = new OrgPaginationAdapter(this);
 
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);

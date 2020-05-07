@@ -2,6 +2,7 @@ package com.example.problemsolver.profile;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +14,12 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.SharedPreferences;
 
+import com.example.problemsolver.ApplicationService;
 import com.example.problemsolver.ProblemResultActivity;
+import com.example.problemsolver.authorized.AuthorizedPerson;
+import com.example.problemsolver.authorized.PersonArea;
 import com.example.problemsolver.problemFeed.page.ProblemPageActivity;
 import com.example.problemsolver.problemFeed.model.Feed2Problem;
 import com.example.problemsolver.R;
@@ -26,6 +31,10 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -42,12 +51,17 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
 
     private String errorMsg;
     private String personId;
+    private String role;
+    private String token;
+    private SharedPreferences settings;
 
     ProblemPaginationAdapter(Context context, String personId) {
         this.context = context;
         this.mCallback = (PaginationAdapterCallback) context;
         problemsResults = new ArrayList<>();
         this.personId = personId;
+        settings = context.getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
+        token = settings.getString("JWT","");
     }
 
     public List<Feed2Problem> getProblems() {
@@ -81,7 +95,6 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
         Feed2Problem result = problemsResults.get(position);
 
         switch (getItemViewType(position)) {
-
             case ITEM:
                 final ProblemVH problemVH = (ProblemVH) holder;
 
@@ -89,6 +102,16 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
                 problemVH.mDate.setText(result.getCreationDate().substring(0, 10));
                 problemVH.mProblemType.setText(result.getProblemName());
                 problemVH.mRate.setText("Рейтинг: " + result.getRate().toString());
+
+                role = settings.getString("Roles", "");
+                if ("ROLE_SERVANT".equals(role)) {
+                    problemVH.applyBtn.setText("Изменить статус");
+                    if (!result.getStatus().equals("created")){
+                        problemVH.applyBtn.setClickable(false);
+                        problemVH.applyBtn.setBackgroundColor(context.getResources().getColor(R.color.light_grey));
+                        problemVH.applyBtn.setTextColor(context.getResources().getColor(R.color.vinous));
+                    }
+                }
 
                 problemVH.itemView.setOnClickListener(view -> {
                     Intent intent = new Intent(view.getContext(), ProblemPageActivity.class);
@@ -113,8 +136,17 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
                 });
 
                 problemVH.applyBtn.setOnClickListener(view -> {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://letters.gov.spb.ru/reception/form/"));
-                    context.startActivity(browserIntent);
+                    if ("ROLE_SERVANT".equals(role)) {
+                        changeProblemStatusToInProcess(result.getId());
+                        problemVH.applyBtn.setClickable(false);
+                        problemVH.applyBtn.setBackgroundColor(context.getResources().getColor(R.color.light_grey));
+                        problemVH.applyBtn.setTextColor(context.getResources().getColor(R.color.vinous));
+
+                    } else {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://letters.gov.spb.ru/reception/form/"));
+                        context.startActivity(browserIntent);
+                    }
+
                 });
 
                 problemVH.reportBtn.setOnClickListener(view -> {
@@ -146,6 +178,28 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
                 break;
         }
     }
+
+    private void changeProblemStatusToInProcess(String problemId) {
+        ApplicationService.getInstance()
+                .getJSONApi()
+                .putStatusByOrg(token, problemId)
+                .enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                        if (response.isSuccessful()){
+                            showMessage("Статус проблемы был изменен на /в процессе/.");
+                        }
+                        else {
+                            showMessage("Сервер вернул ошибку. Статус проблемы не был изменен.");
+                        }
+                    }
+                    @Override
+                    public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                        showMessage("Ошибка во время выполнения запроса. Статус проблемы не был изменен.");
+                    }
+                });
+    }
+
 
     private void showMessage(String string){
         Toast t = Toast.makeText(context.getApplicationContext(), string, Toast.LENGTH_SHORT);
@@ -228,6 +282,7 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
         private TextView mRate;
         private Button applyBtn, reportBtn;
         private ImageView mProblemImg;
+
 
         public ProblemVH(View itemView) {
             super(itemView);

@@ -236,4 +236,10 @@ public interface ServerApi {
             @Body Event event
             );
 
+    @Headers("Content-Type: application/json")
+    @PUT("/process")
+    Call<Void> putStatusByOrg(
+            @Header("Authorization") String token,
+            @Query("problemId") String problemId
+    );
 }
