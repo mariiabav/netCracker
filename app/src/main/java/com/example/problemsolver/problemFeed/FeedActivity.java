@@ -228,7 +228,7 @@ public class FeedActivity extends AppCompatActivity implements PaginationAdapter
         return serverApi.getAllProblems(
                 token,
                 currentPage,
-                3,
+                6,
                 "rate",
                 "desc",
                 json

@@ -6,7 +6,6 @@ import androidx.annotation.RequiresApi;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 import java.util.Objects;
 
@@ -36,12 +35,15 @@ public class Feed2Problem {
     @SerializedName("coordinates")
     @Expose
     private String coordinates;
-    @SerializedName("picture")
+    @SerializedName("pictures")
     @Expose
-    private Picture picture;
+    private List<String> pictures;
     @SerializedName("personsOfThisProblemAsParticipant")
     @Expose
     private List<String> personsOfThisProblemAsParticipant;
+    @SerializedName("lastChangeTime")
+    @Expose
+    private String lastChangeTime;
 
     public Feed2Problem() {
     }
@@ -114,20 +116,28 @@ public class Feed2Problem {
         this.coordinates = coordinates;
     }
 
-    public Picture getPicture() {
-        return picture;
-    }
-
-    public void setPicture(Picture picture) {
-        this.picture = picture;
-    }
-
     public List<String> getPersonsOfThisProblemAsParticipant() {
         return personsOfThisProblemAsParticipant;
     }
 
     public void setPersonsOfThisProblemAsParticipant(List<String> personsOfThisProblemAsParticipant) {
         this.personsOfThisProblemAsParticipant = personsOfThisProblemAsParticipant;
+    }
+
+    public List<String> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(List<String> pictures) {
+        this.pictures = pictures;
+    }
+
+    public String getLastChangeTime() {
+        return lastChangeTime;
+    }
+
+    public void setLastChangeTime(String lastChangeTime) {
+        this.lastChangeTime = lastChangeTime;
     }
 
     @Override

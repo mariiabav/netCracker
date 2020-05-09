@@ -58,6 +58,16 @@
                 android:id="@+id/map"
                 android:layout_width="wrap_content"
                 android:layout_height="300dp" />
+            <ImageButton
+                android:id="@+id/geo_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/geolocation_icon"
+                android:background="@android:color/transparent"
+                android:layout_marginStart="5dp">
+            </ImageButton>
 
             <ImageView
                 android:id="@+id/transparent_image"

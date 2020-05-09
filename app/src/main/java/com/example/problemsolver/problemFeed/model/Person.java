@@ -40,9 +40,6 @@ public class Person {
     @Expose
     private String birthDate;
 
-    public Person() {
-    }
-
     public Person(String id) {
         this.id = id;
     }

@@ -124,11 +124,6 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
 
                     //тут надо не рейтинг результата, а запрос лайки и дизлайки по id проблемы
                     intent.putExtra("problem_likes",  result.getRate().toString());
-                    if(result.getPicture() != null) {
-                        intent.putExtra("picture_id", result.getPicture().getId());
-                    }
-
-
                     intent.putExtra("problem_status", result.getStatus());
                     intent.putExtra("problem_id", result.getId());
 

@@ -136,6 +136,7 @@ public class NewProblemActivity extends Activity implements PaginationAdapterCal
     private String sortBy = "rate";
     private ServerApi serverApi;
     private String orgId;
+    private ImageButton geoBtn;
 
     private boolean photo1 = false, photo2 = false, photo3 = false;
 
@@ -169,6 +170,7 @@ public class NewProblemActivity extends Activity implements PaginationAdapterCal
         description = findViewById(R.id.editText_new_problem_description);
         mapView = findViewById(R.id.map);
         layoutAddress = findViewById(R.id.editText_new_problem_address);
+        geoBtn = findViewById(R.id.geo_icon);
 
 
         pickImageBtn = findViewById(R.id.problem_photo_btn);
@@ -198,6 +200,10 @@ public class NewProblemActivity extends Activity implements PaginationAdapterCal
             problemType = type.getText().toString();
             problemDescription = description.getText().toString();
             createNewProblem();
+        });
+
+        geoBtn.setOnClickListener(view -> {
+            locationUpdate();
         });
 
 
@@ -497,25 +503,27 @@ public class NewProblemActivity extends Activity implements PaginationAdapterCal
                 myLongitude = location.getPosition().getLongitude();
                 myLatitude = location.getPosition().getLatitude();
                 myLocation = new Point(myLatitude, myLongitude);
-                placemarkMapObject = mapView.getMap().getMapObjects().addPlacemark(myLocation, ImageProvider.fromResource(getApplicationContext(), R.drawable.red_geo_point));
-                placemarkMapObject.setDraggable(true);
+                if(placemarkMapObject == null) {
+                    placemarkMapObject = mapView.getMap().getMapObjects().addPlacemark(myLocation, ImageProvider.fromResource(getApplicationContext(), R.drawable.red_geo_point));
+                    placemarkMapObject.setDraggable(true);
+                    placemarkMapObject.setDragListener(new MapObjectDragListener() {
+                        @Override
+                        public void onMapObjectDragStart(@NonNull MapObject mapObject) {
+
+                        }
+
+                        @Override
+                        public void onMapObjectDrag(@NonNull MapObject mapObject, @NonNull Point point) {
+                        }
+
+                        @Override
+                        public void onMapObjectDragEnd(@NonNull MapObject mapObject) {
+                            coordinates = placemarkMapObject.getGeometry().getLongitude() + ", " + placemarkMapObject.getGeometry().getLatitude();
+                            addressRequest();
+                        }
+                    });
+                }
                 mapView.getMap().move(new CameraPosition(myLocation, 25.0f, 0.0f, 0.0f));
-                placemarkMapObject.setDragListener(new MapObjectDragListener() {
-                    @Override
-                    public void onMapObjectDragStart(@NonNull MapObject mapObject) {
-
-                    }
-
-                    @Override
-                    public void onMapObjectDrag(@NonNull MapObject mapObject, @NonNull Point point) {
-                    }
-
-                    @Override
-                    public void onMapObjectDragEnd(@NonNull MapObject mapObject) {
-                        coordinates = placemarkMapObject.getGeometry().getLongitude() + ", " + placemarkMapObject.getGeometry().getLatitude();
-                        addressRequest();
-                    }
-                });
             }
 
             @Override

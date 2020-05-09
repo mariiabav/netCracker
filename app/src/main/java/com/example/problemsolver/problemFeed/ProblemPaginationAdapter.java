@@ -2,6 +2,7 @@ package com.example.problemsolver.problemFeed;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +18,14 @@ import com.example.problemsolver.problemFeed.model.Feed2Problem;
 import com.example.problemsolver.R;
 import com.example.problemsolver.utils.PaginationAdapterCallback;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -55,6 +59,7 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
         this.problemsResults = movieResults;
     }
 
+    @NotNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder = null;
@@ -75,7 +80,7 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Feed2Problem result = problemsResults.get(position); // Movie
+        Feed2Problem result = problemsResults.get(position);
 
         switch (getItemViewType(position)) {
 
@@ -88,6 +93,7 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
                 problemVH.mRate.setText("Рейтинг: " + result.getRate().toString());
 
                 problemVH.itemView.setOnClickListener(new View.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(view.getContext(), ProblemPageActivity.class);
@@ -100,11 +106,6 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
 
                         //тут надо не рейтинг результата, а запрос лайки и дизлайки по id проблемы
                         intent.putExtra("problem_likes",  result.getRate().toString());
-                        if(result.getPicture() != null) {
-                            intent.putExtra("picture_id", result.getPicture().getId());
-                        }
-
-
                         intent.putExtra("problem_status", result.getStatus());
                         intent.putExtra("problem_id", result.getId());
 
