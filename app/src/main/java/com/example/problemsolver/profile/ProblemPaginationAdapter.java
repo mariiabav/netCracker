@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,16 +21,23 @@ import com.example.problemsolver.ApplicationService;
 import com.example.problemsolver.ProblemResultActivity;
 import com.example.problemsolver.authorized.AuthorizedPerson;
 import com.example.problemsolver.authorized.PersonArea;
+import com.example.problemsolver.problemFeed.model.ProblemLastVisits;
 import com.example.problemsolver.problemFeed.page.ProblemPageActivity;
 import com.example.problemsolver.problemFeed.model.Feed2Problem;
 import com.example.problemsolver.R;
 import com.example.problemsolver.utils.PaginationAdapterCallback;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import retrofit2.Call;
@@ -90,6 +98,7 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
         return viewHolder;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Feed2Problem result = problemsResults.get(position);
@@ -97,7 +106,20 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
         switch (getItemViewType(position)) {
             case ITEM:
                 final ProblemVH problemVH = (ProblemVH) holder;
+                if(result.getProblemLastVisits().stream().noneMatch( o -> o.getPerson().equals(personId))) {
+                    problemVH.notification.setVisibility(View.VISIBLE);
+                }
+                else {
+                    List<ProblemLastVisits> results = result.getProblemLastVisits().stream()
+                            .filter( o -> o.getPerson().equals(personId))
+                            .collect(Collectors.toList());
+                    for (ProblemLastVisits res : results) {
+                        if (Timestamp.valueOf(res.getLastVisitTime().replace("T"," ")).before(Timestamp.valueOf(result.getLastChangeTime().replace("T", " ")))) {
+                            problemVH.notification.setVisibility(View.VISIBLE);
+                        }
+                    }
 
+                }
                 problemVH.mProblemTitle.setText(result.getAddress().toString());
                 problemVH.mDate.setText(result.getCreationDate().substring(0, 10));
                 problemVH.mProblemType.setText(result.getProblemName());
@@ -126,7 +148,7 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
                     intent.putExtra("problem_likes",  result.getRate().toString());
                     intent.putExtra("problem_status", result.getStatus());
                     intent.putExtra("problem_id", result.getId());
-
+                    visitProblem(result.getId());
                     view.getContext().startActivity(intent);
                 });
 
@@ -193,6 +215,21 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
                         showMessage("Ошибка во время выполнения запроса. Статус проблемы не был изменен.");
                     }
                 });
+    }
+
+    private void visitProblem(String problemId) {
+        ApplicationService.getInstance().getJSONApi()
+                .visitProblem(token, problemId, personId).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
     }
 
 
@@ -276,7 +313,7 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
         private TextView mDate;
         private TextView mRate;
         private Button applyBtn, reportBtn;
-        private ImageView mProblemImg;
+        private ImageView mProblemImg, notification;
 
 
         public ProblemVH(View itemView) {
@@ -289,6 +326,7 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
             mProblemImg = itemView.findViewById(R.id.imgView_status_pic);
             applyBtn = itemView.findViewById(R.id.apply_btn);
             reportBtn = itemView.findViewById(R.id.report_button);
+            notification = itemView.findViewById(R.id.imgView_notification);
         }
     }
 

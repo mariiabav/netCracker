@@ -45,6 +45,9 @@ public class Feed2Problem {
     @Expose
     private String lastChangeTime;
 
+    @SerializedName("problemLastVisits")
+    @Expose
+    private List<ProblemLastVisits> problemLastVisits;
     public Feed2Problem() {
     }
 
@@ -138,6 +141,14 @@ public class Feed2Problem {
 
     public void setLastChangeTime(String lastChangeTime) {
         this.lastChangeTime = lastChangeTime;
+    }
+
+    public List<ProblemLastVisits> getProblemLastVisits() {
+        return problemLastVisits;
+    }
+
+    public void setProblemLastVisits(List<ProblemLastVisits> problemLastVisits) {
+        this.problemLastVisits = problemLastVisits;
     }
 
     @Override

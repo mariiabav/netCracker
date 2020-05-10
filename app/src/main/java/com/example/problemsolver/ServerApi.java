@@ -219,14 +219,15 @@ public interface ServerApi {
     );
 
     @Headers("Content-Type: application/json")
-    @GET("/api/problem/myProblems")
+    @GET("/api/problem/{personId}")
     Call<FeedResponse> getMyProblems(
             @Header("Authorization") String token,
+            @Path("personId") String personId,
             @Query("pageNumber") Integer pageNumber,
             @Query("pageSize") Integer pageSize,
             @Query("sortBy") String sortBy,
             @Query("sortHow") String sortHow,
-            @Query("personId") String personId
+            @Query("filter") String filter
     );
 
     @Headers("Content-Type: application/json")
@@ -241,5 +242,13 @@ public interface ServerApi {
     Call<Void> putStatusByOrg(
             @Header("Authorization") String token,
             @Query("problemId") String problemId
+    );
+
+    @Headers("Content-Type: application/json")
+    @PUT("/api/problem/visit/{problem}")
+    Call<Void> visitProblem(
+            @Header("Authorization") String token,
+            @Path("problem") String problemId,
+            @Query("personId") String personId
     );
 }

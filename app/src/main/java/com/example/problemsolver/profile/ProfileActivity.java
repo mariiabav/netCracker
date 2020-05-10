@@ -87,6 +87,7 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
 
     private String token;
     private String personId;
+    private String filter;
     private SharedPreferences settings;
     private ServerApi serverApi;
 
@@ -136,7 +137,7 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
         mySupportBtn = findViewById(R.id.btn_my_support);
         myAddingsBtn = findViewById(R.id.btn_my_addings);
 
-
+        filter = "owner";
         mySupportBtn.setOnClickListener(view -> {
             mySupportBtn.setBackgroundColor(getResources().getColor(R.color.red));
             mySupportBtn.setTextColor(getResources().getColor(R.color.white));
@@ -144,7 +145,7 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
             myAddingsBtn.setBackgroundColor(getResources().getColor(R.color.light_grey));
             myAddingsBtn.setTextColor(getResources().getColor(R.color.vinous));
 
-            //sortBy = ""; только на "поддерживаю"
+            filter = "participant";
             swipeRefreshLayout.setRefreshing(true);
             doRefresh();
         });
@@ -156,7 +157,7 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
             myAddingsBtn.setBackgroundColor(getResources().getColor(R.color.red));
             myAddingsBtn.setTextColor(getResources().getColor(R.color.white));
 
-            //sortBy = ""; только на "созданные мной"
+            filter = "owner";
             swipeRefreshLayout.setRefreshing(true);
             doRefresh();
         });
@@ -454,11 +455,12 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
     private Call<FeedResponse> callServerApi() {
         return serverApi.getMyProblems(
                 token,
+                personId,
                 currentPage,
                 3,
                 sortBy,
                 "desc",
-                personId
+                filter
         );
     }
 
