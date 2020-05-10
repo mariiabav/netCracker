@@ -77,7 +77,8 @@ public class FeedActivity extends AppCompatActivity implements PaginationAdapter
         //arrayList.add(new SearchCriteria("rate", ">", "0"));
         //arrayList.add(new SearchCriteria("rate", "<","40"));
 
-        json = new Gson().toJson(arrayList);
+        json = settings.getString("feed_settings", "");
+        System.out.println(json);
 
         rv = findViewById(R.id.main_recycler);
         progressBar = findViewById(R.id.main_progress);

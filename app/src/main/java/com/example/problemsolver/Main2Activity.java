@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.app.DatePickerDialog;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.format.DateUtils;
@@ -28,6 +29,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -45,6 +47,7 @@ public class Main2Activity extends AppCompatActivity {
     private Long minRateValue, maxRateValue;
     private Button saveBtn;
     private String[] allAreas;
+    private SharedPreferences settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,19 +92,32 @@ public class Main2Activity extends AppCompatActivity {
             searchCriteriaList.add(new SearchCriteria("rate", ">", String.valueOf(minRateValue)));
             searchCriteriaList.add(new SearchCriteria("rate", "<", String.valueOf(maxRateValue)));
 
+            StringBuilder statusList = new StringBuilder("");
             if (checkBoxCreated.isChecked()) {
-                searchCriteriaList.add(new SearchCriteria("status", "=", "created"));
+                statusList.append("created").append(",");
             }
 
             if (checkBoxInProcess.isChecked()) {
-                searchCriteriaList.add(new SearchCriteria("status", "=", "in_process"));
+                statusList.append("in_process").append(",");
             }
 
             if (checkBoxSolved.isChecked()) {
-                searchCriteriaList.add(new SearchCriteria("status", "=", "solved"));
+                statusList.append("solved").append(",");
             }
+            if( statusList.length() > 0 ) {
+                statusList.deleteCharAt(statusList.length() - 1);
+                searchCriteriaList.add(new SearchCriteria("status", "in", statusList.toString()));
+            }
+            String startDateMonth = checkCalendar(startDateCal.get(Calendar.MONTH) + 1);
+            String startDateDay = checkCalendar(startDateCal.get(Calendar.DAY_OF_MONTH));
+            String endDateMonth = checkCalendar(endDateCal.get(Calendar.MONTH) + 1);
+            String endDateDay = checkCalendar(endDateCal.get(Calendar.DAY_OF_MONTH));
 
-            searchCriteriaList.add(new SearchCriteria("creationDate", "between", startDateCal + "," + endDateCal));
+            String startDate = startDateCal.get(Calendar.YEAR) + "-" + startDateMonth + "-" + startDateDay;
+            String endDate = endDateCal.get(Calendar.YEAR) + "-" + endDateMonth + "-" + endDateDay;
+            searchCriteriaList.add(new SearchCriteria("creationDate", "between", startDate + "," + endDate));
+            System.out.println(startDate);
+            System.out.println(endDate);
 
             ArrayList<String> checkedAreas = new ArrayList<>();
             SparseBooleanArray sbArray = areaList.getCheckedItemPositions();
@@ -121,6 +137,11 @@ public class Main2Activity extends AppCompatActivity {
             }
 
             searchCriteriaList.add(new SearchCriteria("areaName", "in", result.toString()));
+
+            Gson gson = new Gson();
+            String json = gson.toJson(searchCriteriaList);
+            settings = getSharedPreferences("AuthPrefs", MODE_PRIVATE);
+            settings.edit().putString("feed_settings", json).apply();
 
         });
 
@@ -175,5 +196,14 @@ public class Main2Activity extends AppCompatActivity {
         endDateCal.set(Calendar.MONTH, monthOfYear);
         endDateCal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         setInitialDateTimeEnd();
+    };
+
+    private String checkCalendar(int number) {
+        if(String.valueOf(number).length() < 2) {
+            return "0" + number;
+        }
+        else {
+            return String.valueOf(number);
+        }
     };
 }
