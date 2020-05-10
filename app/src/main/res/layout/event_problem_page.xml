@@ -31,10 +31,8 @@
         android:id="@+id/accept_btn"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:layout_below="@+id/scale"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="15dp">
+        android:layout_below="@+id/problem_result_user_comment"
+        android:layout_marginTop="15dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -105,6 +103,20 @@
                 android:onClick="onRadioButtonClicked"></RadioButton>
 
     </RadioGroup>
+
+    <TextView
+        android:id="@+id/problem_result_user_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/scale"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:text="Комментарий пользователя"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+
 
     <RelativeLayout
         android:id="@+id/rellay"
