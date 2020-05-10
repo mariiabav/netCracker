@@ -25,9 +25,9 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText emailField, passwordField;
     private Button loginBtn, registerBtn;
-    private String email, password, token;
+    private String email, password, token, role, id;
 
-    private SharedPreferences settings;
+    private static SharedPreferences settings;
     private PersonRoles personRoles;
 
     @Override
@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn = findViewById(R.id.btn_login);
         registerBtn = findViewById(R.id.btn_signup);
 
-        settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
+        settings = getSharedPreferences("AuthPrefs", Context.MODE_MULTI_PROCESS);
 
         loginBtn.setOnClickListener(view -> {
             email = emailField.getText().toString();
@@ -53,10 +53,9 @@ public class LoginActivity extends AppCompatActivity {
                     .enqueue(new Callback<Void>() {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
-                            SharedPreferences.Editor prefEditor = settings.edit();
                             token = response.headers().get("Authorization");
                             if(token != null) {
-                                prefEditor.putString("JWT", token);
+                                settings.edit().putString("JWT", token).commit();
                                 ApplicationService.getInstance()
                                         .getJSONApi()
                                         .getPersonRoles(token)
@@ -65,12 +64,12 @@ public class LoginActivity extends AppCompatActivity {
                                             public void onResponse(@NonNull Call<PersonRoles> call, @NonNull Response<PersonRoles> response) {
                                                 if (response.isSuccessful()) {
                                                     personRoles = response.body();
-                                                    String role = personRoles.getRole().getName();
-                                                    prefEditor.putString("Roles", role);
-                                                    prefEditor.putString("id", personRoles.getId());
-                                                    prefEditor.apply();
-                                                } else {
-
+                                                    role = personRoles.getRole().getName();
+                                                    id = personRoles.getId();
+                                                    settings.edit().putString("Roles", role).commit();
+                                                    settings.edit().putString("id", id).commit();
+                                                    Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
+                                                    startActivity(intent);
                                                 }
                                             }
 
@@ -79,9 +78,6 @@ public class LoginActivity extends AppCompatActivity {
 
                                             }
                                         });
-
-                                Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
-                                startActivity(intent);
                             }
                             else{
                                 showMessage("Неверный логин или пароль");

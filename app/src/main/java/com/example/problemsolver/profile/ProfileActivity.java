@@ -106,7 +106,7 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
+        settings = getSharedPreferences("AuthPrefs", Context.MODE_MULTI_PROCESS);
         token = settings.getString("JWT","");
         personId = settings.getString("id","");
 
@@ -300,7 +300,7 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
                 break;
             case R.id.menu_exit:
                 Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
-                settings.edit().remove("JWT").remove("id").remove("Roles").apply();
+                settings.edit().remove("JWT").remove("id").remove("Roles").commit();
                 intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
                 break;

@@ -58,11 +58,10 @@ public class FeedActivity extends AppCompatActivity implements PaginationAdapter
     private boolean isLastPage = false;
     private List<SearchCriteria> arrayList;
 
-    private int total_pages;
     private int currentPage = PAGE_START;
 
     private ServerApi serverApi;
-    private SharedPreferences settings;
+    private static SharedPreferences settings;
     private String token, json;
 
     @Override
@@ -72,13 +71,15 @@ public class FeedActivity extends AppCompatActivity implements PaginationAdapter
         settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
         token = settings.getString("JWT","");
         String personId = settings.getString("id", "");
-        arrayList = new ArrayList<>();
-        arrayList.add(new SearchCriteria("areaName", "in", "Выборгский район,Калининский район"));
-        //arrayList.add(new SearchCriteria("rate", ">", "0"));
-        //arrayList.add(new SearchCriteria("rate", "<","40"));
-
-        json = settings.getString("feed_settings", "");
-        System.out.println(json);
+        if(settings.getString("feed_settings", "").equals("")) {
+            arrayList = new ArrayList<>();
+            arrayList.add(new SearchCriteria("rate", ">", "-10000"));
+            Gson gson = new Gson();
+            json = gson.toJson(arrayList);
+        }
+        else {
+            json = settings.getString("feed_settings", "");
+        }
 
         rv = findViewById(R.id.main_recycler);
         progressBar = findViewById(R.id.main_progress);

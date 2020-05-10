@@ -37,7 +37,6 @@ public class DashboardActivity extends AppCompatActivity {
             }
             FCMtoken = task.getResult().getToken();
         });
-
         profile = findViewById(R.id.relay_profile);
         problem = findViewById(R.id.relay_new_problems);
         feed = findViewById(R.id.relay_feed);
@@ -48,7 +47,7 @@ public class DashboardActivity extends AppCompatActivity {
         settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
         settings.edit().putString("FCM", FCMtoken).apply();
         role = settings.getString("Roles", "");
-
+        System.out.println(role);
         problem.setOnClickListener(view -> {
             Intent intent = new Intent(DashboardActivity.this, NewProblemActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);

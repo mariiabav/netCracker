@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -142,6 +143,9 @@ public class Main2Activity extends AppCompatActivity {
             String json = gson.toJson(searchCriteriaList);
             settings = getSharedPreferences("AuthPrefs", MODE_PRIVATE);
             settings.edit().putString("feed_settings", json).apply();
+
+            Intent intent = new Intent(Main2Activity.this, DashboardActivity.class);
+            startActivity(intent);
 
         });
 

@@ -67,7 +67,6 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="0sp"
                     android:fontFamily="sans-serif-light"
-                    android:text="Евгений Белов"
                     android:textColor="@color/white"
                     android:textSize="20sp" />
             </RelativeLayout>
@@ -142,7 +141,6 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-light"
                             android:textColor="@color/black"
-                            android:text="Пользователь"
                             android:textSize="18sp" />
 
                         <View
@@ -170,7 +168,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-light"
-                            android:text="belov@yandex.ru"
                             android:textColor="@color/black"
                             android:textSize="18sp" />
 
@@ -200,7 +197,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-light"
-                            android:text="+7 (965) 071 55 12"
                             android:textColor="@color/black"
                             android:textSize="18sp" />
 
@@ -230,7 +226,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-light"
-                            android:text="30.01.1983"
                             android:textColor="@color/black"
                             android:textSize="18sp" />
 
