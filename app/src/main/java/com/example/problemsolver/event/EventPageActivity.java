@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -29,6 +30,12 @@ public class EventPageActivity extends AppCompatActivity {
     private String token, personId, problemId, eventStatus, eventId, result, moderatorId;
     private String scale;
     private RadioGroup radioGroup;
+    private ImageView mProblemImg;
+
+    private String statusInit = "init", statusCreated = "created", statusNotified = "notified",
+            statusInProcess = "in_process", statusSolved = "solved",
+            statusUnsolved = "unsolved", statusClosed = "closed";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +53,7 @@ public class EventPageActivity extends AppCompatActivity {
         radioGroup.setVisibility(View.GONE);
 
 
+
         address = findViewById(R.id.address);
         date = findViewById(R.id.date);
         type = findViewById(R.id.problem_type);
@@ -53,13 +61,14 @@ public class EventPageActivity extends AppCompatActivity {
         //rating = findViewById(R.id.rating);
         result_user_comment = findViewById(R.id.problem_result_user_comment);
 
-        //status = findViewById(R.id.status);
+        mProblemImg = findViewById(R.id.imgView_status_pic);
         acceptBtn = findViewById(R.id.accept);
         rejectBtn = findViewById(R.id.reject);
 
         //rating.setText(getIntent().getStringExtra("problem_rating"));
         address.setText(getIntent().getStringExtra("problem_address"));
 
+        setStatusPic();
 
         if(getIntent().getStringExtra("problem_scale") == null) {
             radioGroup.setVisibility(View.VISIBLE);
@@ -143,6 +152,24 @@ public class EventPageActivity extends AppCompatActivity {
         }
 
         //status.setText("Статус: " + serverStatus);
+    }
+
+    void setStatusPic(){
+        if (eventStatus.equals(statusCreated)){
+            mProblemImg.setImageResource(R.drawable.status_pic_unsolved);
+
+        } else if (eventStatus.equals(statusInProcess) || eventStatus.equals(statusNotified)) {
+            mProblemImg.setImageResource(R.drawable.status_pic_in_progress);
+
+        } else if (eventStatus.equals(statusInit)) {
+            mProblemImg.setImageResource(R.drawable.status_pic_init);
+
+        } else if (eventStatus.equals(statusSolved)) {
+            mProblemImg.setImageResource(R.drawable.status_pic_solved);
+
+        } else if (eventStatus.equals(statusUnsolved) || eventStatus.equals(statusClosed)) {
+            mProblemImg.setImageResource(R.drawable.status_pic_closed);
+        }
     }
 
     private void showMessage(String string) {

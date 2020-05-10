@@ -63,6 +63,11 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
     private String token;
     private SharedPreferences settings;
 
+    private String statusInit = "init", statusCreated = "created", statusNotified = "notified",
+            statusInProcess = "in_process", statusSolved = "solved",
+            statusUnsolved = "unsolved", statusClosed = "closed";
+
+
     ProblemPaginationAdapter(Context context, String personId) {
         this.context = context;
         this.mCallback = (PaginationAdapterCallback) context;
@@ -98,6 +103,24 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
         return viewHolder;
     }
 
+    void setStatusPic(Feed2Problem result, ProblemVH problemVH){
+        if (result.getStatus().equals(statusCreated)){
+            problemVH.mProblemImg.setImageResource(R.drawable.status_pic_unsolved);
+
+        } else if (result.getStatus().equals(statusInProcess) || result.getStatus().equals(statusNotified)) {
+            problemVH.mProblemImg.setImageResource(R.drawable.status_pic_in_progress);
+
+        } else if (result.getStatus().equals(statusInit)) {
+            problemVH.mProblemImg.setImageResource(R.drawable.status_pic_init);
+
+        } else if (result.getStatus().equals(statusSolved)) {
+            problemVH.mProblemImg.setImageResource(R.drawable.status_pic_solved);
+
+        } else if (result.getStatus().equals(statusUnsolved) || result.getStatus().equals(statusClosed)) {
+            problemVH.mProblemImg.setImageResource(R.drawable.status_pic_closed);
+        }
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
@@ -124,6 +147,8 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
                 problemVH.mDate.setText(result.getCreationDate().substring(0, 10));
                 problemVH.mProblemType.setText(result.getProblemName());
                 problemVH.mRate.setText("Рейтинг: " + result.getRate().toString());
+
+                setStatusPic(result, problemVH);
 
                 role = settings.getString("Roles", "");
                 if ("ROLE_SERVANT".equals(role)) {
