@@ -78,7 +78,7 @@ public class CommentPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
                 final ProblemVH problemVH = (ProblemVH) holder;
                 problemVH.person.setText(result.getPerson().getFirstName() + " " + result.getPerson().getSecondName());
                 problemVH.text.setText(result.getText());
-                problemVH.creationDate.setText(result.getCreationDate());
+                problemVH.creationDate.setText(result.getCreationDate().substring(0, 10));
 
                 break;
 

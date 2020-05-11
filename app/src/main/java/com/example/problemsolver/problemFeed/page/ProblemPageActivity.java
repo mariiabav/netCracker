@@ -35,6 +35,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.problemsolver.ApplicationService;
 import com.example.problemsolver.Assessment;
 import com.example.problemsolver.event.Model.Problem;
+import com.example.problemsolver.problemFeed.ProblemPaginationAdapter;
 import com.example.problemsolver.problemFeed.model.Comment;
 import com.example.problemsolver.problemFeed.model.CommentResponse;
 import com.example.problemsolver.problemFeed.model.Feed2Problem;
@@ -52,7 +53,7 @@ import java.util.concurrent.TimeoutException;
 public class ProblemPageActivity extends AppCompatActivity implements PaginationAdapterCallback {
 
     private RelativeLayout likesRelay, dislikesRelay;
-    private ImageView imageLikes, imageDislikes, status, picture;
+    private ImageView imageLikes, imageDislikes, statusImg, picture;
     private TextView likes, dislikes, address, date, type, description, txtError;
     private EditText newComment;
     private Button retryBtn, sendCommentBtn, supportBtn;
@@ -79,6 +80,9 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
     private ServerApi serverApi;
     private SharedPreferences settings;
 
+    private String statusInit = "init", statusCreated = "created", statusNotified = "notified",
+            statusInProcess = "in_process", statusSolved = "solved",
+            statusUnsolved = "unsolved", statusClosed = "closed";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +108,7 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
         date = findViewById(R.id.textView_date);
         type = findViewById(R.id.textView_problem_type);
         description = findViewById(R.id.textView_problem_description);
-        status = findViewById(R.id.imgView_status_pic);
+        statusImg = findViewById(R.id.imgView_status_pic);
 
         likesRelay = findViewById(R.id.relay_like);
         dislikesRelay = findViewById(R.id.relay_dislike);
@@ -221,22 +225,10 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
         address.setText(getIntent().getStringExtra("problem_address"));
         type.setText(getIntent().getStringExtra("problem_type"));
         description.setText(getIntent().getStringExtra("problem_description"));
-        date.setText(getIntent().getStringExtra("problem_date"));
+        date.setText(getIntent().getStringExtra("problem_date").substring(0, 10));
         assessmentRequest(token, problemId);
-
         String serverStatus = getIntent().getStringExtra("problem_status");
-
-        switch (serverStatus) {
-            case "created":
-                status.setImageResource(R.drawable.status_pic_unsolved);
-                break;
-            case "in_process":
-                status.setImageResource(R.drawable.status_pic_in_progress);
-                break;
-            case "solved":
-                status.setImageResource(R.drawable.status_pic_solved);
-                break;
-        }
+        setStatusPic(serverStatus);
 
         adapter = new CommentPaginationAdapter(this);
 
@@ -271,6 +263,23 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
         swipeRefreshLayout.setOnRefreshListener(this::doRefresh);
     }
 
+    void setStatusPic(String serverStatus){
+        if (serverStatus.equals(statusCreated)){
+            statusImg.setImageResource(R.drawable.status_pic_unsolved);
+
+        } else if (serverStatus.equals(statusInProcess) || serverStatus.equals(statusNotified)) {
+            statusImg.setImageResource(R.drawable.status_pic_in_progress);
+
+        } else if (serverStatus.equals(statusInit)) {
+            statusImg.setImageResource(R.drawable.status_pic_init);
+
+        } else if (serverStatus.equals(statusSolved)) {
+            statusImg.setImageResource(R.drawable.status_pic_solved);
+
+        } else if (serverStatus.equals(statusUnsolved) || serverStatus.equals(statusClosed)) {
+            statusImg.setImageResource(R.drawable.status_pic_closed);
+        }
+    }
     private void showMessage(String string) {
         Toast t = Toast.makeText(this, string, Toast.LENGTH_SHORT);
         t.show();

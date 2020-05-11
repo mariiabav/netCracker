@@ -466,6 +466,7 @@ public class NewProblemActivity extends Activity implements PaginationAdapterCal
                         Address fullAddress = new Address(street, building, area);
                         Owner owner = new Owner(personId);
                         DBFile dbFile = new DBFile(pictureId);
+
                         RegisteredOrganization org = new RegisteredOrganization(UUID.fromString(orgId));
                         NewProblem newProblem = new NewProblem(fullAddress, problemType, problemDescription, "init",  coordinates, owner, dbFile, org);
 

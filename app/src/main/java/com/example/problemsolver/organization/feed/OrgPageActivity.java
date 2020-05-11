@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +20,14 @@ public class OrgPageActivity extends AppCompatActivity {
 
     private String token, personId, problemId;
 
+    private String statusInit = "init", statusCreated = "created", statusNotified = "notified",
+            statusInProcess = "in_process", statusSolved = "solved",
+            statusUnsolved = "unsolved", statusClosed = "closed";
+
+    private ImageView statusImg;
+    private TextView address, date, type, description, rating;
+    private Button supportBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,12 +38,14 @@ public class OrgPageActivity extends AppCompatActivity {
         personId = settings.getString("id", "");
         problemId = getIntent().getStringExtra("problem_id");
 
-        TextView address = findViewById(R.id.address);
-        TextView date = findViewById(R.id.date);
-        TextView type = findViewById(R.id.problem_type);
-        TextView description = findViewById(R.id.problem_description);
-        TextView rating = findViewById(R.id.rating);
-        Button supportBtn = findViewById(R.id.btn_support);
+
+        address = findViewById(R.id.address);
+        date = findViewById(R.id.date);
+        type = findViewById(R.id.problem_type);
+        description = findViewById(R.id.problem_description);
+        rating = findViewById(R.id.rating);
+        supportBtn = findViewById(R.id.btn_support);
+        statusImg = findViewById(R.id.imgView_status_pic);
 
         supportBtn.setOnClickListener(view -> {
             ApplicationService.getInstance()
@@ -57,25 +68,11 @@ public class OrgPageActivity extends AppCompatActivity {
         address.setText(getIntent().getStringExtra("problem_address"));
         type.setText(getIntent().getStringExtra("problem_type"));
         description.setText(getIntent().getStringExtra("problem_description"));
-        date.setText(getIntent().getStringExtra("problem_date"));
+        date.setText(getIntent().getStringExtra("problem_date").substring(0, 10));
         rating.setText("Рейтинг: " + getIntent().getStringExtra("problem_rating"));
 
-
         String serverStatus = getIntent().getStringExtra("problem_status");
-        switch (serverStatus) {
-            case "created":
-                serverStatus = "создана";
-                break;
-            case "in process":
-                serverStatus = "в процессе";
-                break;
-            case "solved":
-                serverStatus = "решена";
-                break;
-            case "rejected":
-                serverStatus = "отклонена";
-                break;
-        }
+        setStatusPic(serverStatus);
 
         //status.setText("Статус: " + serverStatus);
     }
@@ -83,5 +80,23 @@ public class OrgPageActivity extends AppCompatActivity {
     private void showMessage(String string) {
         Toast t = Toast.makeText(this, string, Toast.LENGTH_SHORT);
         t.show();
+    }
+
+    void setStatusPic(String serverStatus){
+        if (serverStatus.equals(statusCreated)){
+            statusImg.setImageResource(R.drawable.status_pic_unsolved);
+
+        } else if (serverStatus.equals(statusInProcess) || serverStatus.equals(statusNotified)) {
+            statusImg.setImageResource(R.drawable.status_pic_in_progress);
+
+        } else if (serverStatus.equals(statusInit)) {
+            statusImg.setImageResource(R.drawable.status_pic_init);
+
+        } else if (serverStatus.equals(statusSolved)) {
+            statusImg.setImageResource(R.drawable.status_pic_solved);
+
+        } else if (serverStatus.equals(statusUnsolved) || serverStatus.equals(statusClosed)) {
+            statusImg.setImageResource(R.drawable.status_pic_closed);
+        }
     }
 }
