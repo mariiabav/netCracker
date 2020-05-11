@@ -140,7 +140,7 @@ public interface ServerApi {
     );
 
     @Multipart
-    @POST("/uploadFile")
+    @POST("/files")
     Call<Photo> uploadFile(
             @Header("Authorization") String token,
             //@Query("multipartFile") MultipartFile file
@@ -250,5 +250,13 @@ public interface ServerApi {
             @Header("Authorization") String token,
             @Path("problem") String problemId,
             @Query("personId") String personId
+    );
+
+    @Headers("Content-Type: application/json")
+    @PUT("/api/person/{personId}/userpic")
+    Call<Void> updateUserpic(
+            @Header("Authorization") String token,
+            @Path("personId") String personId,
+            @Query("userpicUrl") String userpicUrl
     );
 }

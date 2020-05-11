@@ -43,6 +43,9 @@ public class AuthorizedPerson {
     @SerializedName("birthDate")
     @Expose
     private String birthDate;
+    @SerializedName("userpic")
+    @Expose
+    private String userpic;
 
     public String getId() {
         return id;
@@ -140,4 +143,11 @@ public class AuthorizedPerson {
         this.birthDate = birthDate;
     }
 
+    public String getUserpic() {
+        return userpic;
+    }
+
+    public void setUserpic(String userpic) {
+        this.userpic = userpic;
+    }
 }

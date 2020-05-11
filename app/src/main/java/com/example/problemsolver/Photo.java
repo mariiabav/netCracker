@@ -6,60 +6,27 @@ import com.google.gson.annotations.SerializedName;
 
 public class Photo {
 
-    @SerializedName("id")
+    @SerializedName("message")
     @Expose
-    private String id;
-    @SerializedName("fileName")
+    private String message;
+
+    @SerializedName("url")
     @Expose
-    private String fileName;
-    @SerializedName("fileDownloadUri")
-    @Expose
-    private String fileDownloadUri;
-    @SerializedName("fileType")
-    @Expose
-    private String fileType;
-    @SerializedName("size")
-    @Expose
-    private Integer size;
+    private String url;
 
-    public String getId() {
-        return id;
+    public String getMessage() {
+        return message;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public String getFileName() {
-        return fileName;
+    public String getUrl() {
+        return url;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setUrl(String url) {
+        this.url = url;
     }
-
-    public String getFileDownloadUri() {
-        return fileDownloadUri;
-    }
-
-    public void setFileDownloadUri(String fileDownloadUri) {
-        this.fileDownloadUri = fileDownloadUri;
-    }
-
-    public String getFileType() {
-        return fileType;
-    }
-
-    public void setFileType(String fileType) {
-        this.fileType = fileType;
-    }
-
-    public Integer getSize() {
-        return size;
-    }
-
-    public void setSize(Integer size) {
-        this.size = size;
-    }
-
 }

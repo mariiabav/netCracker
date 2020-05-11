@@ -140,7 +140,7 @@ public class ProblemResultActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(@NonNull Call<Photo> call, @NonNull Response<Photo> response) {
                                 if (response.isSuccessful()){
-                                    pictureId = response.body().getId();
+                                    pictureId = response.body().getUrl();
                                 }
                                 else {
 

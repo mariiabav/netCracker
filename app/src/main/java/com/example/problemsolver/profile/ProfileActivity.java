@@ -24,6 +24,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.model.LazyHeaders;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.problemsolver.ApplicationService;
 import com.example.problemsolver.Parser;
 import com.example.problemsolver.Photo;
@@ -86,7 +90,7 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
     private List<PersonArea> personAreas;
 
     private String token;
-    private String personId;
+    private String personId, userpicUrl;
     private String filter;
     private SharedPreferences settings;
     private ServerApi serverApi;
@@ -254,6 +258,7 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
                             number = authorizedPerson.getPhone();
                             date = authorizedPerson.getBirthDate();
                             personAreas = authorizedPerson.getPersonAreas();
+                            userpicUrl = authorizedPerson.getUserpic();
 
 
                             FScView.setText(FSc);
@@ -266,6 +271,12 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
                             areaView[1] = area2View;
                             areaView[2] = area3View;
 
+                            if(userpicUrl != null) {
+                                Glide.with(ProfileActivity.this)
+                                        .load(userpicUrl)
+                                        .apply(new RequestOptions().fitCenter())
+                                        .into(avatar);
+                            }
 
                             int i = 0;
                             for (PersonArea personArea: personAreas){
@@ -327,7 +338,7 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
                     Uri imageUri = imageReturnedIntent.getData();
                     if (imageUri != null) {
                         showMessage("Фото загружается");
-                        //uploadFile(imageUri);
+                        uploadFile(imageUri);
                     }
                     try {
                         final InputStream imageStream = getContentResolver().openInputStream(imageUri);
@@ -359,10 +370,8 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
                             @Override
                             public void onResponse(@NonNull Call<Photo> call, @NonNull Response<Photo> response) {
                                 if (response.isSuccessful()){
-                                    pictureId = response.body().getId();
-                                }
-                                else {
-
+                                    pictureId = response.body().getUrl();
+                                    updateUserpic();
                                 }
                             }
                             @Override
@@ -372,6 +381,30 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
                         });
             }
         }
+    }
+
+    private void updateUserpic() {
+        ApplicationService.getInstance()
+                .getJSONApi()
+                .updateUserpic(token, personId, pictureId)
+                .enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        showMessage("Аватарка успешно обновлена");
+                        personInfoRequest();
+                        if(userpicUrl != null) {
+                            Glide.with(ProfileActivity.this)
+                                    .load(userpicUrl)
+                                    .apply(new RequestOptions().fitCenter())
+                                    .into(avatar);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+
+                    }
+                });
     }
 
 
