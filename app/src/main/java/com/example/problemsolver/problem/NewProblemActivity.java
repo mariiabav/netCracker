@@ -37,7 +37,6 @@ import com.example.problemsolver.organization.model.FeedOrgResponse;
 import com.example.problemsolver.organization.model.RegisteredOrganization;
 import com.example.problemsolver.problem.model.Address;
 import com.example.problemsolver.problem.model.Area;
-import com.example.problemsolver.problem.model.DBFile;
 import com.example.problemsolver.problem.model.NewProblem;
 import com.example.problemsolver.problem.model.Owner;
 import com.example.problemsolver.R;
@@ -345,7 +344,6 @@ public class NewProblemActivity extends Activity implements PaginationAdapterCal
                             photo3 = true;
                             resultPhoto3.setImageBitmap(selectedImage);
                         }
-
                         //imageView.setImageBitmap(selectedImage);
                     } catch (FileNotFoundException e) {
                         imageView.setImageResource(R.drawable.status_pic_unsolved); //каринка "невозмонжо отобразить"

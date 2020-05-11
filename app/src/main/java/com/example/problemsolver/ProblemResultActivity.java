@@ -17,7 +17,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -26,12 +25,13 @@ import android.widget.Toast;
 
 import com.example.problemsolver.event.Model.Event;
 import com.example.problemsolver.event.Model.Problem;
-import com.example.problemsolver.problem.model.DBFile;
 import com.example.problemsolver.profile.ProfileActivity;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProblemResultActivity extends AppCompatActivity {
 
@@ -43,8 +43,10 @@ public class ProblemResultActivity extends AppCompatActivity {
 
     private final int Pick_image = 1;
     private ImageButton pickImageBtn;
-    private String pictureId, picture1Id, picture2Id, picture3Id;
+    private String pictureId;
     private Bitmap selectedImage;
+
+    private List<String> pictures = new ArrayList<>();
 
     private boolean photo1 = false, photo2 = false, photo3 = false;
 
@@ -75,8 +77,7 @@ public class ProblemResultActivity extends AppCompatActivity {
         });
 
         resultBtn.setOnClickListener(view -> {
-            DBFile dbFile = new DBFile(pictureId);
-            Event event = new Event(resultComment.getText().toString(), "solved", problem, dbFile);
+            Event event = new Event(resultComment.getText().toString(), "solved", problem, pictures);
             solvedProblemRequest(event);
         });
 
@@ -92,16 +93,8 @@ public class ProblemResultActivity extends AppCompatActivity {
                     if (imageUri != null) {
                         showMessage("Фото загружается");
                         resultBtn.setClickable(false);
-                        /*
                         uploadFile(imageUri);
-                        if (!photo1){
-                            picture1Id = pictureId;
-                        } else if (!photo2) {
-                            picture2Id = pictureId;
-                        } else if (!photo3) {
-                            picture3Id = pictureId;
-                        }
-                         */
+
                     }
                     try {
                         final InputStream imageStream = getContentResolver().openInputStream(imageUri);
@@ -141,6 +134,7 @@ public class ProblemResultActivity extends AppCompatActivity {
                             public void onResponse(@NonNull Call<Photo> call, @NonNull Response<Photo> response) {
                                 if (response.isSuccessful()){
                                     pictureId = response.body().getUrl();
+                                    pictures.add(pictureId);
                                 }
                                 else {
 

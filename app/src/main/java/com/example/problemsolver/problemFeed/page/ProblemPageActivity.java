@@ -13,7 +13,10 @@ import retrofit2.Response;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -47,6 +50,9 @@ import com.example.problemsolver.utils.PaginationAdapterCallback;
 import com.example.problemsolver.utils.PaginationScrollListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
@@ -84,6 +90,10 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
             statusInProcess = "in_process", statusSolved = "solved",
             statusUnsolved = "unsolved", statusClosed = "closed";
 
+    private ImageView [] problemImages = new ImageView [3];
+    private List<String> pictures = new ArrayList<>();
+    private Bitmap selectedImage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +104,30 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
         personId = settings.getString("id", "");
         pictureId = getIntent().getStringExtra("picture_id");
         problemId = getIntent().getStringExtra("problem_id");
+
+        problemImages[0] = findViewById(R.id.imgView_postPic1);
+        problemImages[1] = findViewById(R.id.imgView_postPic2);
+        problemImages[2] = findViewById(R.id.imgView_postPic3);
+        problemImages[0].setVisibility(View.GONE);
+        problemImages[1].setVisibility(View.GONE);
+        problemImages[2].setVisibility(View.GONE);
+
+        pictures = getIntent().getStringArrayListExtra("problem_pictures_list");
+        int i = 0;
+
+        if (pictures != null) {
+            for (String imageUri: pictures) {
+                try {
+                    final InputStream imageStream = getContentResolver().openInputStream(Uri.parse(imageUri));
+                    selectedImage = BitmapFactory.decodeStream(imageStream);
+                    problemImages[i].setVisibility(View.VISIBLE);
+                    problemImages[i].setImageBitmap(selectedImage);
+                    i++;
+                } catch (FileNotFoundException e) {
+
+                }
+            }
+        }
 
         supportBtn = findViewById(R.id.btn_support);
         showMessage(String.valueOf(getIntent().getBooleanExtra("is_participant", false)));
@@ -120,7 +154,7 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
 
         imageLikes = findViewById(R.id.imgView_like);
         imageDislikes = findViewById(R.id.imgView_dislike);
-        picture = findViewById(R.id.imgView_postPic);
+
 
         commentRecycler = findViewById(R.id.comment_recycler);
         newComment = findViewById(R.id.editText_post_comment);

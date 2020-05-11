@@ -105,6 +105,7 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     intent.putExtra("event_id", result.getId());
                     intent.putExtra("problem_scale", result.getProblem().getScale());
                     intent.putExtra("user_result_comment", result.getUserText());
+                    intent.putStringArrayListExtra("problem_pictures_list", (ArrayList<String>) result.getPictures());
 
                     view.getContext().startActivity(intent);
                 });

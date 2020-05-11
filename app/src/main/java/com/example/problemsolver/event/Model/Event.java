@@ -1,10 +1,10 @@
 
 package com.example.problemsolver.event.Model;
 
-import com.example.problemsolver.problem.model.DBFile;
-import com.example.problemsolver.problemFeed.model.Feed2Problem;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class Event {
 
@@ -34,16 +34,24 @@ public class Event {
     private Problem problem;
     @SerializedName("photo")
     @Expose
-    private DBFile photo;
+    private List<String> pictures;
 
     public Event() {
     }
 
-    public Event(String userText, String offerStatus, Problem problem, DBFile photo) {
+    public Event(String userText, String offerStatus, Problem problem, List<String> pictures) {
         this.userText = userText;
         this.offerStatus = offerStatus;
         this.problem = problem;
-        this.photo = photo;
+        this.pictures = pictures;
+    }
+
+    public List<String> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(List<String> pictures) {
+        this.pictures = pictures;
     }
 
     public String getId() {

@@ -1,194 +1,235 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_main"
+    android:fillViewport="true"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:layout_marginBottom="10dp"
-    android:background="@color/white">
-
-    <ImageView
-        android:id="@+id/imgView_postPic"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/problem_description"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="15dp"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_problem_photo" />
-
-    <ImageView
-        android:id="@+id/imgView_line"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_below="@+id/accept_btn"
-        android:layout_marginTop="10dp"
-        android:background="@color/light_grey" />
+    android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/accept_btn"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_below="@+id/problem_result_user_comment"
-        android:layout_marginTop="15dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_weight="1">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="10dp"
+            android:background="@color/white">
 
-            <Button
-                android:id="@+id/accept"
-                android:layout_width="fill_parent"
+            <ImageView
+                android:id="@+id/imgView_postPic1"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:background="@color/green"
-                android:text="Принять"
-                android:textColor="@android:color/black" />
+                android:layout_below="@+id/problem_description"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_problem_photo" />
 
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_weight="1">
-
-            <Button
-                android:id="@+id/reject"
-                android:layout_width="fill_parent"
+            <ImageView
+                android:id="@+id/imgView_postPic2"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:background="@color/red"
-                android:text="Отклонить"
-                android:textColor="@android:color/black" />
+                android:layout_below="@+id/imgView_postPic1"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_problem_photo" />
+
+            <ImageView
+                android:id="@+id/imgView_postPic3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgView_postPic2"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_problem_photo" />
+
+            <ImageView
+                android:id="@+id/imgView_line"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_below="@+id/accept_btn"
+                android:layout_marginTop="10dp"
+                android:background="@color/light_grey" />
+
+            <LinearLayout
+                android:id="@+id/accept_btn"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_below="@+id/problem_result_user_comment"
+                android:layout_marginTop="15dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_weight="1">
+
+                    <Button
+                        android:id="@+id/accept"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:background="@color/green"
+                        android:text="Принять"
+                        android:textColor="@android:color/black" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_weight="1">
+
+                    <Button
+                        android:id="@+id/reject"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:background="@color/red"
+                        android:text="Отклонить"
+                        android:textColor="@android:color/black" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <RadioGroup
+                android:id="@+id/scale"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgView_postPic3"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="15dp"
+                android:orientation="horizontal">
+                <!--android:visibility="gone"-->
+                <RadioButton
+                    android:id="@+id/small_rb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Маленькая"
+                    android:onClick="onRadioButtonClicked"></RadioButton>
+                <RadioButton
+                    android:id="@+id/medium_rb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Средняя"
+                    android:onClick="onRadioButtonClicked">
+                </RadioButton>
+                <RadioButton
+                    android:id="@+id/large_rb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Большая"
+                    android:onClick="onRadioButtonClicked"></RadioButton>
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/problem_result_user_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/scale"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:text="Комментарий пользователя"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+
+
+            <RelativeLayout
+                android:id="@+id/rellay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="15dp">
+
+                <ImageView
+                    android:id="@+id/imgView_status_pic"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="15dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/status_pic_unsolved" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="70dp"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Харченко, 16"
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:text="30.01.2020"
+                        android:textColor="@color/grey"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+
+            <TextView
+                android:id="@+id/problem_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rellay"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:text="Тип проблемы"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+
+            <TextView
+                android:id="@+id/problem_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/problem_type"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:text="Описание проблемы"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
 
         </RelativeLayout>
 
     </LinearLayout>
 
-    <RadioGroup
-        android:id="@+id/scale"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imgView_postPic"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginStart="15dp"
-        android:orientation="horizontal">
-        <!--android:visibility="gone"-->
-            <RadioButton
-                android:id="@+id/small_rb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Маленькая"
-                android:onClick="onRadioButtonClicked"></RadioButton>
-            <RadioButton
-                android:id="@+id/medium_rb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Средняя"
-                android:onClick="onRadioButtonClicked">
-            </RadioButton>
-            <RadioButton
-                android:id="@+id/large_rb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Большая"
-                android:onClick="onRadioButtonClicked"></RadioButton>
+</androidx.core.widget.NestedScrollView>
 
-    </RadioGroup>
-
-    <TextView
-        android:id="@+id/problem_result_user_comment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/scale"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="15dp"
-        android:text="Комментарий пользователя"
-        android:textColor="@color/black"
-        android:textSize="16sp" />
-
-
-
-    <RelativeLayout
-        android:id="@+id/rellay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginRight="15dp">
-
-        <ImageView
-            android:id="@+id/imgView_status_pic"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
-            android:layout_marginTop="15dp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/status_pic_unsolved" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="70dp"
-            android:orientation="vertical">
-
-
-            <TextView
-                android:id="@+id/address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:text="Харченко, 16"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:text="30.01.2020"
-                android:textColor="@color/grey"
-                android:textSize="13sp" />
-
-        </LinearLayout>
-
-    </RelativeLayout>
-
-
-    <TextView
-        android:id="@+id/problem_type"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rellay"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="15dp"
-        android:text="Тип проблемы"
-        android:textColor="@color/black"
-        android:textSize="16sp" />
-
-
-    <TextView
-        android:id="@+id/problem_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/problem_type"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="15dp"
-        android:text="Описание проблемы"
-        android:textColor="@color/black"
-        android:textSize="16sp" />
-
-
-</RelativeLayout>

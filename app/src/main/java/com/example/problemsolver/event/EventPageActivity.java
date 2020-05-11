@@ -3,10 +3,12 @@ package com.example.problemsolver.event;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -17,6 +19,12 @@ import com.example.problemsolver.ApplicationService;
 import com.example.problemsolver.R;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,12 +38,15 @@ public class EventPageActivity extends AppCompatActivity {
     private String token, personId, problemId, eventStatus, eventId, result, moderatorId;
     private String scale;
     private RadioGroup radioGroup;
-    private ImageView mProblemImg;
+    private ImageView mProblemStatus;
+    private ImageView [] problemImages = new ImageView [3];
 
     private String statusInit = "init", statusCreated = "created", statusNotified = "notified",
             statusInProcess = "in_process", statusSolved = "solved",
             statusUnsolved = "unsolved", statusClosed = "closed";
 
+    private List<String> pictures = new ArrayList<>();
+    private Bitmap selectedImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,19 +65,45 @@ public class EventPageActivity extends AppCompatActivity {
 
 
 
+        problemImages[0] = findViewById(R.id.imgView_postPic1);
+        problemImages[1] = findViewById(R.id.imgView_postPic2);
+        problemImages[2] = findViewById(R.id.imgView_postPic3);
+        problemImages[0].setVisibility(View.GONE);
+        problemImages[1].setVisibility(View.GONE);
+        problemImages[2].setVisibility(View.GONE);
+
+
         address = findViewById(R.id.address);
         date = findViewById(R.id.date);
         type = findViewById(R.id.problem_type);
         description = findViewById(R.id.problem_description);
-        //rating = findViewById(R.id.rating);
         result_user_comment = findViewById(R.id.problem_result_user_comment);
 
-        mProblemImg = findViewById(R.id.imgView_status_pic);
+        mProblemStatus = findViewById(R.id.imgView_status_pic);
         acceptBtn = findViewById(R.id.accept);
         rejectBtn = findViewById(R.id.reject);
 
-        //rating.setText(getIntent().getStringExtra("problem_rating"));
+
         address.setText(getIntent().getStringExtra("problem_address"));
+        pictures = getIntent().getStringArrayListExtra("problem_pictures_list");
+        int i = 0;
+
+        if (pictures != null) {
+            for (String imageUri: pictures) {
+                try {
+                    final InputStream imageStream = getContentResolver().openInputStream(Uri.parse(imageUri));
+                    selectedImage = BitmapFactory.decodeStream(imageStream);
+                    problemImages[i].setVisibility(View.VISIBLE);
+                    problemImages[i].setImageBitmap(selectedImage);
+                    i++;
+                } catch (FileNotFoundException e) {
+
+                }
+            }
+        }
+
+
+
 
         setStatusPic();
 
@@ -154,19 +191,19 @@ public class EventPageActivity extends AppCompatActivity {
 
     void setStatusPic(){
         if (eventStatus.equals(statusCreated)){
-            mProblemImg.setImageResource(R.drawable.status_pic_unsolved);
+            mProblemStatus.setImageResource(R.drawable.status_pic_unsolved);
 
         } else if (eventStatus.equals(statusInProcess) || eventStatus.equals(statusNotified)) {
-            mProblemImg.setImageResource(R.drawable.status_pic_in_progress);
+            mProblemStatus.setImageResource(R.drawable.status_pic_in_progress);
 
         } else if (eventStatus.equals(statusInit)) {
-            mProblemImg.setImageResource(R.drawable.status_pic_init);
+            mProblemStatus.setImageResource(R.drawable.status_pic_init);
 
         } else if (eventStatus.equals(statusSolved)) {
-            mProblemImg.setImageResource(R.drawable.status_pic_solved);
+            mProblemStatus.setImageResource(R.drawable.status_pic_solved);
 
         } else if (eventStatus.equals(statusUnsolved) || eventStatus.equals(statusClosed)) {
-            mProblemImg.setImageResource(R.drawable.status_pic_closed);
+            mProblemStatus.setImageResource(R.drawable.status_pic_closed);
         }
     }
 

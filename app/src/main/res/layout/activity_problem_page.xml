@@ -84,7 +84,29 @@
             android:textSize="16sp" />
 
         <ImageView
-            android:id="@+id/imgView_postPic"
+            android:id="@+id/imgView_postPic1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_problem_photo" />
+
+        <ImageView
+            android:id="@+id/imgView_postPic2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_problem_photo" />
+
+        <ImageView
+            android:id="@+id/imgView_postPic3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
