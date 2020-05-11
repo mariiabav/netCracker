@@ -39,6 +39,13 @@ public class Event {
     public Event() {
     }
 
+    public Event(String userText, String offerStatus, Problem problem, DBFile photo) {
+        this.userText = userText;
+        this.offerStatus = offerStatus;
+        this.problem = problem;
+        this.photo = photo;
+    }
+
     public String getId() {
         return id;
     }
@@ -47,11 +54,12 @@ public class Event {
         this.id = id;
     }
 
-    public Event(String userText, String offerStatus, Problem problem, DBFile photo) {
+    public String getUserText() {
+        return userText;
+    }
+
+    public void setUserText(String userText) {
         this.userText = userText;
-        this.offerStatus = offerStatus;
-        this.problem = problem;
-        this.photo = photo;
     }
 
     public String getOfferStatus() {
