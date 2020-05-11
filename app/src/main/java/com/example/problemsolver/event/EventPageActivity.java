@@ -15,8 +15,11 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.problemsolver.ApplicationService;
 import com.example.problemsolver.R;
+import com.example.problemsolver.problemFeed.page.ProblemPageActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -46,7 +49,7 @@ public class EventPageActivity extends AppCompatActivity {
             statusUnsolved = "unsolved", statusClosed = "closed";
 
     private List<String> pictures = new ArrayList<>();
-    private Bitmap selectedImage;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,18 +93,14 @@ public class EventPageActivity extends AppCompatActivity {
 
         if (pictures != null) {
             for (String imageUri: pictures) {
-                try {
-                    final InputStream imageStream = getContentResolver().openInputStream(Uri.parse(imageUri));
-                    selectedImage = BitmapFactory.decodeStream(imageStream);
-                    problemImages[i].setVisibility(View.VISIBLE);
-                    problemImages[i].setImageBitmap(selectedImage);
-                    i++;
-                } catch (FileNotFoundException e) {
-
-                }
+                problemImages[i].setVisibility(View.VISIBLE);
+                Glide.with(EventPageActivity.this)
+                        .load(imageUri)
+                        .apply(new RequestOptions().fitCenter())
+                        .into(problemImages[i]);
+                i++;
             }
         }
-
 
 
 

@@ -133,7 +133,6 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
                         intent.putExtra("problem_status", result.getStatus());
                         intent.putExtra("problem_id", result.getId());
                         intent.putStringArrayListExtra("problem_pictures_list", (ArrayList<String>) result.getPictures());
-
                         view.getContext().startActivity(intent);
                     }
                 });

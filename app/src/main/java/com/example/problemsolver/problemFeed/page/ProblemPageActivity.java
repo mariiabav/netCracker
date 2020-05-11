@@ -117,20 +117,16 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
 
         if (pictures != null) {
             for (String imageUri: pictures) {
-                try {
-                    final InputStream imageStream = getContentResolver().openInputStream(Uri.parse(imageUri));
-                    selectedImage = BitmapFactory.decodeStream(imageStream);
-                    problemImages[i].setVisibility(View.VISIBLE);
-                    problemImages[i].setImageBitmap(selectedImage);
-                    i++;
-                } catch (FileNotFoundException e) {
-
-                }
+                problemImages[i].setVisibility(View.VISIBLE);
+                Glide.with(ProblemPageActivity.this)
+                        .load(imageUri)
+                        .apply(new RequestOptions().fitCenter())
+                        .into(problemImages[i]);
+                i++;
             }
         }
 
         supportBtn = findViewById(R.id.btn_support);
-        showMessage(String.valueOf(getIntent().getBooleanExtra("is_participant", false)));
         if(getIntent().getBooleanExtra("is_participant", false)) {
             supportBtn.setText("Отписаться");
         }
@@ -393,7 +389,6 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
                     public void onResponse(@NonNull Call<MyAssessmentResponse> call, @NonNull Response<MyAssessmentResponse> response) {
                         if (response.isSuccessful()){
                             String myAssessment = response.body().getResponse();
-                            showMessage(myAssessment);
                             if(myAssessment.equals("like")){
                                 imageLikes.setImageResource(R.drawable.ic_pressed_like);
                                 pressedLikeBtn = true;
