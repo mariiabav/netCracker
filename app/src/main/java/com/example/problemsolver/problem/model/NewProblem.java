@@ -5,6 +5,8 @@ import com.example.problemsolver.organization.model.RegisteredOrganization;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class NewProblem {
 
     @SerializedName("address")
@@ -25,21 +27,21 @@ public class NewProblem {
     @SerializedName("owner")
     @Expose
     private Owner owner;
-    @SerializedName("picture")
+    @SerializedName("pictures")
     @Expose
-    private DBFile picture;
+    private List<String> pictures;
     @SerializedName("organization")
     @Expose
     private RegisteredOrganization orgId;
 
-    public NewProblem(Address address, String problemName, String description, String status,  String coordinates, Owner owner, DBFile dbFile, RegisteredOrganization orgId) {
+    public NewProblem(Address address, String problemName, String description, String status,  String coordinates, Owner owner, List<String> pictures, RegisteredOrganization orgId) {
         this.address = address;
         this.problemName = problemName;
         this.description = description;
         this.status = status;
         this.coordinates = coordinates;
         this.owner = owner;
-        this.picture = dbFile;
+        this.pictures = pictures;
         this.orgId = orgId;
     }
 
@@ -92,12 +94,12 @@ public class NewProblem {
         this.owner = owner;
     }
 
-    public DBFile getPicture() {
-        return picture;
+    public List<String> getPictures() {
+        return pictures;
     }
 
-    public void setPicture(DBFile picture) {
-        this.picture = picture;
+    public void setPictures(List<String> pictures) {
+        this.pictures = pictures;
     }
 
     public RegisteredOrganization getOrgId() {

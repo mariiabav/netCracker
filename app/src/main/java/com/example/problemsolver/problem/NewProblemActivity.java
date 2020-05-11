@@ -60,6 +60,7 @@ import com.yandex.runtime.image.ImageProvider;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeoutException;
@@ -137,6 +138,8 @@ public class NewProblemActivity extends Activity implements PaginationAdapterCal
     private ServerApi serverApi;
     private String orgId;
     private ImageButton geoBtn;
+
+    private List<String> pictures = new ArrayList<>();
 
     private boolean photo1 = false, photo2 = false, photo3 = false;
 
@@ -294,7 +297,7 @@ public class NewProblemActivity extends Activity implements PaginationAdapterCal
                             public void onResponse(@NonNull Call<Photo> call, @NonNull Response<Photo> response) {
                                 if (response.isSuccessful()){
                                     pictureId = response.body().getUrl();
-
+                                    pictures.add(pictureId);
                                 }
                                 else {
 
@@ -327,16 +330,7 @@ public class NewProblemActivity extends Activity implements PaginationAdapterCal
                     if (imageUri != null) {
                         showMessage("Фото загружается");
                         problem.setClickable(false);
-                        /*
                         uploadFile(imageUri);
-                        if (!photo1){
-                            picture1Id = pictureId;
-                        } else if (!photo2) {
-                            picture2Id = pictureId;
-                        } else if (!photo3) {
-                            picture3Id = pictureId;
-                        }
-                         */
                     }
                     try {
                         final InputStream imageStream = getContentResolver().openInputStream(imageUri);
@@ -465,10 +459,9 @@ public class NewProblemActivity extends Activity implements PaginationAdapterCal
                         Area area = new Area(adminAreaName);
                         Address fullAddress = new Address(street, building, area);
                         Owner owner = new Owner(personId);
-                        DBFile dbFile = new DBFile(pictureId);
 
                         RegisteredOrganization org = new RegisteredOrganization(UUID.fromString(orgId));
-                        NewProblem newProblem = new NewProblem(fullAddress, problemType, problemDescription, "init",  coordinates, owner, dbFile, org);
+                        NewProblem newProblem = new NewProblem(fullAddress, problemType, problemDescription, "init",  coordinates, owner, pictures, org);
 
                         ApplicationService.getInstance()
                                 .getJSONApi()
