@@ -74,6 +74,7 @@ public class FeedActivity extends AppCompatActivity implements PaginationAdapter
         if(settings.getString("feed_settings", "").equals("")) {
             arrayList = new ArrayList<>();
             arrayList.add(new SearchCriteria("rate", ">", "-10000"));
+            arrayList.add(new SearchCriteria("status", "in", "created,in_process,solved"));
             Gson gson = new Gson();
             json = gson.toJson(arrayList);
         }

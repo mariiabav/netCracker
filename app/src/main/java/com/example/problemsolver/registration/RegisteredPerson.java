@@ -39,9 +39,11 @@ public class RegisteredPerson {
     @Expose
     private String birthDate;
 
-
+    @SerializedName("orgCode")
+    @Expose
+    private String orgCode;
     public RegisteredPerson(String firstName, String secondName, String email1, String phone, String password1, String bithdate1, Role role,
-                            List<Area> personAreas) {
+                            List<Area> personAreas, String orgCode) {
         this.firstName = firstName;
         this.secondName = secondName;
         this.email = email1;
@@ -50,6 +52,7 @@ public class RegisteredPerson {
         this.birthDate = bithdate1;
         this.role = role;
         this.personAreas = personAreas;
+        this.orgCode = orgCode;
     }
 
     public List<Area> getPersonAreas() {

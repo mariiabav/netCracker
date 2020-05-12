@@ -236,20 +236,24 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
 
         sendCommentBtn.setOnClickListener(view -> {
             Comment comment = new Comment(new Person(personId), new Feed2Problem(problemId), newComment.getText().toString());
-            ApplicationService.getInstance()
-                    .getJSONApi()
-                    .createComment(token, comment)
-                    .enqueue(new Callback<CommentResponse>() {
-                        @Override
-                        public void onResponse(Call<CommentResponse> call, Response<CommentResponse> response) {
-                            showMessage("Комментарий успешно отправлен");
-                            doRefresh();
-                        }
-                        @Override
-                        public void onFailure(Call<CommentResponse> call, Throwable t) {
+            if(newComment.getText().length() > 0) {
+                ApplicationService.getInstance()
+                        .getJSONApi()
+                        .createComment(token, comment)
+                        .enqueue(new Callback<CommentResponse>() {
+                            @Override
+                            public void onResponse(Call<CommentResponse> call, Response<CommentResponse> response) {
+                                showMessage("Комментарий успешно отправлен");
+                                newComment.getText().clear();
+                                doRefresh();
+                            }
 
-                        }
-                    });
+                            @Override
+                            public void onFailure(Call<CommentResponse> call, Throwable t) {
+
+                            }
+                        });
+            }
 
         });
         address.setText(getIntent().getStringExtra("problem_address"));

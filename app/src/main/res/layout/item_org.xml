@@ -65,22 +65,39 @@
                 android:text="Рейтинг"
                 android:textColor="@color/grey"
                 android:textSize="13sp" />
+            <TextView
+                android:id="@+id/org_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="Всего проблем"
+                android:textColor="@color/grey"
+                android:textSize="13sp" />
+            <TextView
+                android:id="@+id/org_solved"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="Решенных проблем"
+                android:textColor="@color/grey"
+                android:textSize="13sp" />
+            <TextView
+                android:id="@+id/org_unsolved"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="Нерешенных проблем"
+                android:textColor="@color/grey"
+                android:textSize="13sp" />
+            <TextView
+                android:id="@+id/org_process"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="Нерешенных проблем"
+                android:textColor="@color/grey"
+                android:textSize="13sp" />
         </LinearLayout>
-
-        <ImageView
-            android:id="@+id/imgView_next"
-            android:layout_width="21dp"
-            android:layout_height="18dp"
-
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="15dp"
-
-            android:layout_marginRight="-5dp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/arrow_right"
-            android:layout_marginEnd="-5dp" />
 
     </RelativeLayout>
 

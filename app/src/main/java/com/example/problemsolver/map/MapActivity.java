@@ -122,14 +122,11 @@ public class MapActivity extends Activity implements UserLocationObjectListener,
                             String[] array = problem.getCoordinates().split(",");
                             Point point = new Point(Double.parseDouble(array[1]), Double.parseDouble(array[0]));
                             MapObject mapObject = mapView.getMap().getMapObjects().addPlacemark(point, ImageProvider.fromResource(getApplicationContext(), R.drawable.red_geo_point));
-                            String info = problem.getProblemName() + " " + problem.getDescription() + problem.getAddress().getStreet() + problem.getAddress().getBuilding();
+                            String info = problem.getProblemName() + "\n" + problem.getDescription() + "\n" + problem.getAddress().getStreet() + " " + problem.getAddress().getBuilding();
                             mapObject.setUserData(info);
-                            mapObject.addTapListener(new MapObjectTapListener() {
-                                @Override
-                                public boolean onMapObjectTap(@NonNull MapObject mapObject, @NonNull Point point) {
-                                    showMessage((String)mapObject.getUserData());
-                                    return true;
-                                }
+                            mapObject.addTapListener((mapObject1, point1) -> {
+                                showMessage((String) mapObject1.getUserData());
+                                return true;
                             });
                         }
                     }

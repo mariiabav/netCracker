@@ -86,19 +86,12 @@ public class OrgPaginationAdapter extends RecyclerView.Adapter<RecyclerView.View
                 organizationVH.address.setText(result.getAddress().toString());
                 organizationVH.email.setText(result.getEmail());
                 organizationVH.phone.setText(result.getPhone());
+                organizationVH.rate.setText("Рейтинг: " + result.getRate());
+                organizationVH.allProblems.setText("Всего проблем: " + result.getAllProblemsCount());
+                organizationVH.solvedProblems.setText("Решенные проблемы: " + result.getSolvedProblemsCount());
+                organizationVH.unsolvedProblems.setText("Нерешенные проблемы: " + result.getUnsolvedProblemsCount());
+                organizationVH.inProcessProblems.setText("Проблемы в процессе решения: " + result.getInProcessProblemsCount());
 
-                Integer rate = result.getAllProblemsCount();
-
-                switch (sortBy) {
-                    case "name":
-                        organizationVH.rate.setText(result.getEmail());
-                        break;
-                    case "solvedProblemsCount":
-                    case "inProcessProblemsCount":
-                    case "unsolvedProblemsCount":
-                        organizationVH.rate.setText(String.valueOf(rate));
-                        break;
-                }
 
 
                 /*
@@ -225,7 +218,7 @@ public class OrgPaginationAdapter extends RecyclerView.Adapter<RecyclerView.View
         private TextView address;
         private TextView email;
         private TextView phone;
-        private TextView rate;
+        private TextView rate, allProblems, solvedProblems, unsolvedProblems, inProcessProblems;
 
         OrganizationVH(View itemView) {
             super(itemView);
@@ -235,6 +228,10 @@ public class OrgPaginationAdapter extends RecyclerView.Adapter<RecyclerView.View
             email = itemView.findViewById(R.id.org_email);
             phone = itemView.findViewById(R.id.org_phone);
             rate = itemView.findViewById(R.id.org_rate);
+            allProblems = itemView.findViewById(R.id.org_all);
+            solvedProblems = itemView.findViewById(R.id.org_solved);
+            unsolvedProblems = itemView.findViewById(R.id.org_unsolved);
+            inProcessProblems = itemView.findViewById(R.id.org_process);
         }
     }
 

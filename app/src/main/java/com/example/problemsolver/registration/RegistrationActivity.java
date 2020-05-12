@@ -30,11 +30,11 @@ import retrofit2.Response;
 
 public class RegistrationActivity extends AppCompatActivity {
 
-    private EditText name, surname, email, number, password;
+    private EditText name, surname, email, number, password, orgCodeView;
     private Button register, login, date, areaList;
     TextView areas;
 
-    private String firstName, secondName, email1, phone, pass, birthday;
+    private String firstName, secondName, email1, phone, pass, birthday, orgCode;
     private List<Area> personAreas =  new ArrayList<>();
 
     TextView currentDateTime;
@@ -55,6 +55,7 @@ public class RegistrationActivity extends AppCompatActivity {
         register = findViewById(R.id.btn_signup);
         login = findViewById(R.id.btn_link_login);
         areaList = findViewById(R.id.btn_link_area_list);
+        orgCodeView = findViewById(R.id.orgcode);
 
         areaList.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +71,12 @@ public class RegistrationActivity extends AppCompatActivity {
 
                 startActivity(intent);
             }
+        });
+
+        login.setOnClickListener(view -> {
+            Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
         });
 
         final ArrayList<String> checkedAreas = getIntent().getStringArrayListExtra("checkedAreas");
@@ -96,6 +103,8 @@ public class RegistrationActivity extends AppCompatActivity {
                 email1 = email.getText().toString();
                 phone = number.getText().toString();
                 pass = password.getText().toString();
+                orgCode = orgCodeView.getText().toString();
+
                 birthday = DateUtils.formatDateTime(RegistrationActivity.this, dateAndTime.getTimeInMillis(), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_YEAR);
 
                 String [] date = birthday.split("\\.");
@@ -112,7 +121,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
 
 
-                final RegisteredPerson registeredPerson = new RegisteredPerson(firstName, secondName, email1, phone, pass, serverDate, role, personAreas);
+                final RegisteredPerson registeredPerson = new RegisteredPerson(firstName, secondName, email1, phone, pass, serverDate, role, personAreas, orgCode);
                 //if (checkDataEntered()){
                 ApplicationService.getInstance()
                         .getJSONApi()

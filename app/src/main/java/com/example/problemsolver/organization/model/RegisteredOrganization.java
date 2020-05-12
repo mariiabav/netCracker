@@ -28,6 +28,10 @@ public class RegisteredOrganization {
     @Expose
     private String phone;
 
+    @SerializedName("rate")
+    @Expose
+    private String rate;
+
     @SerializedName("description")
     @Expose
     private String description;
@@ -166,5 +170,13 @@ public class RegisteredOrganization {
 
     public void setInProcessProblemsCount(Integer inProcessProblemsCount) {
         this.inProcessProblemsCount = inProcessProblemsCount;
+    }
+
+    public String getRate() {
+        return rate;
+    }
+
+    public void setRate(String rate) {
+        this.rate = rate;
     }
 }
