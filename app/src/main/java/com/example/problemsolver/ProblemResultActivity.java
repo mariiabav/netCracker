@@ -77,7 +77,7 @@ public class ProblemResultActivity extends AppCompatActivity {
         });
 
         resultBtn.setOnClickListener(view -> {
-            Event event = new Event(resultComment.getText().toString(), "solved", problem, pictures);
+            Event event = new Event(resultComment.getText().toString(), "solved", new Problem(problem.getId()), pictures);
             solvedProblemRequest(event);
         });
 
@@ -158,9 +158,11 @@ public class ProblemResultActivity extends AppCompatActivity {
                 .enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
-                        showMessage("Решение проблемы успешно отправлено");
-                        Intent intent = new Intent(ProblemResultActivity.this, ProfileActivity.class);
-                        startActivity(intent);
+                        if(response.isSuccessful()) {
+                            showMessage("Решение проблемы успешно отправлено");
+                            Intent intent = new Intent(ProblemResultActivity.this, ProfileActivity.class);
+                            startActivity(intent);
+                        }
                     }
                     @Override
                     public void onFailure(Call<Void> call, Throwable t) {

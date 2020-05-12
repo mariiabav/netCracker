@@ -1,7 +1,11 @@
 
 package com.example.problemsolver.authorized;
 
+import android.provider.ContactsContract;
+
 import java.util.List;
+
+import com.example.problemsolver.organization.model.RegisteredOrganization;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -46,6 +50,9 @@ public class AuthorizedPerson {
     @SerializedName("userpic")
     @Expose
     private String userpic;
+    @SerializedName("organization")
+    @Expose
+    private RegisteredOrganization organization;
 
     public String getId() {
         return id;
@@ -149,5 +156,13 @@ public class AuthorizedPerson {
 
     public void setUserpic(String userpic) {
         this.userpic = userpic;
+    }
+
+    public RegisteredOrganization getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(RegisteredOrganization organization) {
+        this.organization = organization;
     }
 }

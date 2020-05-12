@@ -81,10 +81,10 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             case ITEM:
                 final ProblemVH problemVH = (ProblemVH) holder;
-                if(result.getProblem().getStatus().equals("created")) {
+                if(result.getOfferStatus().equals("created")) {
                     problemVH.offerStatus.setText("Новая проблема");
                 }
-                else if(result.getProblem().getStatus().equals("in process")) {
+                else if(result.getOfferStatus().equals("solved")) {
                     problemVH.offerStatus.setText("Решение проблемы");
                 }
 
@@ -105,7 +105,8 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     intent.putExtra("event_id", result.getId());
                     intent.putExtra("problem_scale", result.getProblem().getScale());
                     intent.putExtra("user_result_comment", result.getUserText());
-                    intent.putStringArrayListExtra("problem_pictures_list", (ArrayList<String>) result.getPictures());
+                    intent.putStringArrayListExtra("problem_pictures_list", (ArrayList<String>) result.getProblem().getPictures());
+                    intent.putStringArrayListExtra("event_pictures_list", (ArrayList<String>) result.getPictures());
 
                     view.getContext().startActivity(intent);
                 });

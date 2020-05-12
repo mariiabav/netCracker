@@ -231,6 +231,17 @@ public interface ServerApi {
     );
 
     @Headers("Content-Type: application/json")
+    @GET("/api/problem/orgProblems")
+    Call<FeedResponse> getOrgProblems(
+            @Header("Authorization") String token,
+            @Query("orgId") String orgId,
+            @Query("pageNumber") Integer pageNumber,
+            @Query("pageSize") Integer pageSize,
+            @Query("sortBy") String sortBy,
+            @Query("sortHow") String sortHow
+    );
+
+    @Headers("Content-Type: application/json")
     @POST("/api/event/create")
     Call<Void> createEvent(
             @Header("Authorization") String token,

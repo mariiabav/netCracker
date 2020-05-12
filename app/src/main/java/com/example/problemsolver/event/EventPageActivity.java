@@ -39,7 +39,7 @@ public class EventPageActivity extends AppCompatActivity {
     private Button acceptBtn, rejectBtn;
     private SharedPreferences settings;
     private String token, personId, problemId, eventStatus, eventId, result, moderatorId;
-    private String scale;
+    private String scale = "scale";
     private RadioGroup radioGroup;
     private ImageView mProblemStatus;
     private ImageView [] problemImages = new ImageView [3];
@@ -88,19 +88,26 @@ public class EventPageActivity extends AppCompatActivity {
 
 
         address.setText(getIntent().getStringExtra("problem_address"));
-        pictures = getIntent().getStringArrayListExtra("problem_pictures_list");
-        int i = 0;
-
-        if (pictures != null) {
-            for (String imageUri: pictures) {
-                problemImages[i].setVisibility(View.VISIBLE);
-                Glide.with(EventPageActivity.this)
-                        .load(imageUri)
-                        .apply(new RequestOptions().fitCenter())
-                        .into(problemImages[i]);
-                i++;
-            }
+        if(eventStatus.equals("solved") && getIntent().getStringArrayListExtra("event_pictures_list") != null){
+            pictures = getIntent().getStringArrayListExtra("event_pictures_list");
         }
+        else if(getIntent().getStringArrayListExtra("problem_pictures_list") != null){
+            pictures = getIntent().getStringArrayListExtra("problem_pictures_list");
+        }
+            int i = 0;
+
+            if (pictures != null) {
+                for (String imageUri : pictures) {
+                    problemImages[i].setVisibility(View.VISIBLE);
+                    Glide.with(EventPageActivity.this)
+                            .load(imageUri)
+                            .apply(new RequestOptions().fitCenter())
+                            .into(problemImages[i]);
+                    i++;
+                }
+            }
+
+
 
 
 

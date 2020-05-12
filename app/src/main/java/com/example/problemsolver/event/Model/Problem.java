@@ -38,6 +38,9 @@ public class Problem {
     @SerializedName("scale")
     @Expose
     private String scale;
+    @SerializedName("pictures")
+    @Expose
+    private List<String> pictures;
 
     public Problem() {
     }
@@ -124,5 +127,13 @@ public class Problem {
 
     public void setPersonsOfThisProblemAsParticipant(List<String> personsOfThisProblemAsParticipant) {
         this.personsOfThisProblemAsParticipant = personsOfThisProblemAsParticipant;
+    }
+
+    public List<String> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(List<String> pictures) {
+        this.pictures = pictures;
     }
 }

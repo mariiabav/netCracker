@@ -90,7 +90,7 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
     private List<PersonArea> personAreas;
 
     private String token;
-    private String personId, userpicUrl;
+    private String personId, userpicUrl, orgId;
     private String filter;
     private SharedPreferences settings;
     private ServerApi serverApi;
@@ -109,13 +109,13 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
+        orgId = "b5fcc384-689e-4108-90f5-893d6299dcb9";
         settings = getSharedPreferences("AuthPrefs", Context.MODE_MULTI_PROCESS);
         token = settings.getString("JWT","");
         personId = settings.getString("id","");
 
         FScView = findViewById(R.id.profile_name);
-
+        role = settings.getString("Roles", "");
         emailView = findViewById(R.id.profile_email);
         numberView = findViewById(R.id.profile_number);
         dateView = findViewById(R.id.profile_date);
@@ -220,7 +220,12 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
 
         btnRetry.setOnClickListener(view -> loadFirstPage());
 
-        loadFirstPage();
+        if(role.equals("ROLE_SERVANT")) {
+            loadOrgProblems();
+        }
+        else {
+            loadFirstPage();
+        }
 
         swipeRefreshLayout.setOnRefreshListener(this::doRefresh);
 
@@ -259,6 +264,7 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
                             date = authorizedPerson.getBirthDate();
                             personAreas = authorizedPerson.getPersonAreas();
                             userpicUrl = authorizedPerson.getUserpic();
+                            //orgId = authorizedPerson.getOrganization().getId().toString();
 
 
                             FScView.setText(FSc);
@@ -454,6 +460,30 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
     private List<Feed2Problem> fetchResults(Response<FeedResponse> response) {
         List<Feed2Problem> feed2ProblemList = response.body().getFeed2ProblemList();
         return feed2ProblemList;
+    }
+
+    private void loadOrgProblems() {
+        ApplicationService.getInstance().getJSONApi().getOrgProblems(token, orgId, 0, 12, "rate", "desc").enqueue(new Callback<FeedResponse>() {
+            @Override
+            public void onResponse(Call<FeedResponse> call, Response<FeedResponse> response) {
+                hideErrorView();
+
+                List<Feed2Problem> results = fetchResults(response);
+                adapter.addAll(results);
+
+                if(results.size() == 0) {
+                    isLastPage = true;
+                }
+                else {
+                    adapter.addLoadingFooter();
+                }
+            }
+            @Override
+            public void onFailure(Call<FeedResponse> call, Throwable t) {
+                t.printStackTrace();
+                showErrorView(t);
+            }
+        });
     }
 
     private void loadNextPage() {
