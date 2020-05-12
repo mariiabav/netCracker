@@ -153,7 +153,7 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
                 role = settings.getString("Roles", "");
                 if ("ROLE_SERVANT".equals(role)) {
                     problemVH.applyBtn.setText("Изменить статус");
-                    if (!result.getStatus().equals("created")){
+                    if (!result.getStatus().equals("created") || !result.getStatus().equals("init")){
                         problemVH.applyBtn.setClickable(false);
                         problemVH.applyBtn.setBackgroundColor(context.getResources().getColor(R.color.light_grey));
                         problemVH.applyBtn.setTextColor(context.getResources().getColor(R.color.vinous));
