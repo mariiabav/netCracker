@@ -66,6 +66,14 @@
                 android:text="Рейтинг: 574"
                 android:textColor="@color/grey"
                 android:textSize="13sp" />
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="Статус: решено"
+                android:textColor="@color/grey"
+                android:textSize="13sp" />
 
         </LinearLayout>
 
@@ -76,7 +84,8 @@
 
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="33dp"
+
 
             android:layout_marginRight="-5dp"
             android:adjustViewBounds="true"

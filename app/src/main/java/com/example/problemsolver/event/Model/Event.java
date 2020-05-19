@@ -110,4 +110,11 @@ public class Event {
         this.problem = problem;
     }
 
+    public String getModeratorText() {
+        return moderatorText;
+    }
+
+    public void setModeratorText(String moderatorText) {
+        this.moderatorText = moderatorText;
+    }
 }

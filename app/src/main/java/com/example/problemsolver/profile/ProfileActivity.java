@@ -109,7 +109,7 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        orgId = "b5fcc384-689e-4108-90f5-893d6299dcb9";
+        orgId = "871cd7b2-8520-44c1-b552-178df0af4e01";
         settings = getSharedPreferences("AuthPrefs", Context.MODE_MULTI_PROCESS);
         token = settings.getString("JWT","");
         personId = settings.getString("id","");
@@ -150,6 +150,8 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
             myAddingsBtn.setTextColor(getResources().getColor(R.color.vinous));
 
             filter = "participant";
+            adapter = new ProblemPaginationAdapter(this, personId, filter);
+            rv.setAdapter(adapter);
             swipeRefreshLayout.setRefreshing(true);
             doRefresh();
         });
@@ -162,6 +164,8 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
             myAddingsBtn.setTextColor(getResources().getColor(R.color.white));
 
             filter = "owner";
+            adapter = new ProblemPaginationAdapter(this, personId, filter);
+            rv.setAdapter(adapter);
             swipeRefreshLayout.setRefreshing(true);
             doRefresh();
         });
@@ -189,7 +193,7 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
         txtError = findViewById(R.id.error_txt_cause);
         swipeRefreshLayout = findViewById(R.id.main_swiperefresh);
 
-        adapter = new ProblemPaginationAdapter(this, personId);
+        adapter = new ProblemPaginationAdapter(this, personId, filter);
 
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rv.setLayoutManager(linearLayoutManager);
@@ -520,7 +524,7 @@ public class ProfileActivity extends AppCompatActivity implements PaginationAdap
                 token,
                 personId,
                 currentPage,
-                3,
+                5,
                 sortBy,
                 "desc",
                 filter

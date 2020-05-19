@@ -7,8 +7,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -19,6 +22,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.problemsolver.ApplicationService;
 import com.example.problemsolver.R;
+import com.example.problemsolver.organization.model.FeedOrgResponse;
+import com.example.problemsolver.organization.model.RegisteredOrganization;
 import com.example.problemsolver.problemFeed.page.ProblemPageActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +33,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -36,13 +44,17 @@ public class EventPageActivity extends AppCompatActivity {
 
 
     private TextView address, date, type, description, result_user_comment;
-    private Button acceptBtn, rejectBtn;
+    private Button acceptBtn, rejectBtn, orgBtn;
     private SharedPreferences settings;
-    private String token, personId, problemId, eventStatus, eventId, result, moderatorId;
+    private String token, personId, problemId, eventStatus, eventId, result, moderatorId, areaName;
     private String scale = "scale";
+    private String orgId;
     private RadioGroup radioGroup;
     private ImageView mProblemStatus;
     private ImageView [] problemImages = new ImageView [3];
+    private OrgAdapter adapter;
+    private LinearLayoutManager linearLayoutManager;
+    private RecyclerView rv;
 
     private String statusInit = "init", statusCreated = "created", statusNotified = "notified",
             statusInProcess = "in_process", statusSolved = "solved",
@@ -65,8 +77,18 @@ public class EventPageActivity extends AppCompatActivity {
         eventId = getIntent().getStringExtra("event_id");
         radioGroup = findViewById(R.id.scale);
         radioGroup.setVisibility(View.GONE);
+        areaName = getIntent().getStringExtra("area_name");
+        EditText moderatorComment = findViewById(R.id.moderator_comment);
 
-
+        View orgLayout = findViewById(R.id.layout_org);
+        TextView orgName = orgLayout.findViewById(R.id.org_name);
+        orgName.setText(getIntent().getStringExtra("org_name"));
+        TextView orgAddress = orgLayout.findViewById(R.id.org_address);
+        orgAddress.setText(getIntent().getStringExtra("org_address"));
+        TextView orgPhone = orgLayout.findViewById(R.id.org_phone);
+        orgPhone.setText(getIntent().getStringExtra("org_phone"));
+        TextView orgMail = orgLayout.findViewById(R.id.org_email);
+        orgMail.setText(getIntent().getStringExtra("org_mail"));
 
         problemImages[0] = findViewById(R.id.imgView_postPic1);
         problemImages[1] = findViewById(R.id.imgView_postPic2);
@@ -81,6 +103,36 @@ public class EventPageActivity extends AppCompatActivity {
         type = findViewById(R.id.problem_type);
         description = findViewById(R.id.problem_description);
         result_user_comment = findViewById(R.id.problem_result_user_comment);
+        orgBtn = findViewById(R.id.button);
+
+        adapter = new OrgAdapter(this);
+
+        linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        rv = findViewById(R.id.org_recycler);
+        rv.setLayoutManager(linearLayoutManager);
+        rv.setItemAnimator(new DefaultItemAnimator());
+        rv.setAdapter(adapter);
+
+        rv.setVisibility(View.GONE);
+
+        orgBtn.setOnClickListener(view -> {
+            ApplicationService.getInstance().getJSONApi().getAreaOrgs(token, areaName, 0, 20, "rate", "desc")
+                    .enqueue(new Callback<FeedOrgResponse>() {
+                        @Override
+                        public void onResponse(Call<FeedOrgResponse> call, Response<FeedOrgResponse> response) {
+                            if(response.isSuccessful()) {
+                                List<RegisteredOrganization> results = response.body().getOrganizationList();
+                                adapter.addAll(results);
+                                rv.setVisibility(View.VISIBLE);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<FeedOrgResponse> call, Throwable t) {
+
+                        }
+                    });
+        });
 
         mProblemStatus = findViewById(R.id.imgView_status_pic);
         acceptBtn = findViewById(R.id.accept);
@@ -125,7 +177,7 @@ public class EventPageActivity extends AppCompatActivity {
             eventStatus = "rejected";
             ApplicationService.getInstance()
             .getJSONApi()
-            .updateEvent(token, eventId,"",eventStatus, "rejected", scale, personId)
+            .updateEvent(token, eventId, moderatorComment.getText().toString(),eventStatus, "rejected", scale, personId, orgId)
             .enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
@@ -143,15 +195,15 @@ public class EventPageActivity extends AppCompatActivity {
 
         acceptBtn.setOnClickListener(view -> {
             if(eventStatus.equals("created")) {
-                eventStatus = "in process";
+                eventStatus = "created";
             }
-            else if(eventStatus.equals("in process")) {
+            else if(eventStatus.equals("notified") || eventStatus.equals("in_process")) {
                 eventStatus = "solved";
             }
 
             ApplicationService.getInstance()
                     .getJSONApi()
-                    .updateEvent(token, eventId,"",eventStatus, "accepted", scale, personId)
+                    .updateEvent(token, eventId, moderatorComment.getText().toString(),eventStatus, "accepted", scale, personId, orgId)
                     .enqueue(new Callback<Void>() {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
@@ -236,5 +288,11 @@ public class EventPageActivity extends AppCompatActivity {
                     scale = "large";
                     break;
         }
+    }
+
+    public void onChooseClick(View view) {
+        orgId = (String)view.getTag();
+        showMessage(orgId);
+        rv.setVisibility(View.GONE);
     }
 }

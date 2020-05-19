@@ -36,7 +36,7 @@ public class CommentPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
 
     private String errorMsg;
 
-    CommentPaginationAdapter(Context context) {
+    public CommentPaginationAdapter(Context context) {
         this.context = context;
         this.mCallback = (PaginationAdapterCallback) context;
         problemsResults = new ArrayList<>();

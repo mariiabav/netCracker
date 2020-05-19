@@ -135,7 +135,7 @@ public class NewOrganizationActivity extends AppCompatActivity implements Sugges
             orgArea = new Area(spinner.getSelectedItem().toString());
             orgAddress = new Address(splittedAddress[2], splittedAddress[3], orgArea);
 
-            RegisteredOrganization registeredOrganization = new RegisteredOrganization(orgAddress, orgName, orgEmail, orgPhone, orgDescription);
+            RegisteredOrganization registeredOrganization = new RegisteredOrganization(orgAddress, orgName, orgDescription, orgEmail, orgPhone);
             ApplicationService.getInstance()
                     .getJSONApi()
                     .postRegistedOrgData(token, registeredOrganization)

@@ -35,13 +35,13 @@ import retrofit2.http.Query;
 
 public interface ServerApi {
     @Headers("Content-Type: application/json")
-    @POST("/api/person/register")
+    @POST("/api/person")
     public Call<RegisteredPerson> postRegistedPersonData(
             @Body RegisteredPerson registeredPerson
     );
 
     @Headers("Content-Type: application/json")
-    @POST("/api/org/create") //вставить нормальное название серверного метода
+    @POST("/api/org")
     public Call<RegisteredOrganization> postRegistedOrgData(
             @Header("Authorization") String token,
             @Body RegisteredOrganization registeredOrg
@@ -66,7 +66,7 @@ public interface ServerApi {
     );
 
     @Headers("Content-Type: application/json")
-    @POST("/api/problem/create")
+    @POST("/api/problem")
     Call<NewProblem> postNewProblemData(
             @Header("Authorization") String token,
             @Body NewProblem newProblem
@@ -74,11 +74,11 @@ public interface ServerApi {
 
 
     @Headers("Content-Type: application/json")
-    @GET("/api/problem/allmap")
+    @GET("/api/problem/map")
     Call<List<NewProblem>> getAllProblems(@Header("Authorization") String token);
 
     @Headers("Content-Type: application/json")
-    @GET("/api/problem/all")
+    @GET("/api/problem")
     Call<FeedResponse>getAllProblems(
             @Header("Authorization") String token,
             @Query("pageNumber") Integer pageNumber,
@@ -118,7 +118,7 @@ public interface ServerApi {
     );
 
     @Headers("Content-Type: application/json")
-    @GET("/api/event/all")
+    @GET("/api/event")
     Call<EventResponse> getEvents(
             @Header("Authorization") String token,
             @Query("pageNumber") Integer pageNumber,
@@ -128,7 +128,7 @@ public interface ServerApi {
     );
 
     @Headers("Content-Type: application/json")
-    @PUT("/api/event/update")
+    @PUT("/api/event")
     Call<Void> updateEvent(
             @Header("Authorization") String token,
             @Query("eventId") String eventId,
@@ -136,7 +136,8 @@ public interface ServerApi {
             @Query("status") String status,
             @Query("result") String result,
             @Query("scale") String scale,
-            @Query("moderatorId") String moderatorId
+            @Query("moderatorId") String moderatorId,
+            @Query("orgId") String orgId
     );
 
     @Multipart
@@ -148,20 +149,14 @@ public interface ServerApi {
     );
 
     @Headers("Content-Type: application/json")
-    @PUT("/api/problem/like")
-    Call<Void> setLike(
+    @PUT("/api/problem/rate/{problemId}/{type}")
+    Call<Void> rateProblem(
             @Header("Authorization") String token,
-            @Query("problemId") String problemId,
+            @Path("problemId") String problemId,
+            @Path("type") String type,
             @Query("personId") String personId
     );
 
-    @Headers("Content-Type: application/json")
-    @PUT("/api/problem/dislike")
-    Call<Void> setDislike(
-            @Header("Authorization") String token,
-            @Query("problemId") String problemId,
-            @Query("personId") String personId
-    );
 
     @Headers("Content-Type: application/json")
     @GET("/api/problem/assessment")
@@ -170,7 +165,7 @@ public interface ServerApi {
             @Query("problemId") String problemId
     );
     @Headers("Content-Type: application/json")
-    @GET("/api/org/all")
+    @GET("/api/org")
     Call<FeedOrgResponse> getOrgs(
             @Header("Authorization") String token,
             @Query("pageNumber") Integer pageNumber,
@@ -191,31 +186,33 @@ public interface ServerApi {
     );
 
     @Headers("Content-Type: application/json")
-    @GET("/api/comment/all")
+    @GET("/api/comment/{problemId}")
     Call<CommentResponse> getComments(
             @Header("Authorization") String token,
-            @Query("problemId") String problemId,
+            @Path("problemId") String problemId,
             @Query("pageNumber") Integer pageNumber,
             @Query("pageSize") Integer pageSize,
-            @Query("sortBy") String sortBy
+            @Query("sortBy") String sortBy,
+            @Query("sortHow") String sortHow
     );
 
     @Headers("Content-Type: application/json")
-    @POST("/api/comment/create")
+    @POST("/api/comment")
     Call<CommentResponse> createComment(
             @Header("Authorization") String token,
             @Body Comment comment
             );
 
     @Headers("Content-Type: application/json")
-    @GET("/api/org/areaOrgs")
+    @GET("/api/org/{areaName}")
     Call<FeedOrgResponse> getAreaOrgs(
             @Header("Authorization") String token,
+            @Path("areaName") String areaName,
             @Query("pageNumber") Integer pageNumber,
             @Query("pageSize") Integer pageSize,
             @Query("sortBy") String sortBy,
-            @Query("sortHow") String sortHow,
-            @Query("areaName") String areaName
+            @Query("sortHow") String sortHow
+
     );
 
     @Headers("Content-Type: application/json")
@@ -231,10 +228,10 @@ public interface ServerApi {
     );
 
     @Headers("Content-Type: application/json")
-    @GET("/api/problem/orgProblems")
+    @GET("/api/problem/org/{orgId}")
     Call<FeedResponse> getOrgProblems(
             @Header("Authorization") String token,
-            @Query("orgId") String orgId,
+            @Path("orgId") String orgId,
             @Query("pageNumber") Integer pageNumber,
             @Query("pageSize") Integer pageSize,
             @Query("sortBy") String sortBy,
@@ -242,14 +239,14 @@ public interface ServerApi {
     );
 
     @Headers("Content-Type: application/json")
-    @POST("/api/event/create")
+    @POST("/api/event")
     Call<Void> createEvent(
             @Header("Authorization") String token,
             @Body Event event
             );
 
     @Headers("Content-Type: application/json")
-    @PUT("/process")
+    @PUT("api/problem/process")
     Call<Void> putStatusByOrg(
             @Header("Authorization") String token,
             @Query("problemId") String problemId
@@ -269,5 +266,25 @@ public interface ServerApi {
             @Header("Authorization") String token,
             @Path("personId") String personId,
             @Query("userpicUrl") String userpicUrl
+    );
+
+    @Headers("Content-Type: application/json")
+    @GET("/api/problem/{areaName}/{street}/{building}")
+    Call<FeedResponse> getProblemsByAddress(
+            @Header("Authorization") String token,
+            @Path("areaName") String areaName,
+            @Path("street") String street,
+            @Path("building") String building,
+            @Query("pageNumber") Integer pageNumber,
+            @Query("pageSize") Integer pageSize,
+            @Query("sortBy") String sortBy,
+            @Query("sortHow") String sortHow
+    );
+
+    @Headers("Content-Type: application/json")
+    @GET("/api/event/{problemId}")
+    Call<Event> getLastEventForProblem(
+        @Header("Authorization") String token,
+        @Path("problemId") String problemId
     );
 }

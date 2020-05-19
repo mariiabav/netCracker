@@ -126,7 +126,7 @@ public class NewProblemActivity extends Activity implements PaginationAdapterCal
 
     private OrgPaginationAdapter adapter;
     private LinearLayoutManager linearLayoutManager;
-    private SwipeRefreshLayout swipeRefreshLayout;
+    private SwipeRefreshLayout swipeRefreshLayout, problemSwipeRefreshLayout;
 
     private boolean isLoading = false;
     private boolean isLastPage = false;
@@ -157,6 +157,9 @@ public class NewProblemActivity extends Activity implements PaginationAdapterCal
 
         swipeRefreshLayout = findViewById(R.id.main_swiperefresh);
         swipeRefreshLayout.setVisibility(View.GONE);
+
+        problemSwipeRefreshLayout = findViewById(R.id.problem_swiperefresh);
+        problemSwipeRefreshLayout.setVisibility(View.GONE);
 
         requestMultiplePermissions();
         if (!checkLocationPermission()) {
@@ -616,11 +619,11 @@ public class NewProblemActivity extends Activity implements PaginationAdapterCal
     private Call<FeedOrgResponse> callServerApi() {
         return serverApi.getAreaOrgs(
                 token,
+                adminAreaName,
                 currentPage,
                 8,
                 sortBy,
-                "desc",
-                adminAreaName
+                "desc"
         );
     }
 

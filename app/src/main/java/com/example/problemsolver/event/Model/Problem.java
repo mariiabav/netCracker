@@ -1,6 +1,7 @@
 
 package com.example.problemsolver.event.Model;
 
+import com.example.problemsolver.organization.model.RegisteredOrganization;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -41,6 +42,9 @@ public class Problem {
     @SerializedName("pictures")
     @Expose
     private List<String> pictures;
+    @SerializedName("organization")
+    @Expose
+    private RegisteredOrganization organization;
 
     public Problem() {
     }
@@ -135,5 +139,13 @@ public class Problem {
 
     public void setPictures(List<String> pictures) {
         this.pictures = pictures;
+    }
+
+    public RegisteredOrganization getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(RegisteredOrganization organization) {
+        this.organization = organization;
     }
 }

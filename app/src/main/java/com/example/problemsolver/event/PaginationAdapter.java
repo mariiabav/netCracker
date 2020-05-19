@@ -88,7 +88,7 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     problemVH.offerStatus.setText("Решение проблемы");
                 }
 
-                problemVH.offerDate.setText(result.getOfferDate());
+                problemVH.offerDate.setText(result.getOfferDate().substring(0,10));
 
 
                 problemVH.itemView.setOnClickListener(view -> {
@@ -107,7 +107,11 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     intent.putExtra("user_result_comment", result.getUserText());
                     intent.putStringArrayListExtra("problem_pictures_list", (ArrayList<String>) result.getProblem().getPictures());
                     intent.putStringArrayListExtra("event_pictures_list", (ArrayList<String>) result.getPictures());
-
+                    intent.putExtra("org_name", result.getProblem().getOrganization().getName());
+                    intent.putExtra("org_address", result.getProblem().getOrganization().getAddress().toString());
+                    intent.putExtra("org_phone", result.getProblem().getOrganization().getPhone());
+                    intent.putExtra("org_mail", result.getProblem().getOrganization().getEmail());
+                    intent.putExtra("area_name", result.getProblem().getAddress().getArea().getAreaName());
                     view.getContext().startActivity(intent);
                 });
 

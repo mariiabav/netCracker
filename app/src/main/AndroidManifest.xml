@@ -22,6 +22,7 @@
         <activity android:name=".login.LoginActivity" />
         <activity android:name=".organization.feed.FeedOrgActivity" />
         <activity android:name=".profile.ProfileActivity" />
+        <activity android:name=".profile.ProblemPageProfileActivity" />
         <activity android:name=".problemFeed.page.ProblemPageActivity" />
         <activity android:name=".organization.NewOrganizationActivity" />
         <activity android:name=".registration.AreasActivity" />

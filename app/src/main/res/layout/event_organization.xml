@@ -57,44 +57,7 @@
                 android:text="Почта"
                 android:textColor="@color/grey"
                 android:textSize="13sp" />
-            <TextView
-                android:id="@+id/org_rate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:text="Рейтинг"
-                android:textColor="@color/grey"
-                android:textSize="13sp" />
         </LinearLayout>
-        <Button
-            android:id="@+id/chOrgBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-
-            android:layout_marginTop="55dp"
-            android:layout_marginRight="55dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="55dp"
-            android:background="@color/red"
-            android:textColor="@android:color/white"
-            android:text="Выбрать"
-            android:onClick="onChooseClick">
-        </Button>
-
-        <ImageView
-            android:id="@+id/imgView_next"
-            android:layout_width="21dp"
-            android:layout_height="18dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="15dp"
-
-            android:layout_marginRight="-5dp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/arrow_right" />
 
     </RelativeLayout>
 

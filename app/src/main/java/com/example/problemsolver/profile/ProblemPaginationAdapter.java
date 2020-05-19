@@ -61,6 +61,7 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
     private String personId;
     private String role;
     private String token;
+    private String filter;
     private SharedPreferences settings;
 
     private String statusInit = "init", statusCreated = "created", statusNotified = "notified",
@@ -68,13 +69,14 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
             statusUnsolved = "unsolved", statusClosed = "closed";
 
 
-    ProblemPaginationAdapter(Context context, String personId) {
+    ProblemPaginationAdapter(Context context, String personId, String filter) {
         this.context = context;
         this.mCallback = (PaginationAdapterCallback) context;
         problemsResults = new ArrayList<>();
         this.personId = personId;
         settings = context.getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
         token = settings.getString("JWT","");
+        this.filter = filter;
     }
 
     public List<Feed2Problem> getProblems() {
@@ -148,12 +150,38 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
                 problemVH.mProblemType.setText(result.getProblemName());
                 problemVH.mRate.setText("Рейтинг: " + result.getRate().toString());
 
+                switch (result.getStatus()) {
+                    case("init"):
+                        problemVH.mStatus.setText("Статус: на модерации");
+                        break;
+                    case("created"):
+                        problemVH.mStatus.setText("Статус: создана");
+                        break;
+                    case("notified"):
+                        problemVH.mStatus.setText("Статус: организация оповещена");
+                        break;
+                    case("in_process"):
+                        problemVH.mStatus.setText("Статус: решается");
+                        break;
+                    case("solved"):
+                        problemVH.mStatus.setText("Статус: решена");
+                        break;
+                    case("unsolved"):
+                        problemVH.mStatus.setText("Статус: не решена");
+                        break;
+                    case("closed"):
+                        problemVH.mStatus.setText("Статус: закрыта");
+                        break;
+                }
+
+
+
                 setStatusPic(result, problemVH);
 
                 role = settings.getString("Roles", "");
                 if ("ROLE_SERVANT".equals(role)) {
                     problemVH.applyBtn.setText("Изменить статус");
-                    if (!result.getStatus().equals("created")){
+                    if (!result.getStatus().equals("created") || !result.getStatus().equals("notified")){
                         problemVH.applyBtn.setClickable(false);
                         problemVH.applyBtn.setBackgroundColor(context.getResources().getColor(R.color.light_grey));
                         problemVH.applyBtn.setTextColor(context.getResources().getColor(R.color.vinous));
@@ -161,7 +189,7 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
                 }
 
                 problemVH.itemView.setOnClickListener(view -> {
-                    Intent intent = new Intent(view.getContext(), ProblemPageActivity.class);
+                    Intent intent = new Intent(view.getContext(), ProblemPageProfileActivity.class);
 
                     intent.putExtra("problem_address",  result.getAddress().toString());
                     intent.putExtra("problem_type",  result.getProblemName());
@@ -173,6 +201,7 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
                     intent.putExtra("problem_likes",  result.getRate().toString());
                     intent.putExtra("problem_status", result.getStatus());
                     intent.putExtra("problem_id", result.getId());
+                    intent.putExtra("filter", filter);
                     visitProblem(result.getId());
                     view.getContext().startActivity(intent);
                 });
@@ -339,6 +368,7 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
         private TextView mRate;
         private Button applyBtn, reportBtn;
         private ImageView mProblemImg, notification;
+        private TextView mStatus;
 
 
         public ProblemVH(View itemView) {
@@ -352,6 +382,7 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
             applyBtn = itemView.findViewById(R.id.apply_btn);
             reportBtn = itemView.findViewById(R.id.report_button);
             notification = itemView.findViewById(R.id.imgView_notification);
+            mStatus = itemView.findViewById(R.id.status);
         }
     }
 

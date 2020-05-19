@@ -23,7 +23,7 @@
                 android:id="@+id/imgView_postPic1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/problem_description"
+                android:layout_below="@+id/org_recycler"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="15dp"
@@ -140,11 +140,19 @@
 
             </RadioGroup>
 
+            <EditText
+                android:id="@+id/moderator_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Комментарий модератора"
+                android:layout_below="@+id/scale"/>
+
+
             <TextView
                 android:id="@+id/problem_result_user_comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/scale"
+                android:layout_below="@+id/moderator_comment"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="15dp"
@@ -226,6 +234,26 @@
                 android:text="Описание проблемы"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
+            <include layout="@layout/event_organization"
+                android:layout_marginTop="30dp"
+                android:id="@+id/layout_org"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/problem_description"/>
+            <Button
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layout_org"
+                android:text="Выбрать другую организацию"
+                android:background="@color/red"
+                android:textColor="@color/white"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/org_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_below="@id/button"
+                    android:layout_height="300dp" />
 
         </RelativeLayout>
 

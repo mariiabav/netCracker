@@ -1,22 +1,9 @@
-package com.example.problemsolver.problemFeed.page;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+package com.example.problemsolver.profile;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,34 +24,44 @@ import com.bumptech.glide.load.model.LazyHeaders;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.problemsolver.ApplicationService;
 import com.example.problemsolver.Assessment;
-import com.example.problemsolver.event.Model.Problem;
-import com.example.problemsolver.problemFeed.ProblemPaginationAdapter;
+import com.example.problemsolver.R;
+import com.example.problemsolver.ServerApi;
+import com.example.problemsolver.event.Model.Event;
 import com.example.problemsolver.problemFeed.model.Comment;
 import com.example.problemsolver.problemFeed.model.CommentResponse;
 import com.example.problemsolver.problemFeed.model.Feed2Problem;
 import com.example.problemsolver.problemFeed.model.MyAssessmentResponse;
 import com.example.problemsolver.problemFeed.model.Person;
-import com.example.problemsolver.R;
-import com.example.problemsolver.ServerApi;
+import com.example.problemsolver.problemFeed.page.CommentPaginationAdapter;
 import com.example.problemsolver.utils.PaginationAdapterCallback;
 import com.example.problemsolver.utils.PaginationScrollListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
-public class ProblemPageActivity extends AppCompatActivity implements PaginationAdapterCallback {
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class ProblemPageProfileActivity extends AppCompatActivity implements PaginationAdapterCallback {
 
     private RelativeLayout likesRelay, dislikesRelay;
     private ImageView imageLikes, imageDislikes, statusImg, picture;
-    private TextView likes, dislikes, address, date, type, description, txtError;
+    private TextView likes, dislikes, address, date, type, description, txtError, moderatorComment;
     private EditText newComment;
     private Button retryBtn, sendCommentBtn, supportBtn;
 
-    private String token, personId, problemId, pictureId;
+    private String token, personId, problemId, pictureId, filter, moderatorText;
 
     private boolean pressedLikeBtn = false,  pressedDislikeBtn = false;
 
@@ -97,13 +94,14 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_problem_page);
+        setContentView(R.layout.activity_problem_profile_page);
 
         settings = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
         token = settings.getString("JWT","");
         personId = settings.getString("id", "");
         pictureId = getIntent().getStringExtra("picture_id");
         problemId = getIntent().getStringExtra("problem_id");
+        filter = getIntent().getStringExtra("filter");
 
         problemImages[0] = findViewById(R.id.imgView_postPic1);
         problemImages[1] = findViewById(R.id.imgView_postPic2);
@@ -118,7 +116,7 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
         if (pictures != null) {
             for (String imageUri: pictures) {
                 problemImages[i].setVisibility(View.VISIBLE);
-                Glide.with(ProblemPageActivity.this)
+                Glide.with(ProblemPageProfileActivity.this)
                         .load(imageUri)
                         .apply(new RequestOptions().fitCenter())
                         .into(problemImages[i]);
@@ -139,7 +137,12 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
         type = findViewById(R.id.textView_problem_type);
         description = findViewById(R.id.textView_problem_description);
         statusImg = findViewById(R.id.imgView_status_pic);
-
+        moderatorComment = findViewById(R.id.textView_moderator_comment);
+        moderatorComment.setVisibility(View.GONE);
+        if("owner".equals(filter)) {
+            getLastEventForProblem();
+            moderatorComment.setVisibility(View.VISIBLE);
+        }
         likesRelay = findViewById(R.id.relay_like);
         dislikesRelay = findViewById(R.id.relay_dislike);
 
@@ -343,7 +346,7 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
     private void dislikeRequest(String token, String personId, String problemId){
         ApplicationService.getInstance()
                 .getJSONApi()
-                .rateProblem(token, problemId, "dislike", personId)
+                .rateProblem(token, problemId,"dislike",personId)
                 .enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
@@ -555,5 +558,23 @@ public class ProblemPageActivity extends AppCompatActivity implements Pagination
     private boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null;
+    }
+
+    private void getLastEventForProblem() {
+        ApplicationService.getInstance().getJSONApi()
+                .getLastEventForProblem(token, problemId)
+                .enqueue(new Callback<Event>() {
+                    @Override
+                    public void onResponse(@NotNull Call<Event> call, @NotNull Response<Event> response) {
+                        if(response.body().getModeratorText() != null) {
+                            moderatorComment.setText(response.body().getModeratorText());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NotNull Call<Event> call, @NotNull Throwable t) {
+
+                    }
+                });
     }
 }

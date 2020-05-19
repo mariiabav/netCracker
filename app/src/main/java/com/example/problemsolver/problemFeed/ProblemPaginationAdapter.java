@@ -113,6 +113,29 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
                 problemVH.mDate.setText(result.getCreationDate().substring(0, 10));
                 problemVH.mProblemType.setText(result.getProblemName());
                 problemVH.mRate.setText("Рейтинг: " + result.getRate().toString());
+                switch (result.getStatus()) {
+                    case("init"):
+                        problemVH.mStatus.setText("Статус: на модерации");
+                        break;
+                    case("created"):
+                        problemVH.mStatus.setText("Статус: создана");
+                        break;
+                    case("notified"):
+                        problemVH.mStatus.setText("Статус: организация оповещена");
+                        break;
+                    case("in_process"):
+                        problemVH.mStatus.setText("Статус: решается");
+                        break;
+                    case("solved"):
+                        problemVH.mStatus.setText("Статус: решена");
+                        break;
+                    case("unsolved"):
+                        problemVH.mStatus.setText("Статус: не решена");
+                        break;
+                    case("closed"):
+                        problemVH.mStatus.setText("Статус: закрыта");
+                        break;
+                }
 
                 setStatusPic(result, problemVH);
 
@@ -239,6 +262,7 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
         private TextView mDate;
         private TextView mRate;
         private ImageView mProblemImg;
+        private TextView mStatus;
 
         private ProgressBar mProgress;
 
@@ -250,6 +274,7 @@ public class ProblemPaginationAdapter extends RecyclerView.Adapter<RecyclerView.
             mDate = itemView.findViewById(R.id.date);
             mRate = itemView.findViewById(R.id.rating);
             mProblemImg = itemView.findViewById(R.id.imgView_status_pic);
+            mStatus = itemView.findViewById(R.id.status);
         }
     }
 
